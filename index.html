@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Séance · Merídio Rouen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap">
+<style>body{margin:0}
+
+/* Disposition façon eLiasse : bandeau du texte, barre d'outils, puis trois colonnes qui défilent chacune (Dérouleur · Amendement · Suivi). Sur mobile, une colonne à la fois avec des onglets en bas. */
+:root{
+  --paper:#f3f5f9; --surface:#ffffff; --cream:#fffbea; --cream-line:#efe6bf; --ink:#14274e; --muted:#5b6680; --line:#dfe3ea;
+  --navy:#1b3a6b; --navy-ink:#ffffff; --blue:#1d4f9a; --blue-soft:#e3ecfa; --red:#d6001c; --red-soft:#fde6e9;
+  --ok:#1c7a3c; --ok-soft:#def3e5; --ko:#b3121f; --ko-soft:#fbe4e6; --wait:#8a5a00; --wait-soft:#fdf1d6; --mark:#fde9a8; --mark-ink:#14274e;
+  --shadow:0 1px 2px rgba(20,39,78,.06),0 8px 24px rgba(20,39,78,.08);
+  --f-ui:"Lato",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-text:"Lato",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --top:150px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0b1426; --surface:#111d35; --cream:#1c2238; --cream-line:#2c3550; --ink:#e7ecf6; --muted:#9ba7c0; --line:#263553;
+  --navy:#0f2347; --navy-ink:#e7ecf6; --blue:#86aef0; --blue-soft:#1a3058; --red:#ff5a6e; --red-soft:#43151d;
+  --ok:#6fd38f; --ok-soft:#123a22; --ko:#ff7d88; --ko-soft:#43151c; --wait:#f0c060; --wait-soft:#3d2f0c; --mark:#5b4a12; --mark-ink:#fff6d8;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0b1426; --surface:#111d35; --cream:#1c2238; --cream-line:#2c3550; --ink:#e7ecf6; --muted:#9ba7c0; --line:#263553;
+  --navy:#0f2347; --navy-ink:#e7ecf6; --blue:#86aef0; --blue-soft:#1a3058; --red:#ff5a6e; --red-soft:#43151d;
+  --ok:#6fd38f; --ok-soft:#123a22; --ko:#ff7d88; --ko-soft:#43151c; --wait:#f0c060; --wait-soft:#3d2f0c; --mark:#5b4a12; --mark-ink:#fff6d8;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3); color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{cursor:default;opacity:.5}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Bandeau du texte */
+.tbar{background:var(--navy);color:var(--navy-ink);display:flex;align-items:center;gap:12px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));position:relative}
+.tbar::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:3px;background:linear-gradient(90deg,#1d4f9a 0 33.33%,#fff 33.33% 66.66%,#d6001c 66.66% 100%)}
+.tbar h1{flex:1;margin:0;text-align:center;font-size:17px;font-weight:500;line-height:1.3;min-width:0;text-wrap:balance}
+.tbar h1 b{font-weight:700}
+.tedit{flex:1;display:flex;gap:8px;align-items:center;justify-content:center;min-width:0}
+.tedit input{flex:1;max-width:620px;min-width:0;height:36px;border:1px solid rgba(255,255,255,.4);border-radius:6px;background:rgba(255,255,255,.1);color:#fff;padding:0 10px;font-size:16px}
+.tedit input::placeholder{color:rgba(255,255,255,.6)}
+.tedit .btn.small{height:36px;background:#fff;color:#1b3a6b;border-color:#fff}
+.tbar select{background:transparent;border:1px solid rgba(255,255,255,.35);border-radius:6px;color:inherit;height:32px;padding:0 8px;max-width:220px}
+.tbar select option{color:#14274e}
+.ibtn{border:0;background:none;color:inherit;width:36px;height:36px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.ibtn:hover{background:rgba(255,255,255,.12)}
+
+/* Barre d'outils */
+.toolbar{background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;padding:14px max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px))}
+.brand{display:flex;align-items:center;gap:10px;flex:none}
+.brand .logo{width:44px;height:42px;background:none;display:flex;align-items:center;justify-content:center}
+.brand b{display:block;font-size:22px;font-weight:700;color:var(--navy);line-height:1}
+.brand small{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .brand b{color:var(--ink)}}
+:root[data-theme="dark"] .brand b{color:var(--ink)}
+.follow{height:46px;border-radius:8px;border:2px solid var(--ok);background:var(--ok-soft);color:var(--ok);display:inline-flex;align-items:center;gap:10px;padding:0 10px 0 14px;font-weight:600;flex:none}
+.follow.off{border-color:var(--line);background:var(--surface);color:var(--muted)}
+.follow .badge{background:var(--red);color:#fff;border-radius:999px;padding:1px 8px;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.follow.off .badge{background:var(--muted)}
+.search{position:relative;flex:1 1 260px;min-width:200px}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+#q{width:100%;height:46px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 14px 0 42px;font-size:15px}
+#q:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px var(--blue-soft)}
+.qres{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);z-index:30;max-height:360px;overflow:auto;padding:6px}
+.qres button{width:100%;display:flex;gap:10px;align-items:center;border:0;background:none;text-align:left;padding:8px;border-radius:6px}
+.qres button:hover,.qres button.on{background:var(--blue-soft)}
+.qres .o{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.qres .a{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.qres p{margin:6px 8px;color:var(--muted);font-size:14px}
+.btn{height:46px;border-radius:8px;border:1px solid var(--line);background:var(--surface);padding:0 16px;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.btn:hover:not(:disabled){border-color:var(--muted)}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.primary:hover:not(:disabled){filter:brightness(1.15)}
+.btn.small{height:36px;font-size:14px;padding:0 12px;border-radius:6px}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.ko{background:var(--ko);border-color:var(--ko);color:#fff}
+.btn.danger{color:var(--ko)}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Trois colonnes */
+.cols{display:grid;grid-template-columns:minmax(260px,320px) minmax(0,1fr) minmax(260px,340px);height:calc(100dvh - var(--top) - 30px);min-height:480px}
+.col{min-height:0;display:flex;flex-direction:column;background:var(--surface)}
+.col + .col{border-left:1px solid var(--line)}
+.col.mid{background:var(--paper);position:relative}
+.colh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);flex:none}
+.colh h2{margin:0;font-size:24px;font-weight:700;color:var(--navy);letter-spacing:-.01em}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .colh h2{color:var(--ink)}}
+:root[data-theme="dark"] .colh h2{color:var(--ink)}
+.der .colh{background:var(--cream);border-bottom-color:var(--cream-line)}
+.sq{width:40px;height:40px;border-radius:6px;border:0;background:var(--navy);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.sq[aria-pressed="true"]{background:var(--red)}
+.scroll{overflow-y:auto;min-height:0;flex:1}
+
+/* Dérouleur */
+.pbar{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--cream)}
+.pbar button{height:30px;padding:0 10px;border-radius:5px;border:1px solid var(--pc,var(--line));background:var(--pc,var(--surface));color:#fff;font-weight:700;font-size:12.5px;letter-spacing:.04em;opacity:.5}
+.pbar button.all{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.pbar button[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 2px var(--cream),0 0 0 4px var(--ink)}
+.arth{width:100%;display:flex;align-items:center;gap:10px;border:0;border-bottom:1px solid var(--line);background:var(--surface);padding:12px 14px;text-align:left;font-weight:700;font-size:14.5px;letter-spacing:.02em;text-transform:uppercase;color:var(--navy)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .arth{color:var(--ink)}}
+:root[data-theme="dark"] .arth{color:var(--ink)}
+.arth svg{flex:none;transition:transform .15s}
+.arth[aria-expanded="true"] svg{transform:rotate(90deg)}
+.arth .t{flex:1;min-width:0}
+.arth .c{font-size:12px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:0}
+.arth .live{width:8px;height:8px;border-radius:50%;background:var(--red);flex:none}
+.arows{border-bottom:1px solid var(--line);background:var(--paper)}
+.arow{width:100%;display:grid;grid-template-columns:28px minmax(0,1fr) 20px;align-items:center;gap:10px;border:0;border-left:3px solid transparent;background:none;text-align:left;padding:8px 12px 8px 12px;border-bottom:1px solid var(--line)}
+.arow:hover{background:var(--blue-soft)}
+.arow[aria-current="true"]{background:var(--blue-soft);border-left-color:var(--blue)}
+.arow.is-live{border-left-color:var(--red);background:var(--red-soft)}
+.arow .o{font-size:13.5px;line-height:1.35;overflow-wrap:anywhere}
+.arow.out .o{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:24px;padding:0 7px;border-radius:4px;background:var(--pc);color:#fff;font-weight:700;font-size:12.5px;letter-spacing:.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sort{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-size:12px;font-weight:700}
+.sort.adopte{background:var(--ok);color:#fff}
+.sort.rejete,.sort.irrecevable{background:var(--ko);color:#fff}
+.sort.retire{background:var(--ko);color:#fff}
+.sort.live{background:var(--red);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(214,0,28,.45)}70%{box-shadow:0 0 0 7px rgba(214,0,28,0)}100%{box-shadow:0 0 0 0 rgba(214,0,28,0)}}
+.empty{padding:22px 16px;color:var(--muted);font-size:14px;text-align:center}
+
+/* Centre */
+.seg{display:flex;justify-content:center;gap:8px;padding:12px;flex:none;border-bottom:1px solid var(--line);background:var(--paper)}
+.seg button{height:42px;padding:0 22px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:15.5px}
+.seg button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.mid .scroll{padding-bottom:24px}
+.hband{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;background:var(--cream);border-bottom:1px solid var(--cream-line);padding:12px 22px}
+.hband .lab{font-size:12.5px;color:var(--muted)}
+.hband .art b{display:block;font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.2}
+.hband .no{text-align:center}
+.hband .no b{display:flex;align-items:center;gap:10px;justify-content:center;font-size:30px;font-weight:700;line-height:1.15;font-variant-numeric:tabular-nums}
+.hband .act{display:flex;justify-content:flex-end}
+.stat{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:6px;font-size:12.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.stat.depose{background:var(--blue-soft);color:var(--blue)}
+.stat.recevable{background:var(--wait-soft);color:var(--wait)}
+.stat.adopte{background:var(--ok-soft);color:var(--ok)}
+.stat.rejete,.stat.irrecevable{background:var(--ko-soft);color:var(--ko)}
+.stat.retire{background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+.stat.live{background:var(--red);color:#fff}
+.btn.watch[aria-pressed="true"]{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}
+.body{padding:18px 22px 10px;max-width:980px;margin:0 auto}
+.by{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;font-size:19px;font-weight:600;margin:4px 0 14px}
+.by .de{font-weight:700}
+.by .grp{display:inline-flex;align-items:center;gap:8px}
+.by .sig{font-size:14px;color:var(--muted);font-weight:500}
+.nat{text-align:center;margin:0 0 16px}
+.nat b{display:block;font-size:20px;font-weight:700;color:var(--navy)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .nat b{color:var(--ink)}}
+:root[data-theme="dark"] .nat b{color:var(--ink)}
+.nat span{display:block;font-size:14.5px;font-weight:700;text-transform:uppercase;margin-top:2px}
+.nat em{display:block;font-size:15px;color:var(--muted);margin-top:4px}
+details.sec{margin:0 0 14px;background:var(--surface);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+details.sec summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;background:var(--blue-soft);font-weight:700;font-size:17px;color:var(--navy);cursor:pointer}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) details.sec summary{color:var(--ink)}}
+:root[data-theme="dark"] details.sec summary{color:var(--ink)}
+details.sec summary::-webkit-details-marker{display:none}
+details.sec summary svg{transition:transform .15s}
+details.sec[open] summary svg{transform:rotate(180deg)}
+.txt{font-family:var(--f-text);font-size:19px;line-height:1.65;padding:14px 18px;white-space:pre-wrap;overflow-wrap:anywhere}
+.motif{margin:0 0 14px;padding:12px 16px;border-radius:6px;font-size:15px;border-left:4px solid currentColor}
+.motif.adopte{background:var(--ok-soft);color:var(--ok)}
+.motif.rejete,.motif.irrecevable{background:var(--ko-soft);color:var(--ko)}
+.motif.retire,.motif.recevable,.motif.depose{background:var(--surface);color:var(--muted)}
+.motif b{display:block;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+.edit{margin:18px 0 8px;padding:14px 16px;border:2px dashed var(--line);border-radius:8px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.edit.vote{border-style:solid;border-color:var(--red)}
+.edit h4{margin:0;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.edit .row{display:flex;flex-wrap:wrap;gap:8px}
+.edit input{height:38px;border:1px solid var(--line);border-radius:6px;background:var(--paper);padding:0 10px;width:100%}
+.edit .row button[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+.pn{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:10px;background:var(--surface);padding:8px;border-radius:10px;box-shadow:var(--shadow);border:1px solid var(--line);z-index:5}
+.pn .btn{height:44px;background:var(--navy);border-color:var(--navy);color:#fff;padding:0 18px}
+.lec{display:flex;flex-direction:column;gap:14px;padding:18px 22px;max-width:980px;margin:0 auto}
+.lec h3{margin:0;font-size:15px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.lcard{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.lcard.is-live{border:2px solid var(--red)}
+.lcard .lh{width:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:0;background:var(--cream);padding:10px 14px;text-align:left}
+.lcard .lh .o{flex:1;min-width:0;font-weight:600}
+.lcard .txt{font-size:17px;padding:12px 16px}
+.welcome{max-width:620px;margin:40px auto;padding:0 22px;text-align:center;color:var(--muted)}
+.welcome h2{color:var(--ink);font-size:22px;margin:0 0 8px}
+
+/* Suivi */
+.blk{padding:16px;border-bottom:1px solid var(--line)}
+.blk h3{margin:0;font-size:19px;font-weight:700;color:var(--navy);display:flex;align-items:center;justify-content:space-between;gap:10px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .blk h3{color:var(--ink)}}
+:root[data-theme="dark"] .blk h3{color:var(--ink)}
+.state{font-size:13px;font-weight:600;border-radius:6px;padding:3px 10px;white-space:nowrap}
+.state.ouverte{background:var(--ok-soft);color:var(--ok)}
+.state.suspendue{background:var(--wait-soft);color:var(--wait)}
+.state.fermee{background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:12px}
+.stats div{background:var(--paper);border-radius:6px;padding:8px 10px}
+.stats span{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stats b{font-size:21px;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:3px;background:var(--paper);margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);border-radius:3px}
+.now{margin-top:12px;width:100%;text-align:left;border:2px solid var(--red);border-radius:8px;background:var(--surface);padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.now .k{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.now .k i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.6s infinite}
+.now .o{font-size:14px;line-height:1.35}
+.sectl{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.fsearch{position:relative;margin-top:12px}
+.fsearch svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.fsearch input{width:100%;height:44px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 12px 0 38px}
+.fsearch input:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px var(--blue-soft)}
+.flist{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.fitem{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:8px 8px 8px 10px;background:var(--surface)}
+.fitem .o{border:0;background:none;padding:0;text-align:left;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.fitem .x{border:0;background:none;width:28px;height:28px;border-radius:6px;color:var(--muted)}
+.fempty{margin-top:12px;background:var(--paper);border-radius:10px;padding:22px 16px;text-align:center;color:var(--muted);font-size:14px}
+.fempty svg{color:var(--blue)}
+.fempty b{display:block;color:var(--ink);font-size:16px;margin:6px 0 4px}
+.fhint{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+.foot{height:30px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px;background:var(--navy);color:rgba(255,255,255,.85);font-size:12.5px}
+.foot span:last-child{color:rgba(255,255,255,.6)}
+mark{background:var(--mark);color:var(--mark-ink);border-radius:2px}
+.toast{position:fixed;left:50%;top:calc(var(--top) + 14px);transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:9px 16px;border-radius:8px;font-size:14px;z-index:80;max-width:calc(100vw - 32px);text-align:center}
+.saving{opacity:.65;pointer-events:none}
+.warn{background:var(--wait-soft);color:var(--ink);border-left:4px solid var(--wait);padding:8px 16px;font-size:13.5px}
+
+/* Saisie (tiroir) et connexion */
+.veil{position:fixed;inset:0;z-index:60;background:rgba(10,20,40,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.veil.right{justify-content:flex-end;padding:0}
+.drawer{width:min(560px,100%);height:100%;background:var(--surface);display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.drawer .dh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}
+.drawer .dh h2{margin:0;font-size:21px;color:var(--navy)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .drawer .dh h2{color:var(--ink)}}
+:root[data-theme="dark"] .drawer .dh h2{color:var(--ink)}
+.drawer form{flex:1;overflow-y:auto;padding:18px 20px 24px;display:flex;flex-direction:column;gap:16px}
+.drawer .intro{margin:0;color:var(--muted);font-size:14px}
+.drawer label,.drawer legend,.lbox label{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;display:block;margin-bottom:6px;padding:0}
+.drawer fieldset{border:0;margin:0;padding:0;min-width:0}
+.drawer input[type=text],.drawer textarea,.lbox input{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--paper);padding:10px 12px;font-size:15px}
+.drawer input[type=text],.lbox input{height:44px}
+.drawer textarea{resize:vertical;line-height:1.5;font-family:var(--f-text);font-size:16px}
+.drawer input:focus,.drawer textarea:focus,.lbox input:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px var(--blue-soft)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.partis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.partis label{margin:0;cursor:pointer;display:flex;align-items:center;justify-content:center;height:40px;border-radius:6px;background:var(--pc);color:#fff;text-transform:none;letter-spacing:.04em;font-size:14px;font-weight:700;opacity:.5}
+.partis input,.types input{position:absolute;opacity:0;pointer-events:none}
+.partis label:has(input:checked){opacity:1;box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.partis label:has(input:focus-visible),.types label:has(input:focus-visible){outline:2px solid var(--blue);outline-offset:2px}
+.types{display:flex;flex-wrap:wrap;gap:6px}
+.types label{margin:0;cursor:pointer;border:1px solid var(--line);border-radius:999px;padding:7px 13px;background:var(--surface);text-transform:none;letter-spacing:0;font-size:14px;color:var(--muted);font-weight:500}
+.types label:has(input:checked){border-color:var(--blue);color:var(--blue);background:var(--blue-soft);font-weight:700}
+.help{font-size:12.5px;color:var(--muted);margin:4px 0 0}
+.err{font-size:14px;color:var(--ko);margin:0}
+.frow{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.lbox{width:100%;max-width:470px;max-height:calc(100dvh - 32px);overflow-y:auto;background:var(--surface);border-radius:10px;border-top:4px solid var(--navy);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;gap:14px}
+.lbox h2{margin:0;font-size:22px;color:var(--navy)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lbox h2{color:var(--ink)}}
+:root[data-theme="dark"] .lbox h2{color:var(--ink)}
+.lbox p{margin:-6px 0 0;font-size:13.5px;color:var(--muted)}
+.lbox p.err{color:var(--ko);margin:0}
+
+/* Onglets mobiles */
+.mtabs{display:none}
+@media (max-width:1100px){
+  .cols{grid-template-columns:minmax(240px,300px) minmax(0,1fr)}
+  .col.suivi{display:none}
+  body[data-m="suivi"] .col.suivi{display:flex;grid-column:2}
+  body[data-m="suivi"] .col.mid{display:none}
+  .mtabs{display:flex}
+  .mtabs button[data-m="der"]{display:none}
+  .cols{height:calc(100dvh - var(--top) - 90px)}
+}
+@media (max-width:760px){
+  .tbar h1{font-size:15px;text-align:left}
+  .toolbar{gap:10px;padding:10px 12px}
+  .brand small{display:none}
+  .brand b{font-size:19px}
+  .follow{height:42px}
+  .search{order:5;flex-basis:100%}
+  .tools .btn span{display:none}
+  .tools .btn{width:42px;padding:0;justify-content:center;height:42px}
+  .cols{grid-template-columns:minmax(0,1fr);height:calc(100dvh - var(--top) - 60px - env(safe-area-inset-bottom,0px))}
+  .col{display:none}
+  body[data-m="der"] .col.der,body[data-m="mid"] .col.mid,body[data-m="suivi"] .col.suivi{display:flex;grid-column:1}
+  body[data-m="suivi"] .col.mid{display:none}
+  .col + .col{border-left:0}
+  .mtabs button[data-m="der"]{display:flex}
+  .foot{display:none}
+  .hband{grid-template-columns:minmax(0,1fr) auto;padding:10px 14px}
+  .hband .no{grid-column:1/-1;grid-row:1;text-align:left}
+  .hband .no b{justify-content:flex-start;font-size:26px}
+  .body{padding:14px 14px 10px}
+  .txt{font-size:17px;padding:12px 14px}
+  .by{font-size:17px}
+  .lec{padding:14px}
+  .pn{bottom:12px}
+  .two{grid-template-columns:minmax(0,1fr)}
+  .partis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+.mtabs{position:sticky;bottom:0;z-index:20;height:calc(60px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:var(--surface);border-top:1px solid var(--line)}
+.mtabs button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.mtabs button[aria-selected="true"]{color:var(--navy);box-shadow:inset 0 3px 0 var(--red)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .mtabs button[aria-selected="true"]{color:var(--ink)}}
+:root[data-theme="dark"] .mtabs button[aria-selected="true"]{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.sort.live,.now .k i{animation:none}.arth svg,details.sec summary svg{transition:none}}
+
+/* Barre Présidence */
+.prez{background:var(--cream);border-bottom:1px solid var(--cream-line);padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:8px}
+.pz{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pz-t{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);min-width:86px}
+.pz .sep{width:1px;height:26px;background:var(--cream-line);margin:0 4px}
+.pz .cur{display:inline-flex;align-items:center;gap:8px;font-size:14px;min-width:0;max-width:340px}
+.pz .cur .o{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pz input,.pz select{height:36px;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:0 10px;font-size:14px}
+.pz input{width:190px}
+.pz .btn.small{height:36px}
+.pz .pre{font-variant-numeric:tabular-nums;min-width:62px;justify-content:center}
+.pz .muted{font-size:13px;color:var(--muted)}
+
+/* Minuteur de parole */
+.timer{display:flex;align-items:center;gap:16px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));background:var(--navy);color:#fff;border-top:3px solid var(--pc,#86aef0);position:relative;overflow:hidden}
+.timer .who{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.timer .who small{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.75;font-weight:600}
+.timer .who b{font-size:20px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:10px}
+.timer .clock{font-size:46px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em;line-height:1;min-width:150px;text-align:right}
+.timer .st{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.15)}
+.timer .prog{position:absolute;left:0;bottom:0;height:5px;background:#86aef0;transition:width .25s linear}
+.timer.warn{background:#7a4b00}
+.timer.warn .prog{background:#f0c060}
+.timer.over{background:#9b0014;animation:blink 1s steps(2) infinite}
+.timer.over .prog{width:100%!important;background:#ff5a6e}
+@keyframes blink{50%{background:#c4001b}}
+@media (max-width:760px){.timer .clock{font-size:34px;min-width:110px}.timer .who b{font-size:16px}.pz input{width:100%;flex:1 1 160px}.pz-t{min-width:0;width:100%}.pz .sep{display:none}}
+@media (prefers-reduced-motion:reduce){.timer.over{animation:none}.timer .prog{transition:none}}
+
+/* Connexion participant */
+.lbox form{display:flex;flex-direction:column;gap:14px}
+.lbox fieldset{border:0;margin:0;padding:0;min-width:0}
+.lbox legend{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;display:block;margin-bottom:6px;padding:0}
+.ltabs{display:flex;gap:4px;background:var(--paper);border-radius:8px;padding:4px}
+.ltabs button{flex:1;height:38px;border:0;border-radius:6px;background:none;font-weight:600;color:var(--muted)}
+.ltabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+
+/* Barre participant */
+.part{background:var(--blue-soft);border-bottom:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap}
+.part .me{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14.5px;margin-right:6px}
+.part .pz-t{min-width:0}
+.askb{display:inline-flex;gap:6px;flex-wrap:wrap}
+.askb .btn.small{height:36px}
+.askb .prio small{font-weight:500;opacity:.85;margin-left:2px}
+.mine{display:inline-flex;gap:6px;flex-wrap:wrap;font-size:13.5px}
+.mine .req{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 10px}
+.mine .req button{border:0;background:var(--paper);border-radius:999px;height:26px;padding:0 9px;font-size:12.5px}
+.note{font-size:12.5px;color:var(--muted)}
+
+/* File des demandes */
+.qbadge{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:4px;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--blue-soft);color:var(--blue);white-space:nowrap}
+.qbadge.rappel{background:var(--red);color:#fff}
+.qlist{display:flex;flex-direction:column;gap:6px;margin-top:12px;padding:0;list-style:none}
+.qlist li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:4px 8px;align-items:start;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface)}
+.qlist li.rappel{border-color:var(--red)}
+.qlist .n{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.qlist .w{font-size:13.5px;line-height:1.35}
+.qlist .w b{font-weight:600}
+.qhint{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.pzq{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 4px 4px 8px;font-size:13.5px}
+.pzq.rappel{border-color:var(--red)}
+.pzq .btn.small{height:30px;padding:0 9px;font-size:13px}
+.pzq .x{border:0;background:none;width:28px;height:28px;border-radius:6px;color:var(--muted)}
+
+/* Simplification : barre Présidence sur une ligne, panneaux repliables */
+.prez{gap:0;padding-top:8px;padding-bottom:8px}
+.pz{gap:8px}
+.grp-btns{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap}
+.pz .grow{flex:1}
+.btn.ic{width:36px;padding:0;justify-content:center}
+.pz .cur{max-width:300px}
+.btn .cnt{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:20px;border-radius:999px;background:var(--paper);font-size:12px;padding:0 6px}
+.btn.alert{border-color:var(--red);color:var(--red)}
+.btn.alert .cnt{background:var(--red);color:#fff}
+.btn[aria-expanded="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;padding:10px 12px;background:var(--surface);border:1px solid var(--cream-line);border-radius:8px}
+.pop-t{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pop input,.pop select{height:36px;border:1px solid var(--line);border-radius:6px;background:var(--paper);padding:0 10px;font-size:14px}
+.pop input{width:220px}
+.pzqs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%}
+.tctl{display:inline-flex;gap:6px}
+.tctl:empty{display:none}
+.tctl button{height:34px;border-radius:6px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12);color:#fff;padding:0 10px;font-weight:600;font-size:13.5px}
+.tctl button:hover{background:rgba(255,255,255,.22)}
+.seg{justify-content:space-between;align-items:center}
+.segg{display:inline-flex;gap:8px}
+.seg .nav{height:38px;border:0;background:none;color:var(--muted);font-weight:600;font-size:14.5px;padding:0 6px;border-radius:6px}
+.seg .nav:hover:not(:disabled){color:var(--ink);background:var(--surface)}
+.seg .nav:disabled{visibility:hidden}
+details.edit{padding:0;gap:0}
+details.edit summary{list-style:none;cursor:pointer;padding:12px 16px;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+details.edit summary::-webkit-details-marker{display:none}
+details.edit[open] summary{border-bottom:1px solid var(--line)}
+details.edit .in{padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.hband .act{gap:8px;flex-wrap:wrap}
+@media (max-width:760px){.seg .nav span{display:none}.pz .cur{max-width:100%;flex:1 1 100%;order:-1}.pop input{width:100%;flex:1 1 100%}}
+.btn[aria-expanded="true"] .cnt{background:rgba(255,255,255,.25);color:#fff}
+
+/* Gestion des accès */
+.lwho{margin:0}
+.accb{flex:1;overflow-y:auto;padding:18px 20px 24px;display:flex;flex-direction:column;gap:18px}
+.drawer .accb form{flex:none;overflow:visible;padding:16px;border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:14px}
+.accb h3{margin:0;font-size:16px}
+.acclist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.acclist li{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.acclist li.main{border-color:var(--navy)}
+.acclist .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.acclist .top b{font-size:15px}
+.acclist .acts{display:flex;gap:6px;flex-wrap:wrap}
+.acclist .pwrow{display:flex;gap:6px;flex-wrap:wrap}
+.acclist .pwrow input{flex:1;min-width:160px;height:36px;border:1px solid var(--line);border-radius:6px;background:var(--paper);padding:0 10px}
+.qbadge.admin{background:var(--navy);color:#fff}
+.qbadge.soft{background:var(--paper);color:var(--muted)}
+.adone{background:var(--ok-soft);color:var(--ink);border-left:4px solid var(--ok);border-radius:6px;padding:10px 12px;font-size:14px}
+.adone code{font-size:15px;font-weight:700}
+
+.qlist li{grid-template-columns:minmax(0,1fr)}
+
+/* Effet sur le texte (saisie) */
+.drawer fieldset.eff{border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;background:var(--paper)}
+.drawer fieldset.eff legend{padding:0 6px}
+.eff select{height:42px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 10px;font-size:15px;width:100%}
+.eff input[type=text],.eff textarea{background:var(--surface)!important}
+.help.warn{color:var(--ko)}
+/* Projet de loi */
+.pj{max-width:900px;margin:0 auto;padding:18px 22px 30px;display:flex;flex-direction:column;gap:14px}
+.pj-head{text-align:center;padding:18px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.pj-head .k{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.pj-head h2{margin:6px 0 2px;font-family:var(--f-text);font-size:30px;letter-spacing:.04em;color:var(--navy);text-transform:uppercase}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pj-head h2{color:var(--ink)}}
+:root[data-theme="dark"] .pj-head h2{color:var(--ink)}
+.pj-head p{margin:4px 0 0;font-size:13.5px;color:var(--muted)}
+.pj-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.pj-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.pj-legend ins,.pj-legend del{padding:0 4px}
+.pj details.sec .txt p{margin:0 0 .7em}
+.pj-part{margin:10px 0 0;text-align:center;font-family:var(--f-text);font-size:19px;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.pj-art{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;scroll-margin-top:12px}
+.pj-art.is-live{border:2px solid var(--red)}
+.pj-art.is-sel{box-shadow:0 0 0 3px var(--blue-soft)}
+.pj-art h3{margin:0 0 10px;text-align:center;font-family:var(--f-text);font-size:17px;font-weight:600}
+.pj-art h3 small{display:block;font-weight:400;font-size:16px;margin-top:2px}
+.pj-al{display:grid;grid-template-columns:34px minmax(0,1fr);gap:0 8px;font-family:var(--f-text);font-size:17px;line-height:1.6;margin:0 0 .6em;white-space:pre-wrap}
+.pj-al .n{font-weight:600;color:var(--muted);text-align:right}
+.pj ins{background:var(--ok-soft);color:var(--ok);text-decoration:none;border-radius:3px;padding:0 2px}
+.pj del{background:var(--ko-soft);color:var(--ko);border-radius:3px;padding:0 2px}
+.pj-al.del .t{text-decoration:line-through;color:var(--ko);opacity:.75}
+.pj-al.add .t{background:var(--ok-soft);border-radius:4px;padding:0 4px}
+.pj-art.del{opacity:.7}
+.pj-art.del .pj-al .t{text-decoration:line-through}
+.pj-art.add{border-color:var(--ok);border-width:2px}
+.tagx{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-ui);font-size:11.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.tagx.ok{background:var(--ok);color:#fff}.tagx.ko{background:var(--ko);color:#fff}.tagx.mod{background:var(--wait-soft);color:var(--wait)}
+.pj-ams{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:-4px 0 10px}
+.pj-ams button{border:0;background:none;padding:0;display:inline-flex;align-items:center;gap:4px;font-size:12px}
+.pj-ams .st{font-size:11px;color:var(--muted)}
+.pj-warn{background:var(--wait-soft);border-left:4px solid var(--wait);border-radius:6px;padding:10px 12px;font-size:14px}
+.pj-fait{text-align:center;color:var(--muted);font-size:14px;margin-top:6px}
+
+#part,#queue,.ltabs,#partForm,#popQueue{display:none!important}
+
+.chip{min-width:46px}
+.arow .pid{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);line-height:1.2}
+.sepadd{padding:10px 12px;border-bottom:1px solid var(--line)}
+.sep{display:flex;align-items:center;gap:8px;background:var(--navy);color:#fff;padding:8px 10px 8px 14px;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;line-height:1.3}
+.sep .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.sep[draggable="true"]{cursor:grab}
+.sep.dragging{opacity:.45}
+.sep .sctl{display:flex;gap:4px;flex:none}
+.sep .sctl button{min-width:28px;height:28px;padding:0 6px;border:1px solid rgba(255,255,255,.4);border-radius:4px;background:transparent;color:#fff;font:inherit;font-size:12px;letter-spacing:0;text-transform:none;cursor:pointer}
+.sep .sctl button:hover{background:rgba(255,255,255,.16)}
+.sep .sctl button:focus-visible{outline:2px solid #fff;outline-offset:1px}
+.sep.edit{background:var(--surface);color:var(--ink);text-transform:none;letter-spacing:0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.sep.edit input{flex:1;min-width:120px;height:34px}
+.sepend{height:28px}
+#derList .dropb{box-shadow:inset 0 3px 0 var(--red)}
+.numf{display:flex;flex-direction:column;gap:4px;max-width:260px}
+
+.sep.p{padding:0 10px 0 0;font-size:13.5px;border-top:1px solid rgba(255,255,255,.18)}
+.sep .stog{flex:1;min-width:0;display:flex;align-items:center;gap:10px;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;text-align:left;padding:11px 0 11px 14px;cursor:pointer}
+.sep .stog svg{flex:none;transition:transform .15s}
+.sep .stog[aria-expanded="true"] svg{transform:rotate(90deg)}
+.sep .stog .c{font-size:12px;font-weight:600;letter-spacing:0;opacity:.8;font-variant-numeric:tabular-nums}
+.sep .stog .live{width:8px;height:8px;border-radius:50%;background:#ff5a6e;flex:none}
+.sep.a{background:var(--blue-soft);color:var(--navy);font-size:12px;border-bottom:1px solid var(--line)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sep.a{color:var(--ink)}}
+:root[data-theme="dark"] .sep.a{color:var(--ink)}
+.sep.a .sctl button{color:inherit;border-color:var(--line)}
+.sep.a .sctl button:hover{background:rgba(0,0,0,.06)}
+.sep.a.inp{padding-left:26px}
+.arow.inp{padding-left:26px}
+
+.stamp{display:inline-block;flex:none;transform:rotate(-7deg);border:4px solid currentColor;border-radius:9px;outline:2px solid currentColor;outline-offset:3px;padding:3px 14px;margin:6px 10px;font-weight:900;font-size:19px;line-height:1.2;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;-webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='80'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -7 0 0 0 4.6'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='80'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -7 0 0 0 4.6'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");-webkit-mask-size:160px 80px;mask-size:160px 80px}
+.stamp.adopte{color:#3f8f35}
+.stamp.rejete,.stamp.retire,.stamp.irrecevable{color:#c0392b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .stamp.adopte{color:#6cc35e}:root:not([data-theme="light"]) .stamp.rejete,:root:not([data-theme="light"]) .stamp.retire{color:#ff6b5e}}
+:root[data-theme="dark"] .stamp.adopte{color:#6cc35e}:root[data-theme="dark"] .stamp.rejete,:root[data-theme="dark"] .stamp.retire{color:#ff6b5e}
+.stamp.big{font-size:30px;padding:6px 26px;border-width:5px;margin:14px 10px 6px}
+.hband .act{align-items:center}
+.pj-vote{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:10px}
+.pj-vote .lab{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tvote{display:inline-block;vertical-align:middle;margin-left:8px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:#3f8f35}
+.tvote.rejete,.tvote.retire{background:#c0392b}
+#pzVote .btn[aria-pressed="true"]{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.btn.vset.adopte{border-color:#3f8f35;color:#3f8f35}
+.btn.vset.rejete,.btn.vset.retire{border-color:#c0392b;color:#c0392b}
+@media (max-width:760px){.stamp{font-size:15px;padding:2px 10px;border-width:3px;margin:4px 6px}.stamp.big{font-size:22px}}
+
+.arow.dragging{opacity:.45}
+#derList .sepadd.dropb{box-shadow:inset 0 -3px 0 var(--red)}
+#fs{display:none!important}
+.sepf{display:flex;flex-direction:column;gap:4px}
+.sepf select{height:44px;border:1px solid var(--line);border-radius:8px;background:var(--paper);padding:0 10px;font-size:15px;width:100%}
+.sepf select:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px var(--blue-soft)}
+
+.sep .ssel{flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;text-align:left;padding:0;cursor:pointer}
+.sep.p .ssel{padding:11px 0}
+.sep.p .stog{flex:none;padding:11px 0 11px 14px}
+.sep.p .stog + .ssel{padding-left:0}
+.sep .ssel .t{flex:1 1 auto}
+.sep .ssel .c{font-size:12px;font-weight:600;letter-spacing:0;opacity:.8;font-variant-numeric:tabular-nums}
+.sep .ssel .live{width:8px;height:8px;border-radius:50%;background:#ff5a6e;flex:none}
+.sep.is-sel{box-shadow:inset 4px 0 0 var(--blue)}
+.sep.is-live{box-shadow:inset 4px 0 0 var(--red)}
+.sst{flex:none;font-size:10.5px;font-weight:800;letter-spacing:.06em;padding:2px 7px;border-radius:4px;color:#fff;background:var(--muted)}
+.sst.adopte{background:#3f8f35}.sst.rejete,.sst.retire{background:#c0392b}.sst.encours{background:var(--red)}
+.sv-t{margin:4px 0 2px;text-align:center;font-size:24px;color:var(--navy)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sv-t{color:var(--ink)}}
+:root[data-theme="dark"] .sv-t{color:var(--ink)}
+.sv-sub{text-align:center;color:var(--muted);margin:0 0 6px}
+.sv-h{margin:8px 0 0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sv-list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.sv-it{display:flex;align-items:center;gap:10px;border:0;border-bottom:1px solid var(--line);background:none;padding:10px 12px;text-align:left;cursor:pointer}
+.sv-it:last-child{border-bottom:0}
+.sv-it:hover{background:var(--blue-soft)}
+.sv-it.is-live{background:var(--red-soft)}
+.sv-it .o{flex:1;min-width:0}
+.showpw{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);font-weight:500;margin-top:4px;cursor:pointer}
+.showpw input{width:auto;height:auto;margin:0}
+.pwbox{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.pwbox span{font-size:13px;color:var(--muted);min-width:84px}
+.pwbox code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:17px;font-weight:700;letter-spacing:.06em;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:4px 10px;user-select:all;color:var(--ink)}
+#aGenBox{margin-top:-4px}
+.apchoix{display:flex;flex-direction:column;gap:8px}
+.apchoix .btn{justify-content:flex-start;text-align:left;height:auto;min-height:40px;padding:8px 14px;white-space:normal}
+.pj-choix{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:4px 0 10px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px;color:var(--muted)}
+.pj-choix small{flex-basis:100%;font-size:12px}
+.apbtn{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:3px 10px;font:inherit;font-weight:700;cursor:pointer;text-decoration:line-through}
+.apbtn.on{background:#def3e5;border-color:#3f8f35;color:#1c7a3c;text-decoration:none}
+.pv summary{color:#1c7a3c}
+.pv-body .pj-al{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;padding:6px 0;line-height:1.55}
+.pv-body .pj-al .n{font-weight:700;color:var(--muted)}
+.pv-body .pj-al.del .t{text-decoration:line-through;color:var(--ko)}
+.pv-body .pj-al.add .t{background:#def3e5;color:#1c7a3c}
+.pv-body del{background:#fbe4e6;color:#b3121f}
+.pv-body ins{background:#def3e5;color:#1c7a3c;text-decoration:none}
+.pv-h{margin:0 0 6px;font-size:16px}
+.pv-h small{font-weight:400;color:var(--muted)}
+.pv-note{margin:0 0 6px;font-weight:700}
+.pv-note.ko{color:var(--ko)}.pv-note.ok{color:#1c7a3c}
+.pv-leg{margin:8px 0 0;font-size:12.5px;color:var(--muted)}
+.lcard .pv{margin:8px 12px 12px}
+del + ins{margin-left:3px}
+.pv-same{margin-top:8px}.pv-same summary{cursor:pointer;color:var(--blue);font-size:13.5px;font-weight:700}
+.olsw{display:inline-flex;align-items:center;gap:10px;border:0;background:none;padding:4px 6px;font:inherit;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;white-space:nowrap}
+.olsw .tr{position:relative;width:50px;height:28px;border-radius:999px;background:#6b6f8a;transition:background .15s;flex:none}
+.olsw .kn{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .15s}
+.olsw.on .tr{background:#3f8f35}
+.olsw.on .kn{left:25px}
+.olsw:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
+.offmsg{margin:16px 12px;padding:14px;border-radius:10px;background:var(--blue-soft);color:var(--navy);font-weight:700;text-align:center}
+#derList .arow:nth-child(even of .arow){background:#f4f5f7}
+#derList .arow:hover{background:var(--blue-soft)}
+#derList .arow[aria-current="true"]{background:var(--blue-soft)}
+#derList .arow.is-live{background:var(--red-soft)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #derList .arow:nth-child(even of .arow){background:rgba(255,255,255,.04)}}
+:root[data-theme="dark"] #derList .arow:nth-child(even of .arow){background:rgba(255,255,255,.04)}
+.arow .who{display:block;font-size:15px;line-height:1.3;color:var(--ink)}
+.arow .num{color:var(--pc);font-weight:900;font-size:16px;margin-right:2px}
+.arow .obj{display:block;margin-top:2px;font-size:12.5px;line-height:1.35;color:var(--muted)}
+.arow.out .who{text-decoration:line-through;text-decoration-thickness:1px;color:var(--muted)}
+.plogo{width:28px;height:28px;border-radius:6px;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;flex:none;background:#fff}
+.plogo img{width:100%;height:100%;object-fit:contain;display:block}
+.plogo .pl0{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--pc);color:#fff;font-weight:900;font-size:13px}
+.plogo.big{width:48px;height:48px;border-radius:10px;border:1px solid var(--line)}
+.lgl{display:flex;flex-direction:column;gap:8px}
+.lgrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.lgrow b{min-width:56px}
+.lgedit{border:0;background:none;color:inherit;opacity:.75;cursor:pointer;padding:4px 6px;margin-right:6px;border-radius:6px;display:inline-flex;align-items:center}
+.lgedit:hover{opacity:1;background:rgba(255,255,255,.12)}
+.foot{justify-content:flex-start}
+.lgrow label.btn{text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:700;cursor:pointer;margin:0}
+.susp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:18px 16px 20px;background:var(--navy);color:#fff;text-align:center;border-bottom:4px solid var(--red)}
+.susp .k{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.susp .t{font-size:clamp(22px,3.2vw,34px);font-weight:900;line-height:1.15}
+.susp .n{font-size:clamp(44px,8vw,84px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.susp.late .t{animation:suspPulse 1.6s ease-in-out infinite}
+@keyframes suspPulse{50%{opacity:.55}}
+@media (prefers-reduced-motion: reduce){.susp.late .t{animation:none}}
+.body .objet{margin:0;text-align:center;font-size:clamp(19px,2.2vw,24px);line-height:1.3;font-weight:900;color:var(--navy)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .body .objet{color:var(--ink)}}
+:root[data-theme="dark"] .body .objet{color:var(--ink)}
+.pv-body .pj-al.same .t{color:var(--muted)}
+.pv-body .pj-al.chg{background:var(--blue-soft);border-radius:6px;padding:6px 8px;margin:2px -8px}
+.fsec{margin:10px 0 -4px;padding-top:12px;border-top:1px solid var(--line);font-size:15px;color:var(--navy)}
+#fPrev .pv{margin:0}
+.amtxt{white-space:pre-wrap;line-height:1.6}
+details.sec.amp{border-left:4px solid var(--pc)}
+details.sec.amp summary > span{display:inline-flex;align-items:center;gap:8px}
+.pj-al .nd{color:var(--ko);font-weight:900}
+</style>
+</head>
+<body>
+<div id="top">
+<div class="tbar">
+  <span style="width:36px;flex:none" aria-hidden="true"></span>
+  <h1 id="tTitle">Amendements des groupes</h1>
+  <form class="tedit" id="tEditForm" hidden><label class="sr" for="tEditIn">Intitulé du texte</label><input id="tEditIn" type="text" maxlength="160" placeholder="Ex. : Projet de loi relatif à l’égalité"><button class="btn small" type="submit">Enregistrer</button><button class="btn small" type="button" id="tEditCancel">Annuler</button></form>
+  <button class="ibtn" id="tEditBtn" type="button" hidden aria-label="Modifier l’intitulé du texte" title="Modifier l’intitulé du texte"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/></svg></button>
+  <select id="textSel" aria-label="Changer de texte" hidden></select>
+  <button class="ibtn" id="fs" type="button" aria-label="Plein écran" title="Plein écran"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
+<div class="toolbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true"><svg width="44" height="42" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 811 778" fill="none" stroke-width="20"><circle cx="400.5" cy="365.7" r="354" stroke="#be352e"/><circle cx="400.0" cy="366.5" r="252.5" stroke="#be352e"/><circle cx="445.0" cy="411.7" r="354" stroke="#20448f"/><circle cx="445.4" cy="411.9" r="253.1" stroke="#20448f"/><circle cx="351.5" cy="427.1" r="339" stroke="#12166b"/><circle cx="351.3" cy="427.5" r="242.3" stroke="#12166b"/></svg></span>
+    <span><b>Séance</b><small>Merídio Rouen</small></span>
+  </div>
+  <button class="follow" id="follow" type="button" aria-pressed="true" title="Afficher automatiquement l’amendement en discussion">
+    <svg id="followIc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"></svg>
+    <span>Suivi auto</span><span class="badge" id="followBadge" title="Amendements restants">0</span>
+  </button>
+  <div class="search" role="search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <label for="q" class="sr">Rechercher dans le dérouleur</label>
+    <input id="q" type="search" autocomplete="off" placeholder="Rechercher dans le dérouleur par numéro ou mot-clé">
+    <div class="qres" id="qres" hidden></div>
+  </div>
+  <div class="tools">
+    <button type="button" class="olsw" id="olSw" role="switch" aria-checked="true" hidden><span class="tr"><span class="kn"></span></span><span id="olTxt">En ligne</span></button>
+<button class="btn primary" id="addBtn" type="button" hidden title="Ajouter un amendement"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Ajouter</span></button>
+    <button class="btn" id="login" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span id="loginLbl">Administration</span></button>
+  </div>
+</div>
+<div class="prez" id="prez" hidden>
+  <div class="pz" id="pzSeance"></div>
+  <div class="pop" id="popVote" hidden><div class="pzqs" id="pzVote"></div></div>
+  <div class="pop" id="popSusp" hidden><span class="pop-t">Suspendre la séance</span><label for="suspMin" style="font-weight:600">Durée</label><input id="suspMin" type="number" min="1" max="600" step="1" value="10" inputmode="numeric" style="width:90px"><span>minutes</span><span class="grp-btns"><button class="btn small primary" type="button" data-susp="duree">Suspendre et lancer le chrono</button><button class="btn small" type="button" data-susp="libre">Sans durée</button></span></div>
+  <div class="pop" id="popParole" hidden>
+    <span class="pop-t">Donner la parole</span>
+    <label class="sr" for="tOr">Orateur</label><input id="tOr" type="text" maxlength="80" placeholder="Orateur (ex. M. Dupont)">
+    <label class="sr" for="tGr">Groupe</label><select id="tGr"></select>
+    <span class="grp-btns" id="tPre"></span>
+  </div>
+  <div class="pop" id="popQueue" hidden><div class="pzqs" id="pzQueue"></div></div>
+</div>
+<div class="susp" id="suspBand" hidden role="status" aria-live="polite"><span class="k">Séance suspendue</span><span class="t" id="suspT">Séance suspendue</span><span class="n" id="suspN" hidden></span></div>
+<div class="part" id="part" hidden>
+  <span class="me" id="partMe"></span>
+  <span class="pz-t">Demander la parole</span>
+  <span class="askb" id="partBtns"></span>
+  <span class="mine" id="partMine"></span>
+</div>
+<div class="timer" id="timer" hidden aria-live="off">
+  <div class="who"><small id="tLab">Temps de parole</small><b id="tWho"></b></div>
+  <span class="st" id="tSt" hidden></span>
+  <span class="tctl" id="tCtl"></span>
+  <div class="clock" id="tClock" role="timer">0:00</div>
+  <i class="prog" id="tProg"></i>
+</div>
+<div class="warn" id="warn" hidden></div>
+</div>
+
+<main class="cols">
+  <aside class="col der" aria-label="Dérouleur">
+    <div class="colh"><h2>Dérouleur</h2><button class="sq" id="filterBtn" type="button" aria-pressed="false" aria-label="Filtrer par groupe" title="Filtrer par groupe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg></button></div>
+    <div class="pbar" id="pbar" hidden></div>
+    <div class="scroll" id="derList"></div>
+  </aside>
+  <section class="col mid" aria-label="Amendement">
+    <div class="seg"><button class="nav" type="button" id="prevBtn" aria-label="Amendement précédent">‹ <span>Précédent</span></button><span class="segg" role="group" aria-label="Affichage"><button type="button" id="vDet" aria-pressed="true">Détail</button><button type="button" id="vLec" aria-pressed="false">Lecture</button><button type="button" id="vTxt" aria-pressed="false">Projet de loi</button></span><button class="nav" type="button" id="nextBtn" aria-label="Amendement suivant"><span>Suivant</span> ›</button></div>
+    <div class="scroll" id="midBody"></div>
+  </section>
+  <aside class="col suivi" aria-label="Suivi">
+    <div class="colh"><h2>Suivi</h2></div>
+    <div class="scroll">
+      <div class="blk" id="prog"></div>
+      <div class="blk" id="queue"></div>
+      <div class="blk">
+        <h3>Suivi d’amendements</h3>
+        <div class="fsearch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label for="fq" class="sr">Suivre un amendement par numéro</label><input id="fq" type="search" autocomplete="off" placeholder="Suivre par numéro (ex. 12)"></div>
+        <div id="flist"></div>
+      </div>
+    </div>
+  </aside>
+</main>
+<nav class="mtabs" id="mtabs" role="tablist" aria-label="Sections">
+  <button type="button" data-m="der" role="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Dérouleur</button>
+  <button type="button" data-m="mid" role="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg>Amendement</button>
+  <button type="button" data-m="suivi" role="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Suivi</button>
+</nav>
+<footer class="foot"><button type="button" class="lgedit" id="logoEdit" hidden title="Logos des partis" aria-label="Modifier les logos des partis"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><span>Merídio Rouen · Simulation parlementaire</span></footer>
+<div class="veil" id="logoBox" hidden role="dialog" aria-modal="true" aria-label="Logos des partis"><div class="lbox"><h2 style="margin:0 0 4px">Logos des partis</h2><p class="muted" style="margin:0 0 12px;font-size:13.5px">Image carrée conseillée (par exemple 1254 × 1254 px). Elle est réduite automatiquement avant l’envoi.</p><div class="lgl"></div><div style="display:flex;justify-content:flex-end;margin-top:14px"><button type="button" class="btn primary" data-lgclose="1">Fermer</button></div></div></div>
+
+<div class="veil right" id="drawerVeil" hidden>
+  <div class="drawer" role="dialog" aria-modal="true" aria-labelledby="depTitle">
+    <div class="dh"><h2 id="depTitle">Enregistrer un amendement</h2><button class="ibtn" id="fClose" type="button" aria-label="Fermer" style="color:var(--muted)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <form id="depot" novalidate>
+      <p class="intro">Amendement transmis par le président de groupe (article 29, alinéa 2). L’enregistrement apparaît aussitôt chez tous les spectateurs.</p>
+      <div class="numf"><label for="fNum">Numéro de l’amendement</label><input type="text" id="fNum" inputmode="numeric" maxlength="4" autocomplete="off"><p class="help">Dans chaque séparateur, les amendements sont rangés par numéro.</p></div>
+      <div><label for="fObjet">Objet</label><textarea id="fObjet" rows="2" placeholder="Ce que change l’amendement" maxlength="600" style="min-height:64px"></textarea></div>
+      <fieldset><legend>Amendement du parti</legend><div class="partis" id="fParti"></div></fieldset>
+      <div><label for="fSign">Présenté par (signataire)</label><input type="text" id="fSign" placeholder="Nom du président de groupe" maxlength="120"></div>
+      <div><label for="fAmTxt">Amendement du parti (texte déposé par le groupe)</label><textarea id="fAmTxt" rows="9" maxlength="12000" placeholder="Ex. : L’article 1 est supprimé et réécrit dans son intégralité comme tel :&#10;&#10;1° …&#10;&#10;2° …"></textarea></div>
+      <div><label for="fDisp">Dispositif</label><textarea id="fDisp" rows="7" placeholder="Ex. : À l’alinéa 2, remplacer les mots « … » par les mots « … »." maxlength="12000"></textarea></div>
+      <h3 class="fsec">L’article si l’amendement est adopté</h3>
+      <fieldset><legend>Nature</legend><div class="types" id="fType"></div><p class="help"><b>Réécriture</b> : l’article ou l’alinéa est entièrement réécrit (y compris « supprimer et réécrire »). <b>Article additionnel</b> : nouvel article, rattaché à aucun article existant. Les suppressions sont discutées en premier (article 32, alinéa 4).</p></fieldset>
+      <div class="sepf"><label for="fSep">Place dans le dérouleur (séparateur)</label><select id="fSep"></select><p class="help">Choisissez l’article concerné. Un article additionnel n’est rattaché à aucun article : placez-le où vous voulez, y compris directement sous une partie.</p></div>
+      <div class="two">
+        <div><label for="fTexte">Texte examiné</label><input type="text" id="fTexte" list="textes" placeholder="Ex. : Projet de loi relatif au logement étudiant" maxlength="160"><datalist id="textes"></datalist></div>
+        <div id="fArtWrap"><label for="fArt">Article visé</label><input type="text" id="fArt" placeholder="Ex. : 3, ou « après l’article 5 »" maxlength="60"></div>
+      </div>
+      <fieldset class="eff"><legend>Effet sur le projet de loi s’il est adopté</legend>
+        <select id="eOp">
+          <option value="">Aucun effet automatique sur le texte</option>
+          <option value="supprArt">Supprimer un article</option>
+          <option value="supprAl">Supprimer un alinéa</option>
+          <option value="rediAl">Réécrire un alinéa</option>
+          <option value="remplacer">Remplacer des mots dans un alinéa</option>
+          <option value="ajoutAl">Ajouter un alinéa</option>
+          <option value="rediArt">Réécrire tout un article</option>
+          <option value="ajoutArt">Insérer un article additionnel</option>
+        </select>
+        <div class="two" id="eSel"><div id="eArtW"><label for="eArt" id="eArtL">Article</label><select id="eArt"></select></div><div id="eAlW"><label for="eAl" id="eAlL">Alinéa</label><select id="eAl"></select></div></div>
+        <div id="eDeW"><label for="eDe">Mots à remplacer (recopiés exactement)</label><input id="eDe" type="text" maxlength="600"></div>
+        <div id="eParW"><label for="ePar">Remplacés par</label><input id="ePar" type="text" maxlength="600"></div>
+        <div id="eTitW"><label for="eTit">Titre du nouvel article</label><input id="eTit" type="text" maxlength="200"></div>
+        <div id="eTxtW"><button type="button" class="btn small" id="eFromAm" style="margin-bottom:6px">↓ Reprendre le texte de « Amendement du parti »</button><label for="eTxt" id="eTxtL">Nouveau texte</label><textarea id="eTxt" rows="5" maxlength="12000"></textarea></div>
+        <p class="help" id="eHelp"></p>
+      </fieldset>
+      <div id="fPrev"></div>
+      <div><label for="fExp">Exposé sommaire</label><textarea id="fExp" rows="5" placeholder="Pourquoi le groupe propose cet amendement." maxlength="12000"></textarea></div>
+      <p class="err" id="fErr" hidden></p>
+      <div class="frow"><button class="btn small" type="button" id="fCancel">Annuler</button><button class="btn small primary" type="submit" id="fSubmit">Enregistrer</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="veil" id="applyBox" hidden role="dialog" aria-modal="true"><div class="lbox"></div></div>
+<div class="veil" id="loginBox" hidden>
+  <div class="lbox" role="dialog" aria-modal="true" aria-labelledby="lTitle">
+    <h2 id="lTitle">Espace Présidence</h2>
+    <div class="ltabs" role="tablist"><button type="button" role="tab" id="ltPart" aria-selected="true">Participant(e)</button><button type="button" role="tab" id="ltPres" aria-selected="false">Présidence</button></div>
+    <form id="partForm" novalidate>
+      <p>Pour demander la parole pendant la séance. Aucun mot de passe n’est nécessaire.</p>
+      <fieldset><legend>Civilité</legend><div class="types" id="pCiv"><label><input type="radio" name="civ" value="M." checked>M.</label><label><input type="radio" name="civ" value="Mme">Mme</label></div></fieldset>
+      <div><label for="pNom">Nom</label><input id="pNom" type="text" maxlength="60" autocomplete="family-name" placeholder="Ex. : Dupont"></div>
+      <fieldset><legend>Parti</legend><div class="partis" id="pParti"></div></fieldset>
+      <fieldset><legend>Rôle</legend><div class="types" id="pRole"></div></fieldset>
+      <p class="err" id="pErr" hidden></p>
+      <div class="frow"><button class="btn small danger" type="button" id="pOut" hidden>Se déconnecter</button><button class="btn small" type="button" data-lclose>Annuler</button><button class="btn small primary" type="submit">Entrer</button></div>
+    </form>
+    <form id="loginForm" autocomplete="on" novalidate hidden>
+      <p>Accès réservé à la Présidence de séance.</p>
+      <div id="lFields">
+        <div><label for="lId">Identifiant</label><input type="text" id="lId" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
+        <div style="margin-top:12px"><label for="lPw">Mot de passe</label><input type="password" id="lPw" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false"><label class="showpw"><input type="checkbox" id="lShow"> Afficher le mot de passe</label></div>
+      </div>
+      <div id="lIn" hidden>
+        <p class="lwho"><b id="lWho"></b></p>
+        <div class="frow" style="justify-content:flex-start"><button class="btn small" type="button" id="lPwBtn">Changer mon mot de passe</button><button class="btn small primary" type="button" id="lAccBtn" hidden>Gérer les accès</button></div>
+        <div id="lPwBox" hidden style="margin-top:12px"><label for="lNewPw">Nouveau mot de passe (8 caractères minimum)</label><input type="password" id="lNewPw" autocomplete="new-password" autocapitalize="none" autocorrect="off" spellcheck="false"><div class="frow" style="margin-top:8px"><button class="btn small primary" type="button" id="lPwSave">Enregistrer le mot de passe</button></div></div>
+      </div>
+      <p class="err" id="lErr" hidden></p>
+      <div class="frow"><button class="btn small danger" type="button" id="lOut" hidden>Se déconnecter</button><button class="btn small" type="button" data-lclose>Annuler</button><button class="btn small primary" type="submit" id="lGo">Se connecter</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="veil right" id="accVeil" hidden>
+  <div class="drawer" role="dialog" aria-modal="true" aria-labelledby="accTitle">
+    <div class="dh"><h2 id="accTitle">Accès à la Présidence</h2><button class="ibtn" id="accClose" type="button" aria-label="Fermer" style="color:var(--muted)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="accb">
+      <p class="intro">Les <b>administrateurs</b> créent les accès, changent les mots de passe et suppriment les accès. Les comptes <b>Présidence</b> conduisent la séance et peuvent changer leur propre mot de passe.</p>
+      <ul class="acclist" id="accList"><li class="muted">Chargement…</li></ul>
+      <form id="accForm" novalidate>
+        <h3>Nouvel accès</h3>
+        <div class="two"><div><label for="aId">Identifiant</label><input id="aId" type="text" placeholder="ex. jean.dupont" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="40"></div><div><label for="aPw">Mot de passe</label><input id="aPw" type="text" placeholder="8 caractères minimum" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="80"></div></div>
+        <fieldset><legend>Rôle</legend><div class="types"><label><input type="radio" name="arole" value="membre" checked>Présidence</label><label><input type="radio" name="arole" value="admin">Administrateur</label></div></fieldset>
+        <p class="err" id="aErr" hidden></p>
+        <div id="aGenBox" hidden></div>
+<div class="adone" id="aDone" hidden></div>
+        <div class="frow"><button class="btn small" type="button" id="aGen">Générer un mot de passe</button><button class="btn small primary" type="submit" id="aGo">Créer l’accès</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="data">{"amendements": []}</script>
+<script>
+(function(){
+"use strict";
+/* Les données vivent dans la feuille Google (script Code.gs). La page les interroge toutes les 1,5 s pendant la séance,
+   et la Présidence enregistre ses actions avec un jeton obtenu à la connexion (mot de passe vérifié par le serveur). */
+const PARTIS = [
+  {id:'FCP', name:'Front Commun Populaire', color:'#d81f26'},
+  {id:'ROSE', name:'Rassemblement des Organisations Socialistes et Écologistes', color:'#b84a8c'},
+  {id:'VERTS', name:'Les Verts', color:'#3d8a22'},
+  {id:'ADL', name:'Alliance Démocrate et Libérale', color:'#28349a'},
+  {id:'PSR', name:'Parti des Souverainistes Républicains', color:'#1c2c4e'},
+  {id:'ANF', name:'Alliance Nationale Française', color:'#4853c7'}
+];
+const PBY = Object.fromEntries(PARTIS.map(p => [p.id, p]));
+const TYPES = [['suppression','Suppression'],['reecriture','Réécriture'],['modification','Modification'],['additionnel','Article additionnel']];
+const STATUTS = [['depose','Déposé'],['recevable','Recevable'],['irrecevable','Irrecevable'],['adopte','Adopté'],['rejete','Rejeté'],['retire','Retiré']];
+const ST_L = Object.fromEntries(STATUTS);
+const SORT_IC = {adopte:'✓', rejete:'✕', irrecevable:'✕', retire:'↩'};
+const SE_L = {ouverte:'En cours', suspendue:'Suspendue', fermee:'Pas de séance'};
+const PRESETS = [[30,'30 s'],[60,'1 min'],[120,'2 min'],[180,'3 min']];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fold = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[’']/g,"'");
+const natKey = s => { const m = String(s || '').match(/\d+/); return m ? +m[0] : (/liminaire/i.test(s || '') ? 0 : 1e9); };
+const hm = ms => { try { return new Date(ms).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}); } catch (e) { return ''; } };
+const ss = {get(k){ try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set(k, v){ try { sessionStorage.setItem(k, v); } catch (e) {} }, del(k){ try { sessionStorage.removeItem(k); } catch (e) {} }};
+const ls = {get(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v){ try { localStorage.setItem(k, v); } catch (e) {} }};
+const CHEV = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+const CHEV_D = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+const EYE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+/* ---------- Serveur ---------- */
+// Adresse du script Google (déploiement « Application Web », accès : Tout le monde).
+const API_URL = 'https://script.google.com/macros/s/AKfycby-WDNwNqIVHeLehfvm8hCkUEicZ4ShRIJy0p8SDha5tjFdCRsZx3PeNTK2-uHra9ew/exec';
+const hasGas = () => !!(window.google && google.script && google.script.run);
+const hasServer = () => hasGas() || /^https?:/.test(API_URL);
+function api(fn, ...args){
+  // Ouverte depuis l'adresse /exec : appels directs. Collée dans Google Sites : appels JSON anonymes (sans cookies Google).
+  if (hasGas()) return new Promise((res, rej) => { google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn](...args); });
+  if (!hasServer()) return Promise.reject(new Error('offline'));
+  const req = fn === 'getLogos' ? fetch(API_URL + '?lg=1&t=' + Date.now(), {credentials: 'omit', cache: 'no-store'}) : fn === 'getState'
+    ? fetch(API_URL + '?api=1&v=' + encodeURIComponent(args[0] == null ? '' : args[0]) + '&q=' + encodeURIComponent(args[1] == null ? '' : args[1]) + (args[2] ? '&k=' + encodeURIComponent(args[2]) : '') + '&t=' + Date.now(), {credentials: 'omit', cache: 'no-store'})
+    : fetch(API_URL, {method: 'POST', credentials: 'omit', cache: 'no-store', body: JSON.stringify({fn, args})});
+  return req.then(r => { if (!r.ok) throw new Error('Serveur indisponible (' + r.status + ')'); return r.json(); })
+    .then(r => { if (fn === 'getState' && r && r.error) throw new Error(r.error); return r; });
+}
+
+/* ---------- Données ---------- */
+let DATA = {amendements: [], seance: {etat: 'fermee', enCours: null, at: null}, timer: null};
+let V = 0, offset = 0, loaded = false;
+let DQ = [], DQV = 0;
+let SE = DATA.seance, T = null, AMS = [], BYID = new Map(), textes = [];
+function normalize(d){
+  d = d && typeof d === 'object' ? d : {};
+  if (!Array.isArray(d.amendements)) d.amendements = [];
+  if (!d.seance || typeof d.seance !== 'object') d.seance = {etat: 'fermee', enCours: null, at: null};
+  if (!SE_L[d.seance.etat]) d.seance.etat = 'fermee';
+  if (d.timer === undefined) d.timer = null;
+  if (!Array.isArray(d.seps)) d.seps = [];
+  // Séparateurs : ordre explicite (ord) ; chaque amendement est rattaché à un séparateur (sep).
+  if (d.seps.some(s => typeof s.ord !== 'number')) {
+    const S0 = d.seps.slice().sort((x, y) => ((x.apres || 0) - (y.apres || 0)) || ((x.o || 0) - (y.o || 0)));
+    S0.forEach((s, i) => { s.ord = i; });
+    for (const am of d.amendements) if (am.sep === undefined) { const k = +am.num > 0 ? +am.num : 1e9; let best = null; for (const s of S0) if ((s.apres || 0) < k) best = s.id; am.sep = best; }
+  }
+  if (!d.vote || !['adopte','rejete','retire'].includes(d.vote.statut)) d.vote = null;
+  return d;
+}
+function rebuild(){
+  SE = DATA.seance; T = DATA.timer;
+  AMS = DATA.amendements.map(d => {
+    const p = PBY[d.parti] || {id: d.parti || '?', name: d.parti || 'Groupe inconnu', color:'#596277'};
+    return {id: d.id, d, p, statut: ST_L[d.statut] ? d.statut : 'depose', label: 'n°' + (d.num || '?'),
+      f: fold(['n°' + d.num, 'n ' + d.num, p.id, p.name, d.texte, 'article ' + d.article, d.objet, d.amTexte, d.dispositif, d.expose, d.signataire].join(' \n '))};
+  });
+  BYID = new Map(AMS.map(a => [a.id, a]));
+  textes = [...new Set(AMS.map(a => a.d.texte || ''))];
+  if (!textes.includes(texte)) texte = textes[0] || '';
+  if (sel) sel = BYID.get(sel.id) || null;
+}
+const typeRank = t => t === 'suppression' ? 0 : t === 'reecriture' ? 1 : t === 'modification' ? 2 : 3;
+const numOf = a => +a.d.num > 0 ? +a.d.num : 1e9;
+const sepsAll = () => ((DATA && DATA.seps) || []).slice().sort((x, y) => x.ord - y.ord);
+function order(list){
+  const R = new Map(sepsAll().map((s, i) => [s.id, i])), rk = a => a.d.sep && R.has(a.d.sep) ? R.get(a.d.sep) : -1;
+  return list.slice().sort((a, b) => fold(a.d.texte).localeCompare(fold(b.d.texte)) || rk(a) - rk(b) || numOf(a) - numOf(b) || natKey(a.d.article) - natKey(b.d.article) || fold(a.d.article).localeCompare(fold(b.d.article)) || typeRank(a.d.type) - typeRank(b.d.type) || (a.d.createdAt || '').localeCompare(b.d.createdAt || ''));
+}
+const VOTE_L = {adopte: 'Adopté', rejete: 'Rejeté', retire: 'Retiré'};
+const stamp = (st, big) => `<span class="stamp ${st}${big ? ' big' : ''}">${esc(VOTE_L[st] || ST_L[st] || st)}</span>`;
+const pending = a => a.statut === 'depose' || a.statut === 'recevable';
+const isLive = a => !!a && SE.etat !== 'fermee' && SE.enCours === a.id;
+const liveAm = () => SE.etat !== 'fermee' && SE.enCours ? BYID.get(SE.enCours) || null : null;
+const artKey = a => (a.d.texte || '') + '\u0000' + (a.d.article || (a.d.type === 'additionnel' ? 'Articles additionnels' : '—'));
+function artLabel(art){ art = String(art || '—'); return /^\d/.test(art) ? 'Article ' + art : art.charAt(0).toUpperCase() + art.slice(1); }
+function artShort(art){ art = String(art || '—'); if (/^\d/.test(art)) return 'Art. ' + art; return art.replace(/^apr[eè]s l[’']article\s*/i, 'Après art. ').replace(/^avant l[’']article\s*/i, 'Avant art. '); }
+
+/* ---------- État de la vue ---------- */
+let texte = ss.get('amMR-texte') || '';
+let follow = ss.get('amMR-follow') !== '0';
+let view = ['lec','txt'].includes(ss.get('amMR-view')) ? ss.get('amMR-view') : 'det';
+let txtMode = ss.get('amMR-txtmode') === 'init' ? 'init' : 'mod';
+let parti = PBY[ss.get('amMR-parti')] ? ss.get('amMR-parti') : '';
+let openArts = new Set(); try { openArts = new Set(JSON.parse(ss.get('amMR-open') || '[]')); } catch (e) {}
+let suivis = []; try { suivis = JSON.parse(ls.get('amMR-suivis') || '[]'); } catch (e) {}
+let mtab = ss.get('amMR-m') || 'mid';
+let sel = null, editing = null, saving = false;
+let token = ss.get('amMR-tok') || '';
+let isEditor = !!token;
+const inTexte = () => AMS.filter(a => (a.d.texte || '') === texte);
+const visible = () => order(inTexte().filter(a => !parti || a.p.id === parti));
+function persist(){ ss.set('amMR-txtmode', txtMode); ss.set('amMR-texte', texte); ss.set('amMR-follow', follow ? '1' : '0'); ss.set('amMR-view', view); ss.set('amMR-parti', parti); ss.set('amMR-open', JSON.stringify([...openArts])); ss.set('amMR-m', mtab); if (sel) ss.set('amMR-sel', sel.id); }
+
+/* ---------- Synchronisation ---------- */
+let pollT = null, failCount = 0;
+function applyServer(r){
+  if (!r) return;
+  if (r.data) { DATA = normalize(r.data); V = r.v; onData(); }
+  else if (typeof r.v === 'number') V = r.v;
+  applyQueue(r);
+}
+function applyQueue(r){
+  if (r && Array.isArray(r.dq)) { DQ = r.dq; DQV = r.dqv; renderQueueAll(); }
+  else if (r && typeof r.dqv === 'number') DQV = r.dqv;
+}
+async function poll(){
+  clearTimeout(pollT);
+  const t0 = Date.now();
+  try {
+    const r = await api('getState', V, DQV, token || '');
+    const t1 = Date.now();
+    if (r && r.now) offset = r.now - (t0 + t1) / 2;
+    failCount = 0; setOnline(true);
+    if (!saving) applyServer(r); else applyQueue(r);
+  } catch (e) { failCount++; setOnline(false); }
+  schedule();
+}
+function schedule(){
+  clearTimeout(pollT);
+  const live = SE.etat !== 'fermee' || (T && T.running);
+  // Public : ~3 s en séance (étalé au hasard pour ne pas saturer le serveur avec 50+ écrans) ; Présidence : 1,5 s.
+  pollT = setTimeout(poll, document.hidden ? 20000 : failCount ? Math.min(20000, 2500 * failCount + Math.random() * 2000) : live ? (isEditor ? 1500 : 2500 + Math.random() * 1000) : 8000 + Math.random() * 4000);
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
+function setOnline(ok){
+  const w = $('#warn');
+  if (ok) { if (w.dataset.k === 'off') { w.hidden = true; w.dataset.k = ''; } return; }
+  if (failCount >= 2 || !hasServer()) { w.hidden = false; w.dataset.k = 'off'; w.textContent = hasServer() ? 'Connexion au serveur interrompue : nouvel essai en cours…' : 'Aperçu hors ligne : cette page doit être ouverte depuis l’adresse du script Google (ou le site Google Sites).'; }
+}
+function onData(){
+  renderOl();
+  if ((DATA.logosV || 0) !== logosV) { logosV = DATA.logosV || 0; loadLogos(); }
+  rebuild();
+  const la = liveAm();
+  if (follow && la && (sel !== la || selSep)) { sel = la; selSep = null; texte = la.d.texte || ''; openArts.add(artKey(la)); }
+  const lsp = liveSep(); if (follow && lsp && selSep !== lsp.id) selSep = lsp.id;
+  if (selSep && !sepsAll().some(s => s.id === selSep)) selSep = null;
+  if (!sel) sel = BYID.get(ss.get('amMR-sel')) || la || visible()[0] || null;
+  if (sel) openArts.add(artKey(sel));
+  suivis = suivis.filter(id => BYID.has(id));
+  loaded = true;
+  renderAll();
+}
+async function commit(next, msg){
+  if (!token) { openLogin('pres'); return false; }
+  if (DATA._masque || (next && next._masque)) { V = -1; poll(); toast('Chargement des amendements… réessayez dans un instant.'); return false; }
+  if (saving) { toast('Enregistrement en cours…'); return false; }
+  if (!hasServer()) { toast('Hors ligne : ouvrez la page depuis le site pour enregistrer.'); return false; }
+  saving = true; document.body.classList.add('saving');
+  const prev = DATA, prevV = V;
+  next.seance = Object.assign({}, next.seance, {at: Date.now() + offset});
+  DATA = normalize(next); onData();
+  try {
+    const r = await api('save', token, prevV, next);
+    if (r && r.auth === false) { DATA = prev; onData(); logout(); toast('Session expirée : reconnectez-vous.'); openLogin('pres'); return false; }
+    if (r && r.conflict) { applyServer(r); toast('La page venait d’être mise à jour : action annulée, recommencez.'); return false; }
+    if (!r || !r.ok) throw new Error((r && r.error) || 'échec');
+    V = r.v; if (msg) toast(msg); return true;
+  } catch (e) {
+    DATA = prev; V = prevV; onData();
+    toast('Enregistrement impossible : ' + (String((e && (e.message || e)) || '').replace(/^Exception:\s*/, '').slice(0, 160) || 'vérifiez la connexion et réessayez.'));
+    return false;
+  } finally { saving = false; document.body.classList.remove('saving'); schedule(); }
+}
+const clone = () => JSON.parse(JSON.stringify(DATA));
+const nowIso = () => new Date(Date.now() + offset).toISOString();
+function withAm(n, id, fields){ const x = n.amendements.find(a => a.id === id); if (x) { if (fields.statut === 'adopte' && x.statut !== 'adopte') fields = Object.assign({}, fields, {adoptedAt: nowIso()}); Object.assign(x, fields, {updatedAt: nowIso()}); } return n; }
+function orderOfTexte(t){ return order(AMS.filter(a => (a.d.texte || '') === t)); }
+/* Choix des modifications appliquées au texte quand plusieurs amendements adoptés touchent le même article */
+const effOn = x => x.statut === 'adopte' && x.d.applique !== false && x.d.effet && x.d.effet.op && x.d.effet.op !== 'ajoutArt';
+function effConflicts(am){
+  const e = am.d.effet; if (!e || !e.op || e.op === 'ajoutArt') return [];
+  return AMS.filter(x => x !== am && effOn(x) && x.d.effet.art === e.art);
+}
+function askApply(am, others){
+  return new Promise(res => {
+    const A = pjArts().find(x => x.id === am.d.effet.art), an = A ? artName(A) : 'cet article';
+    const box = $('#applyBox'), list = others.map(x => `<b>${esc(x.label)}</b> (${esc((OPS[x.d.effet.op] || '').toLowerCase())})`).join(', ');
+    box.querySelector('.lbox').innerHTML = `<h2 style="margin:0 0 8px">${esc(an)} déjà modifié</h2>
+      <p style="margin:0 0 6px">L’${esc(an.toLowerCase())} est déjà modifié par ${list}.</p>
+      <p style="margin:0 0 14px">Comment appliquer le <b>${esc(am.label)}</b> (${esc((OPS[am.d.effet.op] || '').toLowerCase())}) au texte ?</p>
+      <div class="apchoix">
+        <button type="button" class="btn primary" data-ap="cumul">Cumuler : appliquer le ${esc(am.label)} en plus</button>
+        <button type="button" class="btn" data-ap="remplace">Remplacer : le ${esc(am.label)} à la place de ${others.map(x => esc(x.label)).join(', ')}</button>
+        <button type="button" class="btn" data-ap="sans">Adopter sans modifier le texte</button>
+        <button type="button" class="btn small" data-ap="">Annuler le vote</button>
+      </div>`;
+    box.hidden = false; hh();
+    box.onclick = e => { const b = e.target.closest('[data-ap]'); if (!b && e.target !== box) return; box.hidden = true; box.onclick = null; hh(); res(b ? b.dataset.ap || null : null); };
+  });
+}
+async function adoptChoice(am){
+  const o = effConflicts(am); if (!o.length) return {applique: true, off: []};
+  const c = await askApply(am, o); if (!c) return null;
+  return c === 'cumul' ? {applique: true, off: []} : c === 'remplace' ? {applique: true, off: o.map(x => x.id)} : {applique: false, off: []};
+}
+/* Séparateurs appelables et votables (partie, article) */
+let selSep = ss.get('amMR-selSep') || null;
+const SEP_ST = ['adopte', 'rejete', 'retire'];
+const sepPending = s => !SEP_ST.includes(s.statut);
+const liveSep = () => SE.etat !== 'fermee' && SE.enCours ? sepsAll().find(s => s.id === SE.enCours) || null : null;
+const isLiveSep = s => !!s && SE.etat !== 'fermee' && SE.enCours === s.id;
+function seqAll(){
+  const S = sepsAll(), R = new Set(S.map(s => s.id)), by = new Map(), out = [];
+  for (const a of order(inTexte())) { const k = a.d.sep && R.has(a.d.sep) ? a.d.sep : ''; if (!by.has(k)) by.set(k, []); by.get(k).push(a); }
+  for (const a of by.get('') || []) out.push({id: a.id, a, parent: null});
+  let P = null;
+  for (const s of S) { if (isPartie(s)) P = s; out.push({id: s.id, s, parent: isPartie(s) ? null : P}); for (const a of by.get(s.id) || []) out.push({id: a.id, a, parent: s}); }
+  return out;
+}
+const itPending = it => it.a ? pending(it.a) : sepPending(it.s);
+const itLabel = it => it.a ? it.a.label : (it.s.titre || 'Séparateur');
+function nextAfterVote(id){
+  const Q = seqAll(), i = Q.findIndex(x => x.id === id); if (i < 0) return null;
+  const P = Q[i].parent;
+  // Quand tous les amendements d'un article (ou tous les articles d'une partie) sont votés, on revient sur l'article (ou la partie) pour le voter.
+  if (P && sepPending(P) && !Q.some(x => x.parent === P && x.id !== id && itPending(x))) return Q.find(x => x.id === P.id) || null;
+  return Q.slice(i + 1).find(itPending) || null;
+}
+function withSep(n, id, fields){ const s = n.seps.find(x => x.id === id); if (s) Object.assign(s, fields, {votedAt: nowIso()}); return n; }
+const sepKind = s => isPartie(s) ? 'Partie' : /^\s*article\b/i.test(s.titre || '') ? 'Article' : 'Séparateur';
+function pjArtOfSep(s){
+  const m = (s.titre || '').match(/article\s+(\d+)\s*(er)?/i); if (!m) return null;
+  return pjArts().find(A => String(A.num).replace(/er$/, '') === m[1]) || null;
+}
+function sepOfPjArt(A){ return sepsAll().find(s => !isPartie(s) && pjArtOfSep(s) === A) || null; }
+function sepOfPjPart(id){ return sepsAll().find(s => isPartie(s) && new RegExp('^\\s*partie\\s+' + id + '\\b', 'i').test(s.titre || '')) || null; }
+const sepTag = s => s && SEP_ST.includes(s.statut) ? `<span class="tagx ${s.statut === 'adopte' ? 'ok' : 'ko'}">${esc(ST_L[s.statut])}</span>` : '';
+function selectSep(id, opts){
+  selSep = id; ss.set('amMR-selSep', id || '');
+  if (!(opts && opts.keepFollow) && follow && SE.enCours && SE.enCours !== id && SE.etat !== 'fermee') { follow = false; toast('Suivi auto en pause'); }
+  if (view === 'txt') view = 'det';
+  persist(); renderAll();
+}
+function nextPending(fromId){
+  const a0 = BYID.get(fromId), L = orderOfTexte(a0 ? a0.d.texte || '' : texte), i = L.findIndex(a => a.id === fromId);
+  return L.slice(i + 1).find(pending) || L.find(a => pending(a) && a.id !== fromId) || null;
+}
+
+/* ---------- Bandeau et barre d'outils ---------- */
+function renderTop(){
+  const vt = DATA.vote ? DATA.vote.statut : '';
+  $('#tTitle').innerHTML = esc(texte || DATA.titre || 'Amendements des groupes') + (vt ? ` <span class="tvote ${vt}">Texte ${esc(VOTE_L[vt].toLowerCase())}</span>` : '');
+  $('#tEditBtn').hidden = !isEditor || !$('#tEditForm').hidden;
+  const ts = $('#textSel');
+  ts.hidden = textes.length < 2;
+  if (!ts.hidden) ts.innerHTML = textes.map(t => `<option value="${esc(t)}"${t === texte ? ' selected' : ''}>${esc(t || 'Texte non précisé')}</option>`).join('');
+  $('#followBadge').textContent = inTexte().filter(pending).length;
+  const f = $('#follow'); f.classList.toggle('off', !follow); f.setAttribute('aria-pressed', String(follow));
+  $('#followIc').innerHTML = follow ? '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>' : '<path d="M7 5v14l12-7z"/>';
+  f.title = follow ? 'Suivi auto activé : l’amendement en discussion s’affiche automatiquement (cliquer pour mettre en pause)' : 'Suivi auto en pause (cliquer pour revenir à l’amendement en discussion)';
+}
+$('#textSel').onchange = e => { texte = e.target.value; sel = visible()[0] || null; if (sel) openArts.add(artKey(sel)); persist(); renderAll(); };
+$('#follow').onclick = () => {
+  follow = !follow; scrolledTo = null;
+  if (follow) { const la = liveAm(); if (la) select(la, {keepFollow: true}); }
+  persist(); renderTop(); toast(follow ? 'Suivi auto activé' : 'Suivi auto en pause');
+};
+const F11 = /Mac/i.test(navigator.platform || navigator.userAgent) ? 'Ctrl+Cmd+F' : 'F11';
+function fsFallback(){
+  // Dans Google Sites, le cadre interdit le plein écran. On n'ouvre plus l'adresse script.google.com
+  // (elle affiche « Impossible d'ouvrir le fichier » aux personnes connectées à plusieurs comptes Google).
+  toast('Appuyez sur ' + F11 + ' pour passer le navigateur en plein écran.');
+}
+$('#fs').onclick = () => {
+  try {
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    if (!document.fullscreenEnabled || !document.documentElement.requestFullscreen) { fsFallback(); return; }
+    document.documentElement.requestFullscreen().catch(fsFallback);
+  } catch (e) { fsFallback(); }
+};
+
+/* ---------- Intitulé du texte ---------- */
+$('#tEditBtn').onclick = () => {
+  if (!isEditor) return;
+  $('#tEditIn').value = texte || DATA.titre || '';
+  $('#tTitle').hidden = true; $('#tEditBtn').hidden = true; $('#tEditForm').hidden = false;
+  setTimeout(() => { $('#tEditIn').focus(); $('#tEditIn').select(); }, 20);
+};
+function closeTitleEdit(){ $('#tEditForm').hidden = true; $('#tTitle').hidden = false; $('#tEditBtn').hidden = !isEditor; }
+$('#tEditCancel').onclick = closeTitleEdit;
+$('#tEditIn').addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); closeTitleEdit(); } });
+$('#tEditForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const v = $('#tEditIn').value.trim();
+  if (!v) { toast('Indiquez l’intitulé du texte.'); return; }
+  const old = texte || '', n = clone();
+  n.amendements.forEach(a => { if ((a.texte || '') === old) a.texte = v; });
+  n.titre = v; texte = v; persist();
+  closeTitleEdit();
+  await commit(n, 'Intitulé du texte modifié');
+});
+
+/* ---------- Barre Présidence ---------- */
+let openPop = '';
+function voteBtn(){ const v = DATA.vote ? DATA.vote.statut : ''; return `<button class="btn small${v ? ' vset ' + v : ''}" type="button" data-pop="popVote" aria-expanded="${openPop === 'popVote'}">⚖ ${v ? 'Projet ' + VOTE_L[v].toLowerCase() : 'Vote sur l’ensemble'}</button>`; }
+function renderPrez(){
+  $('#prez').hidden = !isEditor;
+  const lsp = liveSep();
+  $('#tCtl').innerHTML = isEditor && T ? (T.running ? `<button type="button" data-tc="pause">Pause</button>` : `<button type="button" data-tc="resume">Reprendre</button>`) + `<button type="button" data-tc="add">+30 s</button><button type="button" data-tc="stop">Arrêter</button>` : '';
+  if (!isEditor) return;
+  const la = liveAm();
+  let h = '';
+  if (SE.etat === 'fermee') {
+    h = `<button class="btn small primary" type="button" data-se="ouverte">Ouvrir la séance</button><span class="muted">La séance est fermée : ouvrez-la pour appeler les amendements et donner la parole.</span><span class="grow"></span>${voteBtn()}`;
+    if (openPop === 'popParole') openPop = '';
+  } else {
+    h += `<span class="state ${SE.etat}">${SE.etat === 'ouverte' ? 'Séance en cours' : 'Séance suspendue'}</span>`;
+    h += SE.etat === 'ouverte' ? `<button class="btn small" type="button" data-pop="popSusp" aria-expanded="${openPop === 'popSusp'}">Suspendre…</button>` : `<button class="btn small primary" type="button" data-se="ouverte">Reprendre</button>`;
+    h += `<button class="btn small" type="button" data-se="fermee">Lever</button><span class="sep"></span>`;
+    h += `<span class="grp-btns"><button class="btn small ic" type="button" data-mv="-1" title="Appeler l’amendement précédent">◀</button>${la ? `<span class="cur"><span class="chip" style="--pc:${la.p.color}">${esc(la.label)}</span><span class="o">${esc(la.d.objet || '')}</span></span>` : lsp ? `<span class="cur"><span class="chip" style="--pc:var(--navy)">${esc(sepKind(lsp))}</span><span class="o">${esc(lsp.titre)}</span></span>` : '<span class="muted">Rien en discussion</span>'}<button class="btn small ic" type="button" data-mv="1" title="Appeler l’amendement suivant">▶</button></span>`;
+    if (la || lsp) h += `<span class="grp-btns"><button class="btn small ok" type="button" data-vote="adopte">Adopté</button><button class="btn small ko" type="button" data-vote="rejete">Rejeté</button><button class="btn small ko" type="button" data-vote="retire">Retiré</button></span>`;
+    h += `<span class="grow"></span><button class="btn small" type="button" data-pop="popParole" aria-expanded="${openPop === 'popParole'}">⏱ Donner la parole</button>${voteBtn()}`;
+  }
+  $('#pzSeance').innerHTML = h;
+  $('#popParole').hidden = openPop !== 'popParole';
+  $('#popVote').hidden = openPop !== 'popVote';
+  if (openPop === 'popSusp' && SE.etat !== 'ouverte') openPop = '';
+  $('#popSusp').hidden = openPop !== 'popSusp';
+  const cv = DATA.vote ? DATA.vote.statut : '';
+  $('#pzVote').innerHTML = `<span class="pop-t">Vote sur l’ensemble du projet de loi</span><button class="btn small ok" type="button" data-bv="adopte" aria-pressed="${cv === 'adopte'}">Adopté</button><button class="btn small ko" type="button" data-bv="rejete" aria-pressed="${cv === 'rejete'}">Rejeté</button><button class="btn small ko" type="button" data-bv="retire" aria-pressed="${cv === 'retire'}">Retiré</button>${cv ? '<button class="btn small" type="button" data-bv="">Effacer le résultat</button>' : ''}`;
+  $('#popQueue').hidden = openPop !== 'popQueue';
+  const gr = $('#tGr'), keep = gr.value;
+  gr.innerHTML = '<option value="">Groupe…</option>' + PARTIS.map(p => `<option value="${p.id}">${p.id}</option>`).join('') + '<option value="GOUV">Gouvernement</option><option value="PRES">Présidence</option>';
+  gr.value = keep;
+  $('#tPre').innerHTML = PRESETS.map(([sec, l]) => `<button class="btn small pre primary" type="button" data-t="${sec}">${l}</button>`).join('');
+  renderPrezQueue();
+}
+function prezClick(e){
+  if (!isEditor) return;
+  const pop = e.target.closest('[data-pop]');
+  if (pop) { openPop = openPop === pop.dataset.pop ? '' : pop.dataset.pop; renderPrez(); hh(); if (openPop === 'popParole') setTimeout(() => $('#tOr').focus(), 20); if (openPop === 'popSusp') setTimeout(() => { $('#suspMin').focus(); $('#suspMin').select(); }, 20); return; }
+  const sg = e.target.closest('[data-susp]');
+  if (sg) {
+    const free = sg.dataset.susp === 'libre', m = parseInt($('#suspMin').value, 10);
+    if (!free && !(m >= 1 && m <= 600)) { toast('Indiquez une durée en minutes (1 à 600).'); $('#suspMin').focus(); return; }
+    const n = clone(); n.seance = Object.assign({}, n.seance, {etat: 'suspendue', reprise: free ? null : Date.now() + offset + m * 60000});
+    openPop = ''; follow = true; persist();
+    commit(n, free ? 'Séance suspendue' : 'Séance suspendue pour ' + m + ' min');
+    return;
+  }
+  const s = e.target.closest('[data-se]');
+  if (s) {
+    const etat = s.dataset.se, n = clone();
+    n.seance = Object.assign({}, n.seance, {etat, reprise: null});
+    if (etat === 'ouverte' && !n.seance.enCours) { const f = seqAll().find(itPending); n.seance.enCours = f ? f.id : null; }
+    if (etat === 'fermee') { n.seance.enCours = null; n.timer = null; }
+    follow = true; persist();
+    commit(n, etat === 'ouverte' ? 'Séance ouverte' : etat === 'suspendue' ? 'Séance suspendue' : 'Séance levée');
+    return;
+  }
+  const mv = e.target.closest('[data-mv]');
+  if (mv) {
+    const L = seqAll();
+    if (!L.length) { toast('Le dérouleur est vide.'); return; }
+    const i = L.findIndex(x => x.id === SE.enCours), j = Math.max(0, Math.min(L.length - 1, i + +mv.dataset.mv));
+    if (i >= 0 && j === i) { toast(+mv.dataset.mv > 0 ? 'C’est la fin du dérouleur.' : 'C’est le début du dérouleur.'); return; }
+    const n = clone(); n.seance = Object.assign({}, n.seance, {enCours: L[j].id});
+    follow = true; persist(); commit(n, itLabel(L[j]) + ' en discussion');
+    return;
+  }
+  const bv = e.target.closest('[data-bv]');
+  if (bv) {
+    const st = bv.dataset.bv, n = clone();
+    n.vote = st ? {statut: st, at: nowIso()} : null; openPop = '';
+    commit(n, st ? 'Projet de loi ' + VOTE_L[st].toLowerCase() : 'Résultat du vote effacé');
+    return;
+  }
+  const v = e.target.closest('[data-vote]');
+  if (v) {
+    const la = liveAm(), ls = liveSep(); if (!la && !ls) return;
+    const st = v.dataset.vote;
+    (async () => {
+      const ch = la && st === 'adopte' ? await adoptChoice(la) : {applique: true, off: []};
+      if (!ch) return;
+      const nx = nextAfterVote((la || ls).id);
+      const n = la ? withAm(clone(), la.id, Object.assign({statut: st, motif: la.d.motif || ''}, st === 'adopte' ? {applique: ch.applique} : {})) : withSep(clone(), ls.id, {statut: st});
+      ch.off.forEach(id => withAm(n, id, {applique: false}));
+      n.seance = Object.assign({}, n.seance, {enCours: nx ? nx.id : null});
+      follow = true; persist();
+      commit(n, (la ? la.label : ls.titre) + ' : ' + ST_L[st].toLowerCase() + (la && st === 'adopte' && la.d.effet && la.d.effet.op ? (ch.applique ? ' · texte mis à jour' : ' · texte inchangé') : '') + (nx ? ' · ' + itLabel(nx) + ' en discussion' : ' · fin du dérouleur'));
+    })();
+    return;
+  }
+  const t = e.target.closest('[data-t]');
+  if (t) {
+    const dur = +t.dataset.t, n = clone(), now = Date.now() + offset;
+    n.timer = {orateur: $('#tOr').value.trim(), groupe: $('#tGr').value, dur, endsAt: now + dur * 1000, left: dur, running: true};
+    openPop = ''; $('#tOr').value = '';
+    commit(n, 'Parole donnée · ' + t.textContent);
+    return;
+  }
+  const c = e.target.closest('[data-tc]');
+  if (c && T) {
+    const n = clone(), now = Date.now() + offset, k = c.dataset.tc, x = n.timer;
+    if (k === 'stop') n.timer = null;
+    else if (k === 'pause' && x.running) { x.left = Math.max(-3600, (x.endsAt - now) / 1000); x.running = false; }
+    else if (k === 'resume' && !x.running) { x.endsAt = now + x.left * 1000; x.running = true; }
+    else if (k === 'add') { if (x.running) x.endsAt += 30000; else x.left += 30; x.dur += 30; }
+    commit(n, k === 'stop' ? 'Minuteur arrêté' : null);
+  }
+}
+$('#prez').addEventListener('click', prezClick);
+$('#timer').addEventListener('click', prezClick);
+
+/* ---------- Minuteur ---------- */
+function fmt(sec){ const s = Math.abs(Math.round(sec)), m = Math.floor(s / 60); return m + ':' + String(s % 60).padStart(2, '0'); }
+function tickSusp(){
+  const b = $('#suspBand'), on = SE.etat === 'suspendue';
+  if (!on) { if (!b.hidden) { b.hidden = true; hh(); } return; }
+  if (b.hidden) { b.hidden = false; hh(); }
+  const r = SE.reprise ? SE.reprise - (Date.now() + offset) : null;
+  let t, big;
+  if (r == null) { t = 'Séance suspendue'; big = ''; }
+  else if (r > 0) { const s = Math.ceil(r / 1000), mm = Math.floor(s / 60), ss = s % 60; t = 'La séance va reprendre dans'; big = (mm >= 60 ? Math.floor(mm / 60) + ' h ' + String(mm % 60).padStart(2, '0') : String(mm).padStart(2, '0')) + ':' + String(ss).padStart(2, '0'); }
+  else { t = 'La séance va reprendre…'; big = ''; }
+  if ($('#suspT').textContent !== t) $('#suspT').textContent = t;
+  if ($('#suspN').textContent !== big) { $('#suspN').textContent = big; $('#suspN').hidden = !big; }
+  b.classList.toggle('late', r != null && r <= 0);
+}
+function tickTimer(){
+  tickSusp();
+  const box = $('#timer');
+  if (!T || !isEditor) { if (!box.hidden) { box.hidden = true; hh(); } return; } // Minuteur visible par la Présidence uniquement
+  if (box.hidden) { box.hidden = false; hh(); }
+  const left = T.running ? (T.endsAt - (Date.now() + offset)) / 1000 : T.left;
+  const g = PBY[T.groupe];
+  box.style.setProperty('--pc', g ? g.color : '#86aef0');
+  const who = T.orateur || (g ? g.name : T.groupe === 'GOUV' ? 'Gouvernement' : T.groupe === 'PRES' ? 'Présidence' : '');
+  const whoHtml = (g ? `<span class="chip" style="--pc:${g.color}">${g.id}</span>` : '') + esc(who || 'Prise de parole');
+  if ($('#tWho').dataset.h !== whoHtml) { $('#tWho').innerHTML = whoHtml; $('#tWho').dataset.h = whoHtml; }
+  const over = left < 0;
+  $('#tClock').textContent = (over ? '+' : '') + fmt(over ? -left : Math.ceil(left - 0.001));
+  $('#tLab').textContent = over ? (T.objet ? T.objet + ' · temps écoulé' : 'Temps de parole écoulé') : (T.objet || 'Temps de parole');
+  const st = $('#tSt'); st.hidden = T.running; st.textContent = 'En pause';
+  box.classList.toggle('over', over); box.classList.toggle('warn', !over && left <= 10);
+  $('#tProg').style.width = (T.dur ? Math.max(0, Math.min(100, left / T.dur * 100)) : 0) + '%';
+}
+setInterval(tickTimer, 250);
+
+/* ---------- Dérouleur ---------- */
+function renderPbar(){
+  $('#pbar').innerHTML = `<button type="button" class="all" data-p="" aria-pressed="${!parti}">Tous</button>` + PARTIS.map(p => `<button type="button" data-p="${p.id}" style="--pc:${p.color}" aria-pressed="${parti === p.id}" title="${esc(p.name)}">${p.id}</button>`).join('');
+}
+$('#filterBtn').onclick = () => { const b = $('#filterBtn'), on = $('#pbar').hidden; $('#pbar').hidden = !on; b.setAttribute('aria-pressed', String(on || !!parti)); if (on) renderPbar(); };
+$('#pbar').onclick = e => { const b = e.target.closest('[data-p]'); if (!b) return; parti = b.dataset.p; $('#filterBtn').setAttribute('aria-pressed', String(!!parti)); persist(); renderPbar(); renderDer(); renderMid(); };
+function groups(list){
+  const g = new Map();
+  for (const a of list) { const k = artKey(a); if (!g.has(k)) g.set(k, {k, art: a.d.article, items: []}); g.get(k).items.push(a); }
+  return [...g.values()];
+}
+let derSig = '', sepEdit = null, dragSep = null, dragAm = null;
+let foldP = new Set(); try { foldP = new Set(JSON.parse(ss.get('amMR-foldP') || '[]')); } catch (e) {}
+const isPartie = s => /^\s*partie\b/i.test(s.titre || '');
+/* Logos des partis */
+let LOGOS = {}, logosV = null;
+async function loadLogos(){ try { const r = await api('getLogos'); if (r && r.logos) { LOGOS = r.logos; renderDer(true); renderLogoBox(); } } catch (e) {} }
+const logoHtml = p => `<span class="plogo" title="${esc(p.name)}">${LOGOS[p.id] ? `<img src="${LOGOS[p.id]}" alt="${esc(p.id)}">` : `<span class="pl0" style="--pc:${p.color}">${esc(p.id.slice(0, 1))}</span>`}</span>`;
+function renderLogoBox(){
+  const b = $('#logoBox'); if (!b || b.hidden) return;
+  b.querySelector('.lgl').innerHTML = PARTIS.map(p => `<div class="lgrow"><span class="plogo big">${LOGOS[p.id] ? `<img src="${LOGOS[p.id]}" alt="">` : `<span class="pl0" style="--pc:${p.color}">${esc(p.id.slice(0, 1))}</span>`}</span><b style="color:${p.color}">${esc(p.id)}</b><label class="btn small">Choisir une image<input type="file" accept="image/*" data-lgf="${p.id}" hidden></label>${LOGOS[p.id] ? `<button type="button" class="btn small" data-lgdel="${p.id}">Retirer</button>` : ''}</div>`).join('');
+}
+function shrinkImg(file){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = () => {
+      const S = 128, c = document.createElement('canvas'); c.width = c.height = S;
+      const k = Math.max(S / im.width, S / im.height), w = im.width * k, h = im.height * k;
+      c.getContext('2d').drawImage(im, (S - w) / 2, (S - h) / 2, w, h); URL.revokeObjectURL(url);
+      let d = c.toDataURL('image/webp', 0.85); if (!/^data:image\/webp/.test(d) || d.length > 55000) d = c.toDataURL('image/png');
+      if (d.length > 55000) d = c.toDataURL('image/jpeg', 0.8);
+      res(d);
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Image illisible')); };
+    im.src = url;
+  });
+}
+async function sendLogo(id, d){
+  try { const r = await api('setLogo', token, id, d); if (r && r.auth === false) { toast('Session expirée : reconnectez-vous.'); return; } if (r && r.error) { toast(r.error); return; } if (d) LOGOS[id] = d; else delete LOGOS[id]; renderLogoBox(); renderDer(true); toast(d ? 'Logo ' + id + ' enregistré' : 'Logo ' + id + ' retiré'); V = -1; poll(); }
+  catch (e) { toast('Envoi impossible : réessayez.'); }
+}
+function rowHtml(a, inP){
+  const live = isLive(a);
+  const ic = live ? '<span class="sort live" title="En discussion"></span>' : SORT_IC[a.statut] ? `<span class="sort ${a.statut}" title="${ST_L[a.statut]}">${SORT_IC[a.statut]}</span>` : '<span></span>';
+  return `<button type="button"${isEditor ? ' draggable="true"' : ''} class="arow${inP ? ' inp' : ''}${live ? ' is-live' : ''}${['rejete','irrecevable','retire'].includes(a.statut) ? ' out' : ''}" data-am="${esc(a.id)}"${sel === a ? ' aria-current="true"' : ''}>${logoHtml(a.p)}<span class="o"><span class="who"><b class="num" style="--pc:${a.p.color}">${esc(a.d.num || '?')}</b> de ${esc(a.d.signataire || a.p.id)}</span>${a.d.objet ? `<small class="obj">${esc(a.d.objet)}</small>` : ''}</span>${ic}</button>`;
+}
+function sepHtml(s, g){
+  const id = esc(s.id);
+  if (isEditor && sepEdit === s.id) return `<form class="sep edit" data-sform="${id}"><label class="sr" for="sepIn">Titre du séparateur</label><input id="sepIn" type="text" maxlength="300" value="${esc(s.titre)}" placeholder="Ex. : Article 3"><button class="btn small primary" type="submit">OK</button><button class="btn small" type="button" data-scancel="1">Annuler</button></form>`;
+  const P = isPartie(s), lvl = P ? 'p' : g ? 'a inp' : 'a', live = isLiveSep(s);
+  const st = live ? `<span class="sst encours">${SE.etat === 'ouverte' ? 'En discussion' : 'Appelé'}</span>` : SEP_ST.includes(s.statut) ? `<span class="sst ${s.statut}">${esc(ST_L[s.statut])}</span>` : '';
+  const head = (P ? `<button type="button" class="stog" data-ptog="${id}" aria-expanded="${!g.closed}" aria-label="${g.closed ? 'Déplier' : 'Replier'} la partie">${CHEV}</button>` : '') +
+    `<button type="button" class="ssel" data-ssel="${id}"${selSep === s.id ? ' aria-current="true"' : ''}><span class="t">${esc(s.titre || 'Séparateur')}</span>${st}${P ? `${g.live ? '<span class="live" title="En discussion"></span>' : ''}<span class="c">${g.done}/${g.total}</span>` : ''}</button>`;
+  return `<div class="sep ${lvl}${live ? ' is-live' : ''}${selSep === s.id ? ' is-sel' : ''}"${isEditor ? ` draggable="true" data-sep="${id}"` : ''}>${head}${isEditor ? `<span class="sctl"><button type="button" data-smv="-1" data-s="${id}" aria-label="Monter le séparateur" title="Monter">▲</button><button type="button" data-smv="1" data-s="${id}" aria-label="Descendre le séparateur" title="Descendre">▼</button><button type="button" data-sren="${id}" aria-label="Renommer le séparateur" title="Renommer">✎</button><button type="button" data-sdel="${id}" aria-label="Supprimer le séparateur" title="Supprimer">✕</button></span>` : ''}</div>`;
+}
+function renderDer(force){
+  const list = visible(), la = liveAm(), S = sepsAll(), R = new Set(S.map(s => s.id));
+  const sig = JSON.stringify([logosV, Object.keys(LOGOS).length, !!DATA._masque, list.map(a => [a.id, a.statut, a.d.objet, a.d.num, a.p.id, a.d.sep]), S, [...foldP], sepEdit, selSep, SE.enCours, SE.etat, isEditor, la && la.id, sel && sel.id, loaded]);
+  if (!force && sig === derSig) return; derSig = sig;
+  const inp = $('#sepIn'), keep = inp ? inp.value : null;
+  let h = isEditor ? '<div class="sepadd" data-stop="1"><button class="btn small" type="button" data-sadd="1">+ Ajouter un séparateur</button></div>' : DATA._masque ? '<p class="offmsg">Les amendements ne sont pas encore en ligne.</p>' : '';
+  if (!list.length && !S.length) { if (DATA._masque && !isEditor) { $('#derList').innerHTML = h; return; } $('#derList').innerHTML = h + `<p class="empty">${!loaded ? 'Chargement…' : AMS.length ? 'Aucun amendement pour ce filtre.' : 'Aucun amendement déposé pour l’instant.'}</p>`; return; }
+  const by = new Map(), seq = [];
+  for (const a of list) { const k = a.d.sep && R.has(a.d.sep) ? a.d.sep : ''; if (!by.has(k)) by.set(k, []); by.get(k).push(a); }
+  for (const a of by.get('') || []) seq.push({a});
+  for (const s of S) { seq.push({s}); for (const a of by.get(s.id) || []) seq.push({a}); }
+  // Les séparateurs « Partie … » regroupent tout ce qui les suit, jusqu'à la partie suivante.
+  const groupsP = new Map(); let curP = null;
+  for (const it of seq) {
+    if (it.s && isPartie(it.s)) { curP = {done: 0, total: 0, live: false}; groupsP.set(it.s.id, curP); }
+    else if (it.a && curP) { curP.total++; if (!pending(it.a)) curP.done++; if (isLive(it.a)) curP.live = true; }
+    else if (it.s && curP && isLiveSep(it.s)) curP.live = true;
+  }
+  for (const [id, g] of groupsP) g.closed = foldP.has(id) && !g.live && !(liveSep() && liveSep().id === id);
+  curP = null;
+  for (const it of seq) {
+    if (it.s && isPartie(it.s)) { curP = groupsP.get(it.s.id); h += sepHtml(it.s, curP); continue; }
+    if (curP && curP.closed) continue;
+    h += it.s ? sepHtml(it.s, curP) : rowHtml(it.a, !!curP);
+  }
+  if (isEditor && S.length) h += '<div class="sepend" data-send="1"></div>';
+  $('#derList').innerHTML = h;
+  const ni = $('#sepIn'); if (ni) { if (keep != null) ni.value = keep; ni.focus(); }
+  autoScroll();
+}
+let scrolledTo = null;
+function autoScroll(){
+  // Suivi auto : le dérouleur défile tout seul jusqu'à ce qui est en discussion.
+  if (!follow || SE.etat === 'fermee' || !SE.enCours) return;
+  if (scrolledTo === SE.enCours) return;
+  const c = $('#derList'), el = c.querySelector(`[data-am="${CSS.escape(SE.enCours)}"]`) || c.querySelector(`.sep[data-sep="${CSS.escape(SE.enCours)}"], [data-ssel="${CSS.escape(SE.enCours)}"]`);
+  if (!el || !c.clientHeight) return;
+  scrolledTo = SE.enCours;
+  const top = el.getBoundingClientRect().top - c.getBoundingClientRect().top + c.scrollTop - c.clientHeight / 3;
+  try { c.scrollTo({top: Math.max(0, top), behavior: 'smooth'}); } catch (x) { c.scrollTop = Math.max(0, top); }
+}
+function renumSeps(n){ n.seps.sort((x, y) => x.ord - y.ord).forEach((s, i) => { s.ord = i; }); return n; }
+function addSep(){
+  const n = clone(), S = n.seps.slice().sort((x, y) => x.ord - y.ord);
+  const after = sel && sel.d.sep ? S.find(x => x.id === sel.d.sep) : null;
+  const s = {id: 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), titre: 'Nouveau séparateur', ord: after ? after.ord + 0.5 : S.length ? S[S.length - 1].ord + 1 : 0};
+  n.seps.push(s); renumSeps(n); sepEdit = s.id;
+  commit(n, after ? 'Séparateur ajouté après « ' + after.titre + ' »' : 'Séparateur ajouté en bas : déplacez-le avec ▲ ▼ ou en le glissant');
+}
+function moveSep(id, dir){
+  const n = clone(), S = n.seps.slice().sort((x, y) => x.ord - y.ord), i = S.findIndex(x => x.id === id), j = i + dir;
+  if (i < 0) return;
+  if (j < 0 || j >= S.length) { toast(dir > 0 ? 'Le séparateur est déjà tout en bas.' : 'Le séparateur est déjà tout en haut.'); return; }
+  const t = S[i].ord; S[i].ord = S[j].ord; S[j].ord = t; renumSeps(n);
+  commit(n, null);
+}
+const canGoUnder = (am, s) => !s || !isPartie(s) || am.type === 'additionnel';
+function dropOn(target){
+  const t = target.closest('[data-sep]'), end = target.closest('[data-send]'), top = target.closest('[data-stop]');
+  if (dragSep) {
+    const id = dragSep, n = clone(), s = n.seps.find(x => x.id === id); if (!s) return;
+    if (t) { const o = n.seps.find(x => x.id === t.dataset.sep); if (!o || o.id === id) return; s.ord = o.ord - 0.5; }
+    else if (end) s.ord = 1e9; else return;
+    renumSeps(n); commit(n, 'Séparateur déplacé'); return;
+  }
+  if (dragAm) {
+    const n = clone(), am = n.amendements.find(x => x.id === dragAm); if (!am) return;
+    const s = t ? n.seps.find(x => x.id === t.dataset.sep) : null;
+    if (!t && !top) return;
+    if (!canGoUnder(am, s)) { toast('Sous une partie, seuls les articles additionnels peuvent être placés directement. Choisissez un article.'); return; }
+    am.sep = s ? s.id : null; am.updatedAt = nowIso();
+    const A = BYID.get(am.id);
+    commit(n, (A ? A.label : 'Amendement') + (s ? ' placé sous « ' + s.titre + ' »' : ' placé en haut du dérouleur'));
+  }
+}
+$('#derList').onclick = e => {
+  const pt = e.target.closest('[data-ptog]');
+  const sv = e.target.closest('[data-ssel]');
+  if (sv && !(isEditor && e.target.closest('.sctl'))) { selectSep(sv.dataset.ssel); if (mq.matches) setM('mid'); return; }
+  if (pt) { const k = pt.dataset.ptog; foldP.has(k) ? foldP.delete(k) : foldP.add(k); ss.set('amMR-foldP', JSON.stringify([...foldP])); renderDer(true); return; }
+  if (isEditor) {
+    if (e.target.closest('[data-sadd]')) { addSep(); return; }
+    const mv = e.target.closest('[data-smv]'); if (mv) { moveSep(mv.dataset.s, +mv.dataset.smv); return; }
+    const rn = e.target.closest('[data-sren]'); if (rn) { sepEdit = rn.dataset.sren; renderDer(true); return; }
+    if (e.target.closest('[data-scancel]')) { sepEdit = null; renderDer(true); return; }
+    const dl = e.target.closest('[data-sdel]');
+    if (dl) {
+      if (dl.dataset.armed !== '1') { dl.dataset.armed = '1'; dl.textContent = 'Sûr ?'; setTimeout(() => { if (dl.isConnected) { dl.dataset.armed = ''; dl.textContent = '✕'; } }, 3500); return; }
+      const n = clone(), S = n.seps.slice().sort((x, y) => x.ord - y.ord), i = S.findIndex(x => x.id === dl.dataset.sdel);
+      // Les amendements du séparateur supprimé rejoignent le séparateur précédent.
+      const prev = S.slice(0, Math.max(0, i)).reverse().find(x => !isPartie(x)) || S.slice(i + 1).find(x => !isPartie(x)) || null;
+      n.amendements.forEach(am => { if (am.sep === dl.dataset.sdel) am.sep = prev && canGoUnder(am, prev) ? prev.id : null; });
+      n.seps = n.seps.filter(x => x.id !== dl.dataset.sdel); renumSeps(n); commit(n, 'Séparateur supprimé'); return;
+    }
+    if (e.target.closest('.sep.edit')) return;
+  }
+  const r = e.target.closest('[data-am]'); if (r) { select(BYID.get(r.dataset.am)); if (mq.matches) setM('mid'); return; }
+};
+$('#derList').addEventListener('submit', e => {
+  const f = e.target.closest('[data-sform]'); if (!f || !isEditor) return;
+  e.preventDefault();
+  const titre = ($('#sepIn').value || '').trim().replace(/\s+/g, ' ').slice(0, 300);
+  if (!titre) { toast('Indiquez un titre pour le séparateur.'); return; }
+  const n = clone(), s = n.seps.find(x => x.id === f.dataset.sform); sepEdit = null;
+  if (!s) { renderDer(true); return; }
+  s.titre = titre; commit(n, 'Séparateur enregistré');
+});
+$('#derList').addEventListener('keydown', e => { if (e.key === 'Escape' && sepEdit) { sepEdit = null; renderDer(true); } });
+$('#derList').addEventListener('dragstart', e => {
+  if (!isEditor || !e.target.closest) return;
+  const s = e.target.closest('[data-sep]'), r = e.target.closest('[data-am]');
+  if (s) { dragSep = s.dataset.sep; dragAm = null; s.classList.add('dragging'); }
+  else if (r) { dragAm = r.dataset.am; dragSep = null; r.classList.add('dragging'); }
+  else return;
+  try { e.dataTransfer.setData('text/plain', dragSep || dragAm); e.dataTransfer.effectAllowed = 'move'; } catch (x) {}
+});
+$('#derList').addEventListener('dragend', () => { dragSep = dragAm = null; document.querySelectorAll('#derList .dragging,#derList .dropb').forEach(x => x.classList.remove('dragging', 'dropb')); });
+$('#derList').addEventListener('dragover', e => {
+  if (!dragSep && !dragAm) return;
+  const t = e.target.closest(dragSep ? '[data-sep],[data-send]' : '[data-sep],[data-stop]'); if (!t) return;
+  e.preventDefault(); document.querySelectorAll('#derList .dropb').forEach(x => x !== t && x.classList.remove('dropb')); t.classList.add('dropb');
+});
+$('#derList').addEventListener('drop', e => { if (!dragSep && !dragAm) return; e.preventDefault(); try { dropOn(e.target); } finally { dragSep = dragAm = null; } });
+
+/* ---------- Centre : détail / lecture ---------- */
+function natBlock(a){
+  const art = a.d.article || '—';
+  if (a.d.type === 'additionnel') { const m = /^(apr[eè]s|avant)/i.test(art) ? art.charAt(0).toUpperCase() + art.slice(1) : /^\d/.test(art) ? 'Après l’article ' + art : ''; return `<b>Article additionnel</b>${m ? `<span>${esc(m)}, insérer l’article suivant :</span>` : ''}`; }
+  if (a.d.type === 'suppression') return `<b>Amendement de suppression</b><span>${esc(artLabel(art))}</span>`;
+  if (a.d.type === 'reecriture') return `<b>Amendement de réécriture</b><span>${esc(artLabel(art))}</span>`;
+  return `<b>Amendement de modification</b><span>${esc(artLabel(art))}</span>`;
+}
+function statBadge(a){ return isLive(a) ? `<span class="stat live">${SE.etat === 'ouverte' ? 'En discussion' : 'Appelé'}</span>` : `<span class="stat ${a.statut}">${ST_L[a.statut]}</span>`; }
+function renderDetail(a){
+  const d = a.d, watched = suivis.includes(a.id);
+  let h = `<div class="hband"><div class="art"><span class="lab">Article</span><b>${esc(d.type === 'additionnel' && !d.article ? 'Additionnel' : artShort(d.article))}</b></div>
+    <div class="no"><span class="lab">N° d’amendement</span><b>${esc(a.label)} ${VOTE_L[a.statut] && !isLive(a) ? '' : statBadge(a)}</b></div>
+    <div class="act">${VOTE_L[a.statut] && !isLive(a) ? stamp(a.statut) : ''}${isEditor && !isLive(a) ? '<button class="btn small primary" type="button" data-call="1">Appeler</button>' : ''}<button class="btn small watch" type="button" data-watch="${esc(a.id)}" aria-pressed="${watched}">${EYE}<span>${watched ? 'Suivi' : 'Suivre'}</span></button></div></div>`;
+  h += `<div class="body">${d.objet ? `<h2 class="objet">${esc(d.objet)}</h2>` : ''}<div class="by"><span class="de">Déposé par</span><span class="grp"><span class="chip" style="--pc:${a.p.color}">${esc(a.p.id)}</span>${esc(a.p.name)}</span>${d.signataire ? `<span class="sig">· ${esc(d.signataire)}</span>` : ''}</div>`;
+  h += `<div class="nat">${natBlock(a)}</div>`;
+  if (d.effet && d.effet.op) { const A0 = pjArts().find(x => x.id === d.effet.art), sp0 = d.sep && sepsAll().find(x => x.id === d.sep), As = sp0 && !isPartie(sp0) ? pjArtOfSep(sp0) : null;
+    if (isEditor && A0 && As && As !== A0 && d.effet.op !== 'ajoutArt') h += `<div class="motif irrecevable"><b>⚠ Article à vérifier</b>Cet amendement est placé sous « ${esc(sp0.titre)} », mais son effet modifie l’${esc(artName(A0).toLowerCase())}. Corrigez l’article de l’effet avec « Modifier le texte ».</div>`;
+    if (isEditor) h += `<div class="motif depose"><b>Effet sur le projet de loi s’il est adopté</b>${esc(OPS[d.effet.op] || '')}${A0 ? (d.effet.op === 'ajoutArt' ? ' après l’' : ' · ') + esc(artName(A0).toLowerCase()) : ''}${d.effet.al && d.effet.al !== '^' ? ', alinéa ' + esc(d.effet.al) : ''}${d.effet.op === 'remplacer' ? ` : « ${esc(d.effet.de)} » → « ${esc(d.effet.par)} »` : ''} <button type="button" class="btn small" data-show-txt="1" style="margin-left:6px;height:28px">Voir dans le texte</button></div>`; }
+  if (!pending(a)) h += `<div class="motif ${a.statut}"><b>${esc(ST_L[a.statut])}</b>${d.motif ? esc(d.motif) : ''}</div>`;
+  if (d.amTexte) h += `<details class="sec amp" open style="--pc:${a.p.color}"><summary><span>Amendement du parti <span class="chip" style="--pc:${a.p.color}">${esc(a.p.id)}</span></span> ${CHEV_D}</summary><div class="txt amtxt">${amHtml(d.amTexte)}</div></details>`;
+  h += `<details class="sec" open><summary>Dispositif ${CHEV_D}</summary><div class="txt">${esc(d.dispositif || '—')}</div></details>`;
+  h += previewHtml(a);
+  if (d.expose) h += `<details class="sec" open><summary>Exposé sommaire ${CHEV_D}</summary><div class="txt">${esc(d.expose)}</div></details>`;
+  if (isEditor) {
+    h += `<details class="edit"><summary>Gérer cet amendement ▾</summary><div class="in"><div class="row"><button type="button" class="btn small" data-edit="1">Modifier le texte</button><button type="button" class="btn small danger" data-del="1">Supprimer</button></div>
+      <input type="text" id="motif" maxlength="300" placeholder="Résultat du vote ou motif (ex. 12 pour, 8 contre)" value="${esc(d.motif || '')}"><div class="row">${STATUTS.map(([k, l]) => `<button type="button" class="btn small" data-dec="${k}" aria-pressed="${a.statut === k}">${l}</button>`).join('')}</div></div></details>`;
+  }
+  return h + '</div>';
+}
+function renderLecture(a){
+  const L = visible().filter(x => artKey(x) === artKey(a));
+  let h = `<div class="lec"><h3>${esc(a.d.type === 'additionnel' && !a.d.article ? 'Articles additionnels' : artLabel(a.d.article))} · ${L.length} amendement${L.length > 1 ? 's' : ''}</h3>`;
+  for (const x of L) h += `<div class="lcard${isLive(x) ? ' is-live' : ''}"><button type="button" class="lh" data-am="${esc(x.id)}"><span class="chip" style="--pc:${x.p.color}">${esc(x.label)}</span><span class="o">${esc(x.d.objet || '')}</span>${statBadge(x)}</button>${x.d.amTexte ? `<div class="txt amtxt">${amHtml(x.d.amTexte)}</div>` : ''}<div class="txt">${esc(x.d.dispositif || '')}</div>${previewHtml(x).replace('<details class="sec pv" open>', '<details class="sec pv">')}</div>`;
+  return h + '</div>';
+}
+let midSig = '';
+function renderMid(force){
+  $('#vDet').setAttribute('aria-pressed', String(view === 'det')); $('#vLec').setAttribute('aria-pressed', String(view === 'lec')); $('#vTxt').setAttribute('aria-pressed', String(view === 'txt'));
+  const NL = navList(), i = NL.findIndex(x => x.id === (selSep || (sel && sel.id)));
+  const sig = JSON.stringify([view !== 'txt' ? AMS.map(a => [a.statut, a.d.applique, a.d.adoptedAt]).join('|') : 0, view === 'txt' ? sepsAll().map(s => [s.titre, s.statut]) : 0, selSep ? [selSep, sepsAll(), AMS.map(a => [a.id, a.statut, a.d.sep]), SE.enCours, SE.etat, isEditor] : 0, view === 'txt' ? [txtMode, AMS.map(a => [a.id, a.statut, a.d.effet, a.d.adoptedAt, a.d.applique]), isEditor, liveAm() && liveAm().id, !!DATA.pjl, DATA.vote] : 0, view, sel && sel.d, sel && sel.statut, sel && isLive(sel), SE.etat, isEditor, suivis.includes(sel && sel.id), view === 'lec' && sel ? L.filter(x => artKey(x) === artKey(sel)).map(x => [x.id, x.statut, isLive(x)]) : 0, loaded]);
+  $('#prevBtn').disabled = i <= 0; $('#nextBtn').disabled = i < 0 || i >= NL.length - 1;
+  if (!force && sig === midSig) return;
+  const changedAm = !midSig || JSON.parse(midSig)[5] === null || !sel || (JSON.parse(midSig)[5] || {}).id !== sel.id;
+  midSig = sig;
+  const body = $('#midBody');
+  if (view === 'txt') { const st0 = body.scrollTop; body.innerHTML = renderTexte(); body.scrollTop = st0; return; }
+  if (selSep) { const s = sepsAll().find(x => x.id === selSep); if (s) { const st1 = body.scrollTop; body.innerHTML = renderSepView(s); body.scrollTop = st1; return; } selSep = null; }
+  if (!sel) { body.innerHTML = `<div class="welcome"><h2>${!loaded ? 'Chargement…' : AMS.length ? 'Choisissez un amendement' : 'Aucun amendement pour l’instant'}</h2><p>${!loaded ? '' : AMS.length ? 'Sélectionnez un amendement dans le dérouleur.' : 'Les amendements des groupes apparaîtront ici dès leur enregistrement par la Présidence.'}</p></div>`; return; }
+  const st = body.scrollTop;
+  body.innerHTML = view === 'lec' ? renderLecture(sel) : renderDetail(sel);
+  body.scrollTop = changedAm ? 0 : st;
+}
+$('#vDet').onclick = () => { view = 'det'; persist(); renderMid(); };
+$('#vLec').onclick = () => { view = 'lec'; persist(); renderMid(); };
+$('#vTxt').onclick = () => { view = 'txt'; persist(); renderMid(true); scrollToArt(); };
+const navList = () => seqAll().filter(it => it.s || !parti || it.a.p.id === parti);
+function goNav(d){ const L = navList(), i = L.findIndex(x => x.id === (selSep || (sel && sel.id))), j = i + d; if (i < 0 || j < 0 || j >= L.length) return; L[j].a ? select(L[j].a) : selectSep(L[j].id); }
+$('#prevBtn').onclick = () => goNav(-1);
+$('#nextBtn').onclick = () => goNav(1);
+function renderSepView(s){
+  const P = isPartie(s), live = isLiveSep(s), Q = seqAll(), kids = Q.filter(x => x.parent && x.parent.id === s.id), A = P ? null : pjArtOfSep(s), voted = SEP_ST.includes(s.statut);
+  let h = `<div class="hband"><div class="art"><span class="lab">${esc(sepKind(s))}</span><b>${esc(P ? 'Vote de la partie' : 'Vote de l’article')}</b></div>
+    <div class="no"><span class="lab">Statut</span><b>${live ? `<span class="stat live">${SE.etat === 'ouverte' ? 'En discussion' : 'Appelé'}</span>` : voted ? '' : '<span class="stat depose">En attente</span>'}</b></div>
+    <div class="act">${voted && !live ? stamp(s.statut) : ''}${isEditor && !live ? '<button class="btn small primary" type="button" data-scall="1">Appeler</button>' : ''}</div></div>`;
+  h += `<div class="body"><h2 class="sv-t">${esc(s.titre || 'Séparateur')}</h2>`;
+  if (A) h += `<p class="sv-sub">${esc(artName(A))} · ${esc(A.titre)} <button type="button" class="btn small" data-show-art="${esc(A.id)}" style="margin-left:6px;height:28px">Voir dans le projet de loi</button></p>`;
+  h += `<h3 class="sv-h">${P ? 'Contenu de la partie' : kids.length ? 'Amendements sur cet article' : 'Aucun amendement sur cet article'}</h3>`;
+  if (kids.length) h += '<div class="sv-list">' + kids.map(x => x.a
+    ? `<button type="button" class="sv-it${isLive(x.a) ? ' is-live' : ''}" data-am="${esc(x.a.id)}"><span class="chip" style="--pc:${x.a.p.color}">${esc(x.a.label)}</span><span class="o">${esc(x.a.d.objet || '')}</span>${statBadge(x.a)}</button>`
+    : `<button type="button" class="sv-it sep-it${isLiveSep(x.s) ? ' is-live' : ''}" data-ssel="${esc(x.s.id)}"><span class="o"><b>${esc(x.s.titre)}</b></span>${isLiveSep(x.s) ? '<span class="stat live">En discussion</span>' : SEP_ST.includes(x.s.statut) ? `<span class="stat ${x.s.statut}">${esc(ST_L[x.s.statut])}</span>` : '<span class="stat depose">En attente</span>'}</button>`).join('') + '</div>';
+  else if (!P) h += '<p class="muted" style="margin:0">L’article est discuté puis voté directement.</p>';
+  if (isEditor) h += `<details class="edit"><summary>Enregistrer le vote ▾</summary><div class="in"><div class="row">${SEP_ST.map(k => `<button type="button" class="btn small${k === 'adopte' ? ' ok' : ' ko'}" data-sdec="${k}" aria-pressed="${s.statut === k}">${esc(ST_L[k])}</button>`).join('')}${voted ? '<button type="button" class="btn small" data-sdec="">Remettre en attente</button>' : ''}</div></div></details>`;
+  return h + '</div>';
+}
+function select(a, opts){
+  if (!a) return;
+  sel = a; selSep = null; ss.set('amMR-selSep', '');
+  if (!(opts && opts.keepFollow) && follow && !isLive(a) && liveAm()) { follow = false; toast('Suivi auto en pause'); }
+  if ((a.d.texte || '') !== texte) texte = a.d.texte || '';
+  openArts.add(artKey(a));
+  persist(); renderAll();
+  const row = document.querySelector(`#derList [data-am="${CSS.escape(a.id)}"]`); if (row) row.scrollIntoView({block: 'nearest'});
+}
+$('#midBody').addEventListener('click', e => {
+  const ap = e.target.closest('[data-appl]');
+  if (ap && isEditor) { const x = BYID.get(ap.dataset.appl); if (x) { const on = x.d.applique === false; commit(withAm(clone(), x.id, {applique: on}), x.label + (on ? ' appliqué au texte' : ' retiré du texte (reste adopté)')); } return; }
+  const sa = e.target.closest('[data-show-art]'); if (sa) { view = 'txt'; persist(); renderMid(true); setTimeout(() => { const el = document.getElementById('pj-' + sa.dataset.showArt); if (el) el.scrollIntoView({block: 'start'}); }, 30); return; }
+  const sk = e.target.closest('[data-ssel]'); if (sk) { selectSep(sk.dataset.ssel); return; }
+  if (selSep && isEditor) {
+    const s = sepsAll().find(x => x.id === selSep);
+    if (s && e.target.closest('[data-scall]')) { const n = clone(); n.seance = Object.assign({}, n.seance, {enCours: s.id}); if (n.seance.etat === 'fermee') n.seance.etat = 'ouverte'; follow = true; persist(); commit(n, s.titre + ' en discussion'); return; }
+    const sd = e.target.closest('[data-sdec]'); if (s && sd) { const st = sd.dataset.sdec; commit(withSep(clone(), s.id, {statut: st || null}), s.titre + ' : ' + (st ? ST_L[st].toLowerCase() : 'en attente')); return; }
+  }
+  if (e.target.closest('[data-show-txt]')) { view = 'txt'; persist(); renderMid(true); setTimeout(() => { const el = sel && sel.d.effet && document.getElementById('pj-' + sel.d.effet.art); if (el) el.scrollIntoView({block: 'start'}); }, 30); return; }
+  const l = e.target.closest('[data-am]'); if (l) { view = 'det'; select(BYID.get(l.dataset.am)); return; }
+  const w = e.target.closest('[data-watch]'); if (w) { toggleWatch(w.dataset.watch); return; }
+  if (!isEditor || !sel) return;
+  const motif = ($('#motif') && $('#motif').value.trim()) || '';
+  if (e.target.closest('[data-call]')) { const n = clone(); n.seance = Object.assign({}, n.seance, {enCours: sel.id}); if (n.seance.etat === 'fermee') n.seance.etat = 'ouverte'; follow = true; persist(); commit(n, sel.label + ' en discussion'); return; }
+  const d = e.target.closest('[data-dec]');
+  if (d) {
+    const am = sel, st = d.dataset.dec;
+    (async () => {
+      const ch = st === 'adopte' && am.statut !== 'adopte' ? await adoptChoice(am) : {applique: am.d.applique !== false, off: []};
+      if (!ch) return;
+      const n = withAm(clone(), am.id, Object.assign({statut: st, motif}, st === 'adopte' ? {applique: ch.applique} : {}));
+      ch.off.forEach(id => withAm(n, id, {applique: false}));
+      commit(n, am.label + ' : ' + ST_L[st]);
+    })();
+    return;
+  }
+  if (e.target.closest('[data-edit]')) { openDepot(sel); return; }
+  const del = e.target.closest('[data-del]');
+  if (del) {
+    if (del.dataset.armed !== '1') { del.dataset.armed = '1'; del.textContent = 'Confirmer la suppression'; setTimeout(() => { if (del.isConnected) { del.dataset.armed = ''; del.textContent = 'Supprimer'; } }, 4000); return; }
+    const n = clone(), id = sel.id, lab = sel.label; n.amendements = n.amendements.filter(x => x.id !== id); if (n.seance.enCours === id) n.seance.enCours = null;
+    const L = visible(), i = L.indexOf(sel); sel = L[i + 1] || L[i - 1] || null;
+    commit(n, lab + ' supprimé');
+  }
+});
+
+/* ---------- Projet de loi ---------- */
+const OPS = {supprArt: 'Supprimer un article', supprAl: 'Supprimer un alinéa', rediAl: 'Réécrire un alinéa', remplacer: 'Remplacer des mots', ajoutAl: 'Ajouter un alinéa', rediArt: 'Réécrire tout un article', ajoutArt: 'Insérer un article additionnel'};
+const artName = a => 'Article ' + a.num;
+const linesOf = t => String(t || '').split(/\n\s*\n|\n(?=\s*\d+\s*°)/).map(x => x.trim()).filter(Boolean);
+function splitNum(t, i){ const m = t.match(/^(\d+\s*°)\s*(.*)$/s); return m ? {n: m[1].replace(/\s+/g, ''), t: m[2]} : {n: (i + 1) + '°', t}; }
+/** Texte consolidé : le projet initial auquel on applique, dans l'ordre d'adoption, l'effet des amendements adoptés. */
+/* Un « Réécrire un alinéa » dont le texte contient plusieurs alinéas numérotés (1°, 2°…) est en fait une réécriture de tout l'article. */
+const multiNum = t => linesOf(t).filter(x => /^\s*\d+\s*°/.test(x)).length >= 2;
+const effOp = e => e && e.op === 'rediAl' && multiNum(e.texte) ? 'rediArt' : e && e.op;
+function consolidate(apply, opts){
+  const pj = DATA.pjl; if (!pj) return null;
+  const arts = ((opts && opts.base) || pj.articles).map(a => ({id: a.id, num: a.num, partie: a.partie, titre: a.titre, del: null, add: null, mod: [], al: a.al.map(x => ({n: x.n, t: x.t, prev: null, del: null, add: null, by: []}))}));
+  const touched = {}, problems = [];
+  if (!apply) return {pj, arts, conflicts: [], problems};
+  const adopted = (opts && opts.list) || AMS.filter(a => a.statut === 'adopte' && a.d.applique !== false && a.d.effet && a.d.effet.op).sort((x, y) => String(x.d.adoptedAt || x.d.updatedAt || '').localeCompare(String(y.d.adoptedAt || y.d.updatedAt || '')));
+  const bis = {};
+  for (const am of adopted) {
+    const e = am.d.effet, op = effOp(e), L = am.label, ai = arts.findIndex(a => a.id === e.art), A = arts[ai];
+    if (!A) { problems.push(L + ' : article introuvable dans le texte.'); continue; }
+    const alKey = ['supprAl', 'rediAl', 'remplacer'].includes(op) ? '|' + e.al : '';
+    if (op !== 'ajoutArt' && op !== 'ajoutAl') (touched[e.art + alKey] = touched[e.art + alKey] || []).push(L);
+    const X = A.al.find(x => x.n === e.al && !x.add);
+    if (['supprAl', 'rediAl', 'remplacer'].includes(op) && !X) { problems.push(L + ' : alinéa ' + e.al + ' introuvable à l’' + artName(A).toLowerCase() + '.'); continue; }
+    if (op === 'supprArt') A.del = L;
+    else if (op === 'supprAl') X.del = L;
+    else if (op === 'rediAl') { if (X.prev == null) X.prev = X.t; const p1 = splitNum(String(e.texte || '').trim(), 0); X.t = /^\s*\d+\s*°/.test(e.texte || '') ? p1.t : (e.texte || ''); X.by.push(L); }
+    else if (op === 'remplacer') {
+      const plain = X.t.replace(/\u0001([^\u0002]*)\u0002([^\u0003]*)\u0003/g, '$2');
+      if (!e.de || plain.indexOf(e.de) < 0) { problems.push(L + ' : les mots « ' + (e.de || '') + ' » sont introuvables à l’alinéa ' + e.al + ' de l’' + artName(A).toLowerCase() + '.'); continue; }
+      const i = X.t.indexOf(e.de);
+      X.t = i >= 0 ? X.t.slice(0, i) + '\u0001' + e.de + '\u0002' + (e.par || '') + '\u0003' + X.t.slice(i + e.de.length) : plain.replace(e.de, '\u0001' + e.de + '\u0002' + (e.par || '') + '\u0003');
+      X.by.push(L);
+    }
+    else if (op === 'ajoutAl') {
+      let idx = A.al.length, n = 'Alinéa ajouté';
+      if (e.al === '^') idx = 0;
+      else if (e.al) { const j = A.al.findIndex(x => x.n === e.al); if (j >= 0) { idx = j + 1; while (idx < A.al.length && A.al[idx].add) idx++; const k = e.art + e.al; bis[k] = (bis[k] || 0) + 1; n = e.al + ' ' + ['bis', 'ter', 'quater', 'quinquies'][Math.min(3, bis[k] - 1)]; } }
+      A.al.splice(idx, 0, {n, t: e.texte || '', add: L, by: []});
+    }
+    else if (op === 'rediArt') { A.al.forEach(x => { if (!x.del) x.del = L; }); linesOf(e.texte).forEach((t, i) => { const p = splitNum(t, i); A.al.push({n: p.n, t: p.t, add: L, by: []}); }); A.mod.push(L); }
+    else if (e.op === 'ajoutArt') {
+      let j = ai + 1; while (j < arts.length && arts[j].add) j++;
+      const base = String(A.num).replace(/er$/, ''), k = 'art' + base; bis[k] = (bis[k] || 0) + 1;
+      arts.splice(j, 0, {id: 'add_' + am.id, num: base + ' ' + ['bis', 'ter', 'quater', 'quinquies'][Math.min(3, bis[k] - 1)], partie: A.partie, titre: e.titre || '', del: null, add: L, mod: [], al: linesOf(e.texte).map((t, i) => { const p = splitNum(t, i); return {n: p.n, t: p.t, add: L, by: []}; })});
+    }
+  }
+  const conflicts = Object.entries(touched).filter(([, v]) => v.length > 1).map(([k, v]) => { const [art, al] = k.split('|'); const A = arts.find(a => a.id === art); return (A ? artName(A) : art) + (al ? ', alinéa ' + al : '') + ' : ' + v.join(' et '); });
+  return {pj, arts, conflicts, problems};
+}
+/* Aperçu : l'article tel qu'il deviendrait avec cet amendement (sur le texte actuel, déjà modifié par les autres amendements adoptés) */
+function previewArt(am){
+  const e = am.d.effet; if (!e || !e.op || !DATA.pjl) return null;
+  const others = AMS.filter(x => x !== am && x.statut === 'adopte' && x.d.applique !== false && x.d.effet && x.d.effet.op)
+    .sort((x, y) => String(x.d.adoptedAt || x.d.updatedAt || '').localeCompare(String(y.d.adoptedAt || y.d.updatedAt || '')));
+  const C1 = consolidate(true, {list: others});
+  const base = C1.arts.filter(A => !A.del).map(A => ({id: A.id, num: A.num, partie: A.partie, titre: A.titre,
+    al: A.al.filter(x => !x.del).map(x => ({n: x.n, t: x.t.replace(/\u0001([^\u0002]*)\u0002([^\u0003]*)\u0003/g, '$2')}))}));
+  if (e.op !== 'ajoutArt' && !base.some(A => A.id === e.art)) return {msg: 'Cet article a déjà été supprimé par un autre amendement adopté.'};
+  const C2 = consolidate(true, {list: [am], base});
+  const A = C2.arts.find(x => x.id === (e.op === 'ajoutArt' ? 'add_' + am.id : e.art));
+  return {A, problem: C2.problems[0] || ''};
+}
+function previewHtml(am){
+  const P = previewArt(am); if (!P) return '';
+  const adopted = am.statut === 'adopte', off = adopted && am.d.applique === false;
+  const title = off ? 'Adopté sans modifier le texte' : adopted ? 'L’article modifié par cet amendement' : 'L’article si cet amendement est adopté';
+  let b = '';
+  if (P.msg) b = `<p class="muted" style="margin:0">${esc(P.msg)}</p>`;
+  else if (P.problem) b = `<p class="muted" style="margin:0">⚠ ${esc(P.problem.replace(/^n°\d+ : /, ''))}</p>`;
+  else if (P.A) {
+    const A = P.A;
+    b = `<h4 class="pv-h">${esc(artName(A))}${A.titre ? ` <small>${esc(A.titre)}</small>` : ''}</h4>`;
+    if (A.del) b += '<p class="pv-note ko">Cet article serait entièrement supprimé.</p>';
+    else if (A.add) b += '<p class="pv-note ok">Nouvel article inséré dans le projet de loi.</p>';
+    const changed = X => A.del || A.add || X.del || X.add || (X.prev != null && normCmp(X.prev) !== normCmp(X.t)) || /\u0001/.test(X.t);
+    const RW = mergeRedi(A), LB = alLabels(RW, A);
+    const row = (X, ri) => { const body = X.prev != null ? diffHtml(X.prev, X.t) : richT(X.t); return `<div class="pj-al${X.del || A.del ? ' del' : ''}${X.add && !A.add ? ' add' : ''}"><span class="n">${LB[ri]}</span><span class="t">${body}</span></div>`; };
+    b += RW.map((X, ri) => row(X, ri).replace('class="pj-al', changed(X) ? 'class="pj-al chg' : 'class="pj-al same')).join('');
+    b += '<p class="pv-leg"><del>barré rouge</del> : supprimé · <ins>vert</ins> : ajouté</p>';
+  }
+  return `<details class="sec pv" open><summary>${esc(title)} ${CHEV_D}</summary><div class="txt pv-body">${b}</div></details>`;
+}
+/* Différence mot à mot entre l'ancien et le nouveau texte (seuls les mots changés sont barrés / ajoutés) */
+const normTok = s => /^\s+$/.test(s) ? ' ' : s.replace(/[’ʼ‘`]/g, "'").replace(/[«»“”]/g, '"').replace(/[–—]/g, '-').replace(/…/g, '...');
+const normCmp = s => String(s || '').split(/(\s+)/).map(normTok).join('').replace(/\s+/g, ' ').replace(/\s+([:;!?»"])/g, '$1').replace(/(«|")\s+/g, '$1').trim();
+function diffHtml(oldT, newT){
+  if (normCmp(oldT) === normCmp(newT)) return esc(newT);
+  // Mots découpés après l'apostrophe (l’ / égalité) ; apostrophes, guillemets, tirets et espaces insécables sont comparés sans tenir compte de leur forme.
+  const tok = s => String(s || '').match(/\s+|[\wÀ-ÖØ-öø-ÿŒœ-]+['’ʼ‘`]?|[^\s\wÀ-ÖØ-öø-ÿŒœ-]/g) || [];
+  const A = tok(oldT), B = tok(newT), n = A.length, m = B.length;
+  if (n * m > 4e6) return `<del>${esc(oldT)}</del>\n<ins>${esc(newT)}</ins>`;
+  const NA = A.map(normTok), NB = B.map(normTok);
+  const L = Array.from({length: n + 1}, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) L[i][j] = NA[i] === NB[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  const ops = []; let i = 0, j = 0;
+  while (i < n && j < m) { if (NA[i] === NB[j]) { ops.push({k: '=', s: B[j]}); i++; j++; } else if (L[i + 1][j] >= L[i][j + 1]) ops.push({k: '-', s: A[i++]}); else ops.push({k: '+', s: B[j++]}); }
+  while (i < n) ops.push({k: '-', s: A[i++]}); while (j < m) ops.push({k: '+', s: B[j++]});
+  // Regroupement en zones : les petits mots communs coincés entre deux changements (« et », « des », « , »…) sont intégrés à la zone,
+  // pour que chaque mot n'apparaisse qu'une fois et que le texte reste lisible.
+  const runs = [];
+  for (const o of ops) { const eq = o.k === '=', l = runs[runs.length - 1]; if (l && l.eq === eq) l.ops.push(o); else runs.push({eq, ops: [o]}); }
+  for (let k = 1; k < runs.length - 1; k++) {
+    const r = runs[k]; if (!r.eq || runs[k - 1].eq || runs[k + 1].eq) continue;
+    const t = r.ops.map(o => o.s).join(''), w = (t.match(/[\wÀ-ÖØ-öø-ÿŒœ]+/g) || []).length;
+    if (w <= 2 && t.trim().length <= 14) r.eq = false, r.glue = true;
+  }
+  const zones = []; for (const r of runs) { const l = zones[zones.length - 1]; if (l && !l.eq && !r.eq) l.ops.push(...r.ops); else zones.push({eq: r.eq, ops: r.ops.slice()}); }
+  let html = '', same = 0;
+  for (const z of zones) {
+    if (z.eq) { const t = z.ops.map(o => o.s).join(''); html += esc(t); same += t.replace(/\s/g, '').length; continue; }
+    let d = '', ins = '';
+    for (const o of z.ops) { if (o.k === '-') d += o.s; else if (o.k === '+') ins += o.s; else { d += o.s; ins += o.s; } }
+    const ref = ins.trim() ? ins : d, head = (/^\s/.test(d) || /^\s/.test(ins)) && html && !/\s$/.test(html) ? ' ' : '', tail = /\s$/.test(ref) ? ' ' : '';
+    d = d.trim(); ins = ins.trim();
+    html += head + (d ? `<del>${esc(d)}</del>` : '') + (ins ? `<ins>${esc(ins)}</ins>` : '') + tail;
+  }
+  // Presque rien en commun : on affiche l'ancien barré puis le nouveau.
+  if (same < 0.05 * Math.min(String(oldT).replace(/\s/g, '').length, String(newT).replace(/\s/g, '').length)) return `<del>${esc(oldT)}</del>\n<ins>${esc(newT)}</ins>`;
+  return html;
+}
+
+/* Pour une réécriture d'article : on rapproche chaque nouvel alinéa de l'ancien qui porte le même numéro */
+const simWords = s => (String(s || '').toLowerCase().replace(/[’‘]/g, "'").match(/[\wÀ-ÖØ-öø-ÿŒœ']+/g) || []);
+function simTxt(a, b){ const A = simWords(a), Bw = simWords(b), B = new Map(); Bw.forEach(w => B.set(w, (B.get(w) || 0) + 1)); let c = 0; for (const w of A) { const k = B.get(w); if (k) { c++; B.set(w, k - 1); } } return c / Math.max(1, A.length, Bw.length); }
+/* Numérotation affichée : les alinéas qui restent sont numérotés 1°, 2°, 3°… dans l'ordre ; un alinéa supprimé n'a pas de numéro (✕). */
+function alLabels(rows, A){
+  if (A.del) return rows.map(X => esc(X.n));
+  let k = 0;
+  return rows.map(X => X.del ? `<span class="nd" title="Ancien ${esc(X.n)}, supprimé">✕</span>` : (++k) + '°');
+}
+function mergeRedi(A){
+  // Article réécrit : chaque nouvel alinéa est rapproché de l'ancien (même numéro, sinon même rang), dans l'ordre du nouveau texte.
+  if (A.add) return A.al;
+  let al = A.al;
+  const Ls = [...new Set(al.filter(X => X.add).map(X => X.add))];
+  for (const L of Ls) {
+    const o = al.filter(X => X.del === L), n = al.filter(X => X.add === L);
+    if (!o.length || !n.length) continue;
+    // Alignement par ressemblance du texte (dans l'ordre), pour suivre les alinéas même renumérotés.
+    const pr = new Map(), usedO = new Set(), N = n.length, M = o.length;
+    const S = n.map(X => o.map(Y => simTxt(Y.t, X.t) + (String(Y.n) === String(X.n) ? 0.15 : 0)));
+    const D = Array.from({length: N + 1}, () => new Float64Array(M + 1));
+    for (let i = N - 1; i >= 0; i--) for (let j = M - 1; j >= 0; j--) D[i][j] = Math.max(D[i + 1][j], D[i][j + 1], S[i][j] >= 0.3 ? S[i][j] + D[i + 1][j + 1] : 0);
+    for (let i = 0, j = 0; i < N && j < M;) {
+      if (S[i][j] >= 0.3 && Math.abs(D[i][j] - (S[i][j] + D[i + 1][j + 1])) < 1e-9) { pr.set(n[i], j); usedO.add(o[j]); i++; j++; }
+      else if (D[i][j] === D[i + 1][j]) i++; else j++;
+    }
+    // Un nouvel alinéa resté seul est rapproché de l'ancien qui porte le même numéro (s'il est libre et à la bonne place).
+    { let prevR = -1;
+      n.forEach((X, i) => {
+        if (pr.has(X)) { prevR = pr.get(X); return; }
+        let nxt = Infinity; for (let k = i + 1; k < n.length; k++) if (pr.has(n[k])) { nxt = pr.get(n[k]); break; }
+        const q = o.findIndex((Y, idx) => !usedO.has(Y) && String(Y.n) === String(X.n) && idx > prevR && idx < nxt);
+        if (q >= 0) { pr.set(X, q); usedO.add(o[q]); prevR = q; }
+      }); }
+    const numOfAl = s => parseInt(String(s || ''), 10);
+    // Les anciens alinéas supprimés restent à leur place : avant le prochain alinéa rapproché, ou avant les alinéas ajoutés à la fin.
+    const seq = [], done = new Set(), nextR = new Array(n.length);
+    for (let i = n.length - 1, nx = Infinity; i >= 0; i--) { if (pr.has(n[i])) nx = pr.get(n[i]); nextR[i] = nx; }
+    const flush = lim => { for (let q = 0; q < Math.min(lim, o.length); q++) if (!usedO.has(o[q]) && !done.has(o[q])) { seq.push(o[q]); done.add(o[q]); } };
+    n.forEach((X, i) => {
+      if (pr.has(X)) { const r = pr.get(X); flush(r); seq.push(Object.assign({}, X, {add: null, prev: o[r].t, by: [L]})); }
+      else { const k = numOfAl(X.n), lim = isNaN(k) ? nextR[i] : Math.min(nextR[i], (q => q < 0 ? o.length : q)(o.findIndex(Y => numOfAl(Y.n) > k))); flush(lim); seq.push(X); }
+    });
+    o.forEach(Y => { if (!usedO.has(Y) && !done.has(Y)) seq.push(Y); });
+    const first = al.indexOf(o[0]), rest = al.filter(X => X.del !== L && X.add !== L);
+    const k = al.slice(0, first).filter(X => X.del !== L && X.add !== L).length;
+    al = rest.slice(0, k).concat(seq, rest.slice(k));
+  }
+  return al;
+}
+function richT(t){ return esc(t).replace(/\u0001([^\u0002]*)\u0002([^\u0003]*)\u0003/g, '<del>$1</del><ins>$2</ins>'); }
+function amsOfArt(id){ return order(AMS.filter(a => a.d.effet && (a.d.effet.art === id))); }
+function apChoix(artId){
+  const L = AMS.filter(x => x.statut === 'adopte' && x.d.effet && x.d.effet.op && x.d.effet.op !== 'ajoutArt' && x.d.effet.art === artId);
+  if (!L.length) return '';
+  return `<div class="pj-choix"><span>Modifications appliquées au texte :</span>${L.map(x => `<button type="button" class="apbtn${x.d.applique !== false ? ' on' : ''}" data-appl="${esc(x.id)}" aria-pressed="${x.d.applique !== false}" title="${esc(OPS[x.d.effet.op] || '')}">${x.d.applique !== false ? '✓' : '✕'} ${esc(x.label)}</button>`).join('')}${L.length > 1 ? '<small>Cliquez pour appliquer ou retirer une modification.</small>' : ''}</div>`;
+}
+function renderTexte(){
+  const C = consolidate(txtMode === 'mod');
+  if (!C) return '<div class="welcome"><h2>Texte non disponible</h2><p>Le projet de loi n’est pas encore chargé.</p></div>';
+  const pj = C.pj, la = liveAm(), laArt = la && la.d.effet ? la.d.effet.art : null, selArt = sel && sel.d.effet ? sel.d.effet.art : null;
+  let h = `<div class="pj"><div class="pj-head"><span class="k">N° ${esc(pj.num)} · ${esc(pj.lecture || '')}</span><h2>${esc(pj.titre)}</h2><p>${esc(pj.enregistre || '')}</p>${DATA.vote ? `<div class="pj-vote"><span class="lab">Vote sur l’ensemble</span>${stamp(DATA.vote.statut, true)}</div>` : ''}</div>`;
+  h += `<div class="pj-bar"><span class="segg" role="group" aria-label="Version du texte"><button type="button" class="btn small" data-tm="mod" aria-expanded="${txtMode === 'mod'}">Texte modifié</button><button type="button" class="btn small" data-tm="init" aria-expanded="${txtMode === 'init'}">Texte initial</button></span>${txtMode === 'mod' ? '<span class="pj-legend"><span><ins>ajouté</ins></span><span><del>supprimé</del></span><span>mis à jour en direct selon les amendements adoptés</span></span>' : '<span class="pj-legend">Texte déposé, sans les amendements.</span>'}</div>`;
+  if (isEditor && txtMode === 'mod' && (C.conflicts.length || C.problems.length)) {
+    h += `<div class="pj-warn">${C.conflicts.map(c => `<div>⚠ <b>Article 32, alinéa 5</b> : plusieurs amendements adoptés portent sur le même passage (${esc(c)}). Seul celui qui a recueilli le plus de voix doit être conservé : passez l’autre en « Rejeté ».</div>`).join('')}${C.problems.map(p => `<div>⚠ ${esc(p)} L’effet n’a pas été appliqué : corrigez-le dans « Gérer cet amendement → Modifier le texte ».</div>`).join('')}</div>`;
+  }
+  if (pj.expose && pj.expose.length) h += `<details class="sec"><summary>Exposé des motifs ${CHEV_D}</summary><div class="txt">${pj.expose.map(p => `<p>${esc(p)}</p>`).join('')}</div></details>`;
+  let part = null;
+  for (const A of C.arts) {
+    if (A.partie !== part) { part = A.partie; const P = (pj.parties || []).find(x => x.id === part); if (P) h += `<h3 class="pj-part">PARTIE ${esc(P.id)} : ${esc(P.titre)}${sepTag(sepOfPjPart(P.id))}</h3>`; }
+    const tags = (A.del ? `<span class="tagx ko">Supprimé par ${esc(A.del)}</span>` : '') + (A.add ? `<span class="tagx ok">Inséré par ${esc(A.add)}</span>` : '') + (A.mod.length ? `<span class="tagx mod">Réécrit par ${esc(A.mod.join(', '))}</span>` : '');
+    const ams = A.add ? [] : amsOfArt(A.id);
+    h += `<section class="pj-art${A.del ? ' del' : ''}${A.add ? ' add' : ''}${A.id === laArt ? ' is-live' : ''}${A.id === selArt ? ' is-sel' : ''}" id="pj-${esc(A.id)}"><h3>${esc(artName(A))}${tags}${A.add ? '' : sepTag(sepOfPjArt(pjArts().find(x => x.id === A.id)))}<small>${esc(A.titre)}</small></h3>${isEditor && !A.add ? apChoix(A.id) : ''}`;
+    if (ams.length) h += `<div class="pj-ams">${ams.map(x => `<button type="button" data-am="${esc(x.id)}" title="${esc(x.d.objet || '')}"><span class="chip" style="--pc:${x.p.color}">${esc(x.label)}</span><span class="st">${isLive(x) ? 'en discussion' : esc(ST_L[x.statut].toLowerCase())}</span></button>`).join('')}</div>`;
+    const RW = mergeRedi(A), LB = alLabels(RW, A);
+    for (const [ri, X] of RW.entries()) {
+      const tag = X.del ? `<span class="tagx ko">Supprimé par ${esc(X.del)}</span>` : X.add && !A.add ? `<span class="tagx ok">Ajouté par ${esc(X.add)}</span>` : X.by.length ? `<span class="tagx mod">Modifié par ${esc(X.by.join(', '))}</span>` : '';
+      const body = X.prev != null ? diffHtml(X.prev, X.t) : richT(X.t);
+      h += `<div class="pj-al${X.del ? ' del' : ''}${X.add && !A.add ? ' add' : ''}"><span class="n">${LB[ri]}</span><span class="t">${body}${tag}</span></div>`;
+    }
+    h += '</section>';
+  }
+  if (pj.fait) h += `<p class="pj-fait">${esc(pj.fait)}</p>`;
+  return h + '</div>';
+}
+function scrollToArt(){
+  const id = (liveAm() && liveAm().d.effet && liveAm().d.effet.art) || (sel && sel.d.effet && sel.d.effet.art);
+  if (!id) return;
+  setTimeout(() => { const el = document.getElementById('pj-' + id); if (el) el.scrollIntoView({block: 'start'}); }, 30);
+}
+$('#midBody').addEventListener('click', e => { const b = e.target.closest('[data-tm]'); if (b) { txtMode = b.dataset.tm; persist(); renderMid(true); } });
+
+/* ---------- Suivi ---------- */
+let suiviSig = '';
+function renderSuivi(force){
+  const all = inTexte(), done = all.filter(a => !pending(a)).length, la = liveAm();
+  const sig = JSON.stringify([all.map(a => [a.id, a.statut]), la && la.id, SE.enCours, sepsAll().map(s => s.titre), SE.etat, suivis, loaded]);
+  if (!force && sig === suiviSig) return; suiviSig = sig;
+  let h = `<h3>Avancée de l’examen <span class="state ${SE.etat}">${SE_L[SE.etat]}</span></h3>
+    <div class="stats"><div><span>Total</span><b>${all.length}</b></div><div><span>Examinés</span><b>${done}</b></div><div><span>Restants</span><b>${all.length - done}</b></div></div>
+    <div class="bar"><i style="width:${all.length ? Math.round(done / all.length * 100) : 0}%"></i></div>`;
+  const lsp = liveSep();
+  if (lsp) h += `<button type="button" class="now" data-ssel="${esc(lsp.id)}"><span class="k"><i></i>${SE.etat === 'ouverte' ? 'En discussion' : 'Séance suspendue'}</span><span><span class="chip" style="--pc:var(--navy)">${esc(sepKind(lsp))}</span></span><span class="o">${esc(lsp.titre)}</span></button>`;
+  if (la) h += `<button type="button" class="now" data-am="${esc(la.id)}"><span class="k"><i></i>${SE.etat === 'ouverte' ? 'En discussion' : 'Séance suspendue'}</span><span><span class="chip" style="--pc:${la.p.color}">${esc(la.label)}</span> · ${esc(artShort(la.d.article))}</span><span class="o">${esc(la.d.objet || '')}</span></button>`;
+  $('#prog').innerHTML = h;
+  const fl = suivis.map(id => BYID.get(id)).filter(Boolean);
+  $('#flist').innerHTML = fl.length
+    ? `<div class="flist">${fl.map(a => `<div class="fitem"><span class="chip" style="--pc:${a.p.color}">${esc(a.label)}</span><button type="button" class="o" data-am="${esc(a.id)}" title="${esc(a.d.objet || '')}">${esc(a.d.objet || '')}</button>${statBadge(a)}<button type="button" class="x" data-unwatch="${esc(a.id)}" aria-label="Ne plus suivre ${esc(a.label)}">✕</button></div>`).join('')}</div>`
+    : `<div class="fempty">${EYE.replace('width="18" height="18"', 'width="40" height="40"')}<b>Aucun amendement suivi</b>Cliquez sur « Suivre » en haut à droite d’un amendement.</div>`;
+}
+$('#prog').addEventListener('click', e => { const sv = e.target.closest('[data-ssel]'); if (sv) { follow = true; selectSep(sv.dataset.ssel, {keepFollow: true}); if (mq.matches) setM('mid'); return; } const n = e.target.closest('[data-am]'); if (n) { follow = true; select(BYID.get(n.dataset.am), {keepFollow: true}); if (mq.matches) setM('mid'); } });
+$('#flist').addEventListener('click', e => {
+  const u = e.target.closest('[data-unwatch]'); if (u) { toggleWatch(u.dataset.unwatch); return; }
+  const o = e.target.closest('[data-am]'); if (o) { select(BYID.get(o.dataset.am)); if (mq.matches) setM('mid'); }
+});
+function toggleWatch(id){
+  suivis = suivis.includes(id) ? suivis.filter(x => x !== id) : suivis.concat(id);
+  ls.set('amMR-suivis', JSON.stringify(suivis));
+  renderSuivi(); renderMid();
+}
+function findNum(q){
+  const m = fold(q).replace(/\s+/g, '').match(/^(?:amendement)?(?:n°|no|n)?(\d+)$/);
+  return m ? AMS.find(a => (a.d.texte || '') === texte && String(+a.d.num) === String(+m[1])) || AMS.find(a => String(+a.d.num) === String(+m[1])) || null : null;
+}
+$('#fq').addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  e.preventDefault();
+  const a = findNum(e.target.value);
+  if (!a) { toast('Amendement introuvable : tapez un numéro, par exemple 12'); return; }
+  if (!suivis.includes(a.id)) toggleWatch(a.id);
+  e.target.value = ''; toast(a.label + ' ajouté au suivi');
+});
+
+/* ---------- Recherche ---------- */
+let qSel = -1, qItems = [];
+function runSearch(){
+  const q = $('#q').value.trim(), box = $('#qres');
+  if (!q) { box.hidden = true; return; }
+  const direct = findNum(q);
+  const ts = fold(q).split(/[\s']+/).filter(w => w.length > 1);
+  qItems = (direct ? [direct] : []).concat(order(AMS).filter(a => a !== direct && ts.length && ts.every(w => a.f.includes(w)))).slice(0, 20);
+  qSel = qItems.length ? 0 : -1;
+  box.innerHTML = qItems.length ? qItems.map((a, i) => `<button type="button" data-am="${esc(a.id)}" class="${i === qSel ? 'on' : ''}"><span class="chip" style="--pc:${a.p.color}">${esc(a.label)}</span><span class="o">${esc(a.d.objet || '')}</span><span class="a">${esc(artShort(a.d.article))}</span></button>`).join('') : '<p>Aucun amendement ne correspond.</p>';
+  box.hidden = false;
+}
+$('#q').addEventListener('input', runSearch);
+$('#q').addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (!qItems.length) return; qSel = (qSel + (e.key === 'ArrowDown' ? 1 : -1) + qItems.length) % qItems.length; [...$('#qres').children].forEach((b, i) => b.classList.toggle('on', i === qSel)); }
+  if (e.key === 'Enter') { e.preventDefault(); if (qItems[qSel]) pick(qItems[qSel]); }
+  if (e.key === 'Escape') { $('#q').value = ''; $('#qres').hidden = true; }
+});
+$('#qres').addEventListener('mousedown', e => { const b = e.target.closest('[data-am]'); if (b) { e.preventDefault(); pick(BYID.get(b.dataset.am)); } });
+$('#q').addEventListener('blur', () => setTimeout(() => { $('#qres').hidden = true; }, 150));
+function pick(a){ $('#q').value = ''; $('#qres').hidden = true; view = 'det'; select(a); if (mq.matches) setM('mid'); }
+
+/* ---------- Saisie ---------- */
+$('#fParti').innerHTML = PARTIS.map(p => `<label title="${esc(p.name)}" style="--pc:${p.color}"><input type="radio" name="parti" value="${p.id}">${p.id}</label>`).join('');
+$('#fType').innerHTML = TYPES.map(([k, l], i) => `<label><input type="radio" name="type" value="${k}"${i === 1 ? ' checked' : ''}>${l}</label>`).join('');
+const F = {amTexte: '#fAmTxt', num: '#fNum', texte: '#fTexte', article: '#fArt', objet: '#fObjet', dispositif: '#fDisp', expose: '#fExp', signataire: '#fSign'};
+const EFF_VIS = {supprArt: ['eArtW'], supprAl: ['eArtW', 'eAlW'], rediAl: ['eArtW', 'eAlW', 'eTxtW'], remplacer: ['eArtW', 'eAlW', 'eDeW', 'eParW'], ajoutAl: ['eArtW', 'eAlW', 'eTxtW'], rediArt: ['eArtW', 'eTxtW'], ajoutArt: ['eArtW', 'eTitW', 'eTxtW']};
+const pjArts = () => (DATA.pjl && DATA.pjl.articles) || [];
+function guessArt(){
+  const s = sepsAll().find(x => x.id === $('#fSep').value), A = s && !isPartie(s) ? pjArtOfSep(s) : null;
+  if (A) return A.id;
+  const f = ($('#fArt').value || '').replace(/^.*article\s+/i, '').trim().replace(/er$/i, '');
+  const B = f && pjArts().find(x => String(x.num).replace(/er$/i, '') === f);
+  return B ? B.id : '';
+}
+function effUI(fromUser){
+  if ($('#eOp').value && !$('#eArt').value) { const g = guessArt(); if (g) $('#eArt').value = g; }
+  const op = $('#eOp').value, vis = EFF_VIS[op] || [];
+  ['eArtW', 'eAlW', 'eDeW', 'eParW', 'eTitW', 'eTxtW'].forEach(k => $('#' + k).hidden = !vis.includes(k));
+  $('#eSel').hidden = !vis.includes('eArtW');
+  $('#eArtL').textContent = op === 'ajoutArt' ? 'Insérer après l’article' : 'Article';
+  $('#eAlL').textContent = op === 'ajoutAl' ? 'Insérer après l’alinéa' : 'Alinéa';
+  $('#eTxtL').textContent = op === 'rediArt' || op === 'ajoutArt' ? 'Texte de l’article (un alinéa par ligne, ex. « 1° … »)' : op === 'ajoutAl' ? 'Texte de l’alinéa ajouté' : 'Nouvelle rédaction de l’alinéa';
+  const A = pjArts().find(a => a.id === $('#eArt').value);
+  const keep = $('#eAl').value;
+  $('#eAl').innerHTML = (op === 'ajoutAl' ? '<option value="^">Au début de l’article</option>' : '') + (A ? A.al.map(x => `<option value="${esc(x.n)}">${esc(x.n)} ${esc(x.t.slice(0, 60))}…</option>`).join('') : '') + (op === 'ajoutAl' ? '<option value="">À la fin de l’article</option>' : '');
+  if ([...$('#eAl').options].some(o => o.value === keep)) $('#eAl').value = keep; else if (op === 'ajoutAl') $('#eAl').value = '';
+  const X = A && A.al.find(x => x.n === $('#eAl').value);
+  if (fromUser && op === 'rediAl' && X && !$('#eTxt').value) $('#eTxt').value = X.t;
+  if (fromUser && op === 'rediArt' && A && !$('#eTxt').value) $('#eTxt').value = A.al.map(x => x.n + ' ' + x.t).join('\n\n');
+  let help = '';
+  const g0 = guessArt();
+  if (op && op !== 'ajoutArt' && A && g0 && g0 !== A.id) help = '⚠ L’effet vise l’' + artName(A).toLowerCase() + ', mais l’amendement est placé sur un autre article. Vérifiez l’article choisi ci-dessus.';
+  else if (op === 'remplacer' && X && $('#eDe').value && X.t.indexOf($('#eDe').value) < 0) help = '⚠ Ces mots ne figurent pas tels quels dans l’alinéa choisi : l’effet ne pourra pas s’appliquer.';
+  else if (op) help = 'Si l’amendement est adopté, le projet de loi sera modifié automatiquement : ' + OPS[op].toLowerCase() + (A ? (op === 'ajoutArt' ? ' après l’' : ' — ') + artName(A).toLowerCase() : '') + '.';
+  $('#eHelp').textContent = help; $('#eHelp').classList.toggle('warn', help.startsWith('⚠'));
+  if (fromUser && op && A) {
+    if (op === 'ajoutArt') $('#fArt').value = ''; else if (fromUser === 'art' || !$('#fArt').value) $('#fArt').value = A.num;
+    document.querySelectorAll('input[name=type]').forEach(r => r.checked = r.value === (op === 'supprArt' || op === 'supprAl' ? 'suppression' : op === 'rediArt' || op === 'rediAl' ? 'reecriture' : op === 'ajoutArt' ? 'additionnel' : 'modification'));
+    fillSepSel($('#fSep').value);
+  }
+}
+function fillEff(e){
+  e = e || {};
+  $('#eArt').innerHTML = '<option value="">Choisir l’article…</option>' + pjArts().map(a => `<option value="${a.id}">${esc(artName(a))} · ${esc(a.titre)}</option>`).join('');
+  $('#eOp').value = e.op || '';
+  $('#eArt').value = e.art || '';
+  $('#eDe').value = e.de || ''; $('#ePar').value = e.par || ''; $('#eTit').value = e.titre || ''; $('#eTxt').value = e.texte || '';
+  effUI(false);
+  if (e.al != null) $('#eAl').value = e.al;
+  effUI(false);
+}
+const amHtml = t => { const s = String(t || ''), m = s.match(/^([^\n]*:)(\s*\n[\s\S]*)?$/); return m ? `<b><i>${esc(m[1])}</i></b>${esc(m[2] || '')}` : esc(s); };
+function amTextBody(t){
+  // Enlève la phrase d'introduction (« L'article 1 est supprimé et réécrit … : ») pour ne garder que le nouveau texte.
+  const s = String(t || '').trim(), m = s.match(/^[^\n]*:\s*\n+([\s\S]+)$/);
+  return (m ? m[1] : s).trim();
+}
+$('#eFromAm').onclick = () => { const t = amTextBody($('#fAmTxt').value); if (!t) { toast('Remplissez d’abord « Amendement du parti ».'); $('#fAmTxt').focus(); return; } $('#eTxt').value = t; toast('Texte de l’amendement repris'); fixMulti(); updPrev(); };
+function fixMulti(){
+  // Texte collé avec plusieurs alinéas numérotés : on regarde lesquels changent vraiment par rapport à l'article.
+  const op = $('#eOp').value; if (op !== 'rediAl' && op !== 'rediArt') return;
+  const txt = $('#eTxt').value; if (!multiNum(txt)) return;
+  const A = pjArts().find(x => x.id === $('#eArt').value); if (!A) return;
+  const P = linesOf(txt).map((t, i) => splitNum(t, i)), old = new Map(A.al.map(x => [x.n, x.t]));
+  const chg = P.filter(p => !old.has(p.n) || normCmp(old.get(p.n)) !== normCmp(p.t)).map(p => p.n);
+  const rem = A.al.filter(x => !P.some(p => p.n === x.n)).map(x => x.n);
+  if (!chg.length && !rem.length) { $('#eHelp').textContent = 'Ce texte est identique à l’article actuel : rien ne changera.'; return; }
+  if (chg.length === 1 && !rem.length && old.has(chg[0])) {
+    const p = P.find(q => q.n === chg[0]);
+    $('#eOp').value = 'rediAl'; effUI(false); $('#eAl').value = p.n; $('#eTxt').value = p.t; effUI(false);
+    $('#eHelp').textContent = 'Seul l’alinéa ' + p.n + ' change : l’effet porte sur « Réécrire un alinéa », ' + p.n + '.';
+    return;
+  }
+  if (op === 'rediAl') { $('#eOp').value = 'rediArt'; effUI(false); }
+  $('#eHelp').textContent = 'Alinéas modifiés : ' + chg.concat(rem.map(n => n + ' (supprimé)')).join(', ') + '. L’effet porte sur « Réécrire tout un article ».';
+}
+$('#eTxt').addEventListener('change', fixMulti);
+function updPrev(){
+  const box = $('#fPrev'); if (!box) return;
+  let e = null; try { e = effVal(); } catch (x) {}
+  if (!e || !e.op || (e.op !== 'ajoutArt' && !e.art)) { box.innerHTML = ''; return; }
+  const pid = (document.querySelector('#fParti input:checked') || {}).value, p = PBY[pid] || PARTIS[0];
+  const fake = {id: editing ? editing.id : '__prev', label: 'cet amendement', statut: 'depose', p, d: {effet: e}};
+  try { box.innerHTML = previewHtml(fake).replace('L’article si cet amendement est adopté', 'Aperçu : l’article si l’amendement est adopté'); } catch (x) { box.innerHTML = ''; }
+}
+let prevTimer = 0;
+$('#depot').addEventListener('input', () => { clearTimeout(prevTimer); prevTimer = setTimeout(updPrev, 300); });
+$('#depot').addEventListener('change', () => { clearTimeout(prevTimer); prevTimer = setTimeout(updPrev, 50); });
+function effVal(){
+  const op = $('#eOp').value; if (!op) return null;
+  const e = {op, art: $('#eArt').value};
+  if (EFF_VIS[op].includes('eAlW')) e.al = $('#eAl').value;
+  if (op === 'remplacer') { e.de = $('#eDe').value; e.par = $('#ePar').value; }
+  if (EFF_VIS[op].includes('eTxtW')) e.texte = $('#eTxt').value.trim();
+  if (op === 'ajoutArt') e.titre = $('#eTit').value.trim();
+  return e;
+}
+function effErr(e){
+  if (!e) return '';
+  if (!e.art) return 'Choisissez l’article concerné par l’effet.';
+  if (e.op === 'remplacer' && !e.de) return 'Indiquez les mots à remplacer.';
+  if (['rediAl', 'ajoutAl', 'rediArt', 'ajoutArt'].includes(e.op) && !e.texte) return 'Rédigez le nouveau texte pour l’effet sur le projet de loi.';
+  return '';
+}
+$('#eOp').addEventListener('change', () => effUI(true));
+$('#eArt').addEventListener('change', () => { $('#eTxt').value = ''; effUI('art'); });
+$('#eAl').addEventListener('change', () => { if ($('#eOp').value === 'rediAl') $('#eTxt').value = ''; effUI(true); });
+$('#eDe').addEventListener('input', () => effUI(false));
+function fillSepSel(cur){
+  artVis();
+  const t = (document.querySelector('input[name=type]:checked') || {}).value, add = t === 'additionnel', S = sepsAll();
+  let inP = false;
+  $('#fSep').innerHTML = (S.length ? '<option value="__">Choisir…</option>' : '') + '<option value="">En haut du dérouleur (sans séparateur)</option>' + S.map(s => {
+    const P = isPartie(s); if (P) inP = true; const dis = P && !add;
+    return `<option value="${esc(s.id)}"${dis ? ' disabled' : ''}>${!P && inP ? '\u00a0\u00a0\u00a0\u00a0' : ''}${esc(s.titre || 'Séparateur')}${dis ? ' (article additionnel uniquement)' : ''}</option>`;
+  }).join('');
+  const ok = [...$('#fSep').options].some(o => o.value === cur && !o.disabled);
+  $('#fSep').value = ok ? cur : (S.length ? '__' : '');
+}
+function artVis(){ const t = (document.querySelector('input[name=type]:checked') || {}).value; $('#fArtWrap').hidden = t === 'additionnel'; }
+$('#fType').addEventListener('change', () => { fillSepSel($('#fSep').value); artVis(); });
+function artFromSep(s){
+  if (!s) return '';
+  if (isPartie(s)) return '';
+  const m = (s.titre || '').match(/article\s+(.+?)\s*$/i); if (!m) return s.titre || '';
+  const t = (document.querySelector('input[name=type]:checked') || {}).value;
+  return t === 'additionnel' ? '' : m[1];
+}
+$('#fSep').addEventListener('change', () => { const s = sepsAll().find(x => x.id === $('#fSep').value); if (s) $('#fArt').value = artFromSep(s); if ($('#eOp').value && $('#eOp').value !== 'ajoutArt') { const g = guessArt(); if (g && g !== $('#eArt').value) { $('#eArt').value = g; $('#eTxt').value = ''; } effUI(true); return; } effUI(false); });
+function formVals(){
+  const v = {}; for (const k in F) v[k] = $(F[k]).value.trim();
+  const p = document.querySelector('input[name=parti]:checked'); v.parti = p ? p.value : '';
+  const t = document.querySelector('input[name=type]:checked'); v.type = t ? t.value : 'modification';
+  v.sep = $('#fSep').value;
+  return v;
+}
+function fillForm(v){
+  for (const k in F) $(F[k]).value = v[k] || '';
+  document.querySelectorAll('input[name=parti]').forEach(r => r.checked = r.value === v.parti);
+  document.querySelectorAll('input[name=type]').forEach(r => r.checked = r.value === (v.type || 'modification'));
+}
+function openDepot(a){
+  if (!isEditor) { openLogin('pres'); return; }
+  editing = a || null;
+  $('#depTitle').textContent = a ? 'Modifier l’amendement ' + a.label : 'Enregistrer un amendement';
+  $('#fErr').hidden = true;
+  document.querySelectorAll('input[name=parti]').forEach(r => r.disabled = !!a);
+  fillEff(a ? a.d.effet : null);
+  if (a) { fillForm(a.d); fillSepSel(a.d.sep || ''); effUI(false); }
+  else { let draft = null; try { draft = JSON.parse(ls.get('amMR-draft') || 'null'); } catch (e) {} fillForm(draft || {texte: texte || DATA.titre || '', parti}); fillSepSel(draft && draft.sep != null ? draft.sep : '__'); effUI(false); }
+  setTimeout(updPrev, 0);
+  $('#textes').innerHTML = textes.filter(Boolean).map(t => `<option value="${esc(t)}">`).join('');
+  $('#drawerVeil').hidden = false;
+  setTimeout(() => { const f = a ? $('#fObjet') : document.querySelector('input[name=parti]:checked') ? $('#fArt') : document.querySelector('input[name=parti]'); f && f.focus(); }, 30);
+}
+function closeDepot(){ $('#drawerVeil').hidden = true; editing = null; }
+let draftTimer;
+$('#depot').addEventListener('input', () => { if (editing) return; clearTimeout(draftTimer); draftTimer = setTimeout(() => ls.set('amMR-draft', JSON.stringify(formVals())), 400); });
+$('#fCancel').onclick = closeDepot; $('#fClose').onclick = closeDepot;
+$('#drawerVeil').addEventListener('click', e => { if (e.target.id === 'drawerVeil') closeDepot(); });
+$('#depot').addEventListener('submit', async e => {
+  e.preventDefault(); if (!isEditor) return;
+  const v = formVals(), err = $('#fErr');
+  v.effet = effVal();
+  const sepO = sepsAll().find(s => s.id === v.sep);
+  if (v.type === 'additionnel') v.article = '';
+  else if (!v.article && sepO) { v.article = artFromSep(sepO); $('#fArt').value = v.article; }
+  const miss = v.sep === '__' ? 'Choisissez la place de l’amendement dans le dérouleur.' : sepO && isPartie(sepO) && v.type !== 'additionnel' ? 'Sous une partie, seuls les articles additionnels peuvent être placés directement : choisissez un article.' : !/^\d{1,4}$/.test(v.num) || +v.num < 1 ? 'Indiquez le numéro de l’amendement (1, 2, 3…).' : AMS.some(a => (!editing || a.id !== editing.id) && (a.d.texte || '') === v.texte && +a.d.num === +v.num) ? 'Le n°' + +v.num + ' existe déjà : choisissez un autre numéro.' : !v.parti ? 'Choisissez le groupe auteur.' : !v.article && v.type !== 'additionnel' ? 'Indiquez l’article visé.' : !v.objet ? 'Indiquez l’objet de l’amendement.' : !v.dispositif ? 'Rédigez le dispositif.' : effErr(v.effet);
+  if (miss) { err.hidden = false; err.textContent = miss; return; }
+  err.hidden = true; v.num = +v.num; v.sep = v.sep || null;
+  $('#fSubmit').disabled = true;
+  try {
+    if (editing) { const {parti: _p, ...rest} = v; const id = editing.id, lab = editing.label; if (await commit(withAm(clone(), id, rest), lab + ' modifié')) closeDepot(); return; }
+    const num = v.num;
+    const id = 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), t = nowIso();
+    const n = clone(); n.amendements.push({id, ...v, statut: 'depose', motif: '', createdAt: t, updatedAt: t});
+    const wasFollow = follow;
+    texte = v.texte; follow = false; sel = {id};
+    if (await commit(n, 'Amendement n°' + num + ' enregistré')) { clearTimeout(draftTimer); ls.set('amMR-draft', ''); closeDepot(); sel = BYID.get(id) || sel; renderAll(); }
+    else { follow = wasFollow; }
+  } finally { $('#fSubmit').disabled = false; }
+});
+$('#addBtn').onclick = () => openDepot(null);
+
+/* ---------- Connexion ---------- */
+const ROLE_L = {pres: ['Président', 'Présidente'], vp: ['Vice-président', 'Vice-présidente'], dep: ['Député', 'Députée']};
+const ASK = [['intervention','Intervention'],['question','Question'],['rappel','Rappel au règlement']];
+const ASK_L = Object.assign({sousam: 'Sous-amendement'}, Object.fromEntries(ASK));
+let me = null; // Connexion participant retirée : seule la Présidence se connecte.
+const roleOf = (role, civ) => (ROLE_L[role] || ROLE_L.dep)[civ === 'Mme' ? 1 : 0];
+const whoOf = d => `${esc(d.civ)} ${esc(d.nom)}, ${esc(roleOf(d.role, d.civ).toLowerCase())}`;
+function loginLabel(){ $('#loginLbl').textContent = isEditor ? 'Présidence' : me ? me.civ + ' ' + me.nom : 'Administration'; }
+let authWas = null;
+function applyAuth(){
+  isEditor = !!token;
+  // Changement de connexion : on recharge les données (la Présidence voit les amendements hors ligne, le public non).
+  if (authWas !== null && authWas !== isEditor) { V = -1; setTimeout(poll, 0); }
+  authWas = isEditor;
+  $('#olSw').hidden = !isEditor; renderOl(); $('#logoEdit').hidden = !isEditor;
+  loginLabel();
+  $('#addBtn').hidden = !isEditor;
+  $('#tEditBtn').hidden = !isEditor; if (!isEditor) { $('#tEditForm').hidden = true; $('#tTitle').hidden = false; }
+  if (!isEditor) closeDepot();
+  renderPrez(); renderDer(true); renderMid(true); renderQueueAll(); hh();
+}
+let who = null; try { who = JSON.parse(ss.get('amMR-who') || 'null'); } catch (e) {}
+const isAdmin = () => !!(isEditor && who && who.role === 'admin');
+$('#logoEdit').onclick = () => { $('#logoBox').hidden = false; renderLogoBox(); hh(); };
+$('#logoBox').addEventListener('click', e => {
+  if (e.target === $('#logoBox') || e.target.closest('[data-lgclose]')) { $('#logoBox').hidden = true; hh(); return; }
+  const d = e.target.closest('[data-lgdel]'); if (d) sendLogo(d.dataset.lgdel, '');
+});
+$('#logoBox').addEventListener('change', async e => {
+  const f = e.target.closest('[data-lgf]'); if (!f || !f.files[0]) return;
+  try { toast('Envoi du logo…'); sendLogo(f.dataset.lgf, await shrinkImg(f.files[0])); } catch (x) { toast('Cette image ne peut pas être lue.'); }
+  f.value = '';
+});
+function renderOl(){
+  const on = DATA.enLigne !== false;
+  $('#olSw').setAttribute('aria-checked', String(on)); $('#olSw').classList.toggle('on', on);
+  $('#olTxt').textContent = on ? 'En ligne' : 'Hors ligne';
+  $('#olSw').title = on ? 'Les amendements sont visibles par tous. Cliquez pour les mettre hors ligne.' : 'Seule la Présidence voit les amendements. Cliquez pour les mettre en ligne.';
+}
+$('#olSw').onclick = () => { const on = DATA.enLigne !== false, n = clone(); n.enLigne = !on; commit(n, on ? 'Amendements hors ligne : seule la Présidence les voit' : 'Amendements en ligne : visibles par tous'); };
+function logout(){ token = ''; who = null; ss.del('amMR-tok'); ss.del('amMR-who'); closeAcc(); applyAuth(); }
+function setLTab(t){
+  $('#ltPart').setAttribute('aria-selected', String(t === 'part')); $('#ltPres').setAttribute('aria-selected', String(t === 'pres'));
+  $('#partForm').hidden = t !== 'part'; $('#loginForm').hidden = t !== 'pres';
+  $('#lFields').hidden = isEditor; $('#lGo').hidden = isEditor; $('#lIn').hidden = !isEditor; $('#lOut').hidden = !isEditor;
+  $('#lWho').textContent = who ? 'Connecté(e) : ' + who.id + ' · ' + (who.role === 'admin' ? 'administrateur' : 'Présidence') : 'Connecté(e) à la Présidence';
+  $('#lAccBtn').hidden = !isAdmin(); $('#lPwBox').hidden = true; $('#lNewPw').value = '';
+  $('#pOut').hidden = !me; $('#pErr').hidden = true; $('#lErr').hidden = true;
+  setTimeout(() => { const f = t === 'part' ? $('#pNom') : (isEditor ? null : $('#lId')); f && f.focus(); }, 20);
+}
+function renderRoles(){
+  const civ = (document.querySelector('input[name=civ]:checked') || {}).value || 'M.';
+  const cur = (document.querySelector('input[name=role]:checked') || {}).value || (me && me.role) || 'dep';
+  $('#pRole').innerHTML = ['pres','vp','dep'].map(r => `<label><input type="radio" name="role" value="${r}"${r === cur ? ' checked' : ''}>${roleOf(r, civ)}</label>`).join('');
+}
+$('#pParti').innerHTML = PARTIS.map(p => `<label title="${esc(p.name)}" style="--pc:${p.color}"><input type="radio" name="pparti" value="${p.id}">${p.id}</label>`).join('');
+$('#pCiv').addEventListener('change', renderRoles);
+function openLogin(tab){
+  $('#loginBox').hidden = false; $('#lPw').value = ''; $('#lShow').checked = false; $('#lPw').type = 'password';
+  if (me) {
+    document.querySelectorAll('input[name=civ]').forEach(r => r.checked = r.value === me.civ);
+    $('#pNom').value = me.nom;
+    document.querySelectorAll('input[name=pparti]').forEach(r => r.checked = r.value === me.parti);
+  }
+  $('#pRole').innerHTML = ''; renderRoles();
+  if (me) document.querySelectorAll('input[name=role]').forEach(r => r.checked = r.value === me.role);
+  setLTab('pres');
+}
+const closeLogin = () => { $('#loginBox').hidden = true; };
+$('#ltPart').onclick = () => setLTab('part');
+$('#ltPres').onclick = () => setLTab('pres');
+$('#login').onclick = () => openLogin();
+$('#loginBox').addEventListener('click', e => { if (e.target.id === 'loginBox' || e.target.closest('[data-lclose]')) closeLogin(); });
+$('#lOut').onclick = () => { logout(); closeLogin(); toast('Présidence déconnectée'); };
+$('#pOut').onclick = () => { me = null; ls.set('amMR-me', ''); closeLogin(); loginLabel(); renderQueueAll(); toast('Déconnecté(e)'); };
+$('#partForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const civ = (document.querySelector('input[name=civ]:checked') || {}).value || 'M.';
+  const nom = $('#pNom').value.trim().replace(/\s+/g, ' ');
+  const pp = (document.querySelector('input[name=pparti]:checked') || {}).value || '';
+  const role = (document.querySelector('input[name=role]:checked') || {}).value || 'dep';
+  const err = $('#pErr');
+  if (!nom) { err.hidden = false; err.textContent = 'Indiquez votre nom.'; $('#pNom').focus(); return; }
+  if (!pp) { err.hidden = false; err.textContent = 'Choisissez votre parti.'; return; }
+  me = {pid: (me && me.pid) || ('p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8)), civ, nom: nom.slice(0, 60), parti: pp, role};
+  ls.set('amMR-me', JSON.stringify(me));
+  closeLogin(); loginLabel(); renderQueueAll();
+  toast('Bienvenue, ' + me.civ + ' ' + me.nom + ' (' + roleOf(role, civ).toLowerCase() + ', ' + pp + ')');
+});
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (isEditor) return;
+  const err = $('#lErr'), go = $('#lGo');
+  go.disabled = true; err.hidden = true;
+  try {
+    const r = await api('login', $('#lId').value, $('#lPw').value);
+    if (!r || !r.ok) { err.hidden = false; err.textContent = (r && r.msg) || 'Identifiant ou mot de passe incorrect.'; $('#lPw').select(); return; }
+    token = r.token; ss.set('amMR-tok', token);
+    who = {id: r.id, role: r.role, main: !!r.main}; ss.set('amMR-who', JSON.stringify(who));
+    closeLogin(); applyAuth(); toast('Connecté : barre Présidence activée');
+  } catch (x) {
+    err.hidden = false; err.textContent = hasServer() ? 'Connexion au serveur impossible : réessayez.' : 'Cette copie n’est pas reliée au serveur : ouvrez la page depuis le site.';
+  } finally { go.disabled = false; }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!$('#loginBox').hidden) closeLogin(); else if (!$('#accVeil').hidden) closeAcc(); else if (!$('#drawerVeil').hidden) closeDepot(); } });
+
+/* ---------- Mot de passe et accès ---------- */
+const errOf = x => String((x && (x.message || x)) || '').replace(/^Exception:\s*/, '').slice(0, 160) || 'réessayez.';
+function authFail(r){ if (r && r.auth === false) { logout(); closeLogin(); toast('Session expirée ou accès supprimé : reconnectez-vous.'); openLogin('pres'); return true; } return false; }
+$('#lShow').onchange = () => { $('#lPw').type = $('#lShow').checked ? 'text' : 'password'; };
+$('#lPwBtn').onclick = () => { $('#lPwBox').hidden = !$('#lPwBox').hidden; if (!$('#lPwBox').hidden) $('#lNewPw').focus(); };
+$('#lPwSave').onclick = async () => {
+  const pw = $('#lNewPw').value.trim();
+  if (pw.length < 8) { toast('Le mot de passe doit faire au moins 8 caractères.'); return; }
+  try {
+    const r = await api('setPassword', token, '', pw);
+    if (authFail(r)) return;
+    if (r && r.error) { toast(r.error); return; }
+    if (r && r.token) { token = r.token; ss.set('amMR-tok', token); }
+    $('#lPwBox').hidden = true; $('#lNewPw').value = ''; toast('Mot de passe modifié');
+  } catch (x) { toast('Impossible : ' + errOf(x)); }
+};
+$('#lAccBtn').onclick = () => { closeLogin(); openAcc(); };
+function openAcc(){ if (!isAdmin()) return; $('#accVeil').hidden = false; $('#aErr').hidden = true; $('#aDone').hidden = true; loadAcc(); }
+function closeAcc(){ $('#accVeil').hidden = true; }
+$('#accClose').onclick = closeAcc;
+$('#accVeil').addEventListener('click', e => { if (e.target.id === 'accVeil') closeAcc(); });
+let ACC = [];
+async function loadAcc(){
+  try {
+    const r = await api('listAccounts', token);
+    if (authFail(r)) return;
+    if (r && r.error) { $('#accList').innerHTML = `<li class="muted">${esc(r.error)}</li>`; return; }
+    ACC = (r && r.items) || []; renderAcc();
+  } catch (x) { $('#accList').innerHTML = `<li class="muted">Chargement impossible : ${esc(errOf(x))}</li>`; }
+}
+function renderAcc(){
+  $('#accList').innerHTML = ACC.map(a => {
+    const self = who && a.id === who.id;
+    return `<li class="${a.main ? 'main' : ''}"><div class="top"><b>${esc(a.id)}</b><span class="qbadge ${a.role === 'admin' ? 'admin' : ''}">${a.role === 'admin' ? 'Administrateur' : 'Présidence'}</span>${a.main ? '<span class="qbadge soft">Compte principal</span>' : ''}${self ? '<span class="qbadge soft">Vous</span>' : ''}</div>
+      <div class="acts"><button class="btn small" type="button" data-apw="${esc(a.id)}">Changer le mot de passe</button>${a.main || self ? '' : `<button class="btn small danger" type="button" data-adel="${esc(a.id)}">Supprimer l’accès</button>`}</div>
+      <div class="pwrow" data-row="${esc(a.id)}" hidden><input type="text" placeholder="Nouveau mot de passe (8 caractères min.)" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="80"><button class="btn small" type="button" data-agen="1">Générer</button><button class="btn small primary" type="button" data-apwsave="${esc(a.id)}">Enregistrer</button></div><div class="adone" data-pwdone="${esc(a.id)}" hidden></div></li>`;
+  }).join('') || '<li class="muted">Aucun accès.</li>';
+}
+$('#accList').addEventListener('click', async e => {
+  const p = e.target.closest('[data-apw]');
+  if (p) { const row = document.querySelector(`[data-row="${CSS.escape(p.dataset.apw)}"]`); row.hidden = !row.hidden; if (!row.hidden) row.querySelector('input').focus(); return; }
+  const g = e.target.closest('[data-agen]');
+  if (g) { const inp = g.parentNode.querySelector('input'); inp.value = genPw(); inp.focus(); inp.select(); return; }
+  const ps = e.target.closest('[data-apwsave]');
+  if (ps) {
+    const id = ps.dataset.apwsave, pw = ps.parentNode.querySelector('input').value.trim();
+    if (pw.length < 8) { toast('Le mot de passe doit faire au moins 8 caractères.'); return; }
+    ps.disabled = true;
+    try {
+      const r = await api('setPassword', token, id, pw);
+      if (authFail(r)) return;
+      if (r && r.error) { toast(r.error); return; }
+      if (r && r.token) { token = r.token; ss.set('amMR-tok', token); }
+      ps.parentNode.hidden = true; ps.parentNode.querySelector('input').value = '';
+      const dn = document.querySelector(`[data-pwdone="${CSS.escape(id)}"]`);
+      if (dn) { dn.innerHTML = `<p style="margin:0 0 6px">Nouveau mot de passe enregistré pour <b>${esc(id)}</b> :</p>${copyBox('Mot de passe', pw, 'Identifiant : ' + id + '\nMot de passe : ' + pw)}`; dn.hidden = false; }
+      toast('Mot de passe de ' + id + ' modifié' + (who && id === who.id ? '' : ' : ses sessions ouvertes sont déconnectées'));
+    } catch (x) { toast('Impossible : ' + errOf(x)); } finally { ps.disabled = false; }
+    return;
+  }
+  const d = e.target.closest('[data-adel]');
+  if (d) {
+    if (d.dataset.armed !== '1') { d.dataset.armed = '1'; d.textContent = 'Confirmer la suppression'; setTimeout(() => { if (d.isConnected) { d.dataset.armed = ''; d.textContent = 'Supprimer l’accès'; } }, 4000); return; }
+    d.disabled = true;
+    try {
+      const r = await api('deleteAccount', token, d.dataset.adel);
+      if (authFail(r)) return;
+      if (r && r.error) { toast(r.error); d.disabled = false; return; }
+      toast('Accès ' + d.dataset.adel + ' supprimé'); loadAcc();
+    } catch (x) { toast('Impossible : ' + errOf(x)); d.disabled = false; }
+  }
+});
+function genPw(){
+  // 8 caractères faciles à recopier (sans 0/O, 1/l/I), avec au moins une minuscule, une majuscule et un chiffre.
+  const lo = 'abcdefghjkmnpqrstuvwxyz', up = 'ABCDEFGHJKLMNPQRSTUVWXYZ', di = '23456789', all = lo + up + di;
+  const r = new Uint32Array(16); try { crypto.getRandomValues(r); } catch (x) { for (let i = 0; i < 16; i++) r[i] = Math.floor(Math.random() * 4294967295); }
+  const ch = [lo[r[0] % lo.length], up[r[1] % up.length], di[r[2] % di.length]];
+  for (let i = 3; i < 8; i++) ch.push(all[r[i] % all.length]);
+  for (let i = ch.length - 1; i > 0; i--) { const j = r[8 + (i % 8)] % (i + 1); const t = ch[i]; ch[i] = ch[j]; ch[j] = t; }
+  return ch.join('');
+}
+async function copyText(t, btn){
+  let ok = false;
+  try { await navigator.clipboard.writeText(t); ok = true; } catch (x) {}
+  if (!ok) { try { const ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); ok = document.execCommand('copy'); ta.remove(); } catch (x) {} }
+  if (ok) { if (btn) { const l = btn.textContent; btn.textContent = 'Copié ✓'; setTimeout(() => { if (btn.isConnected) btn.textContent = l; }, 1800); } toast('Copié'); }
+  else toast('Copie impossible ici : sélectionnez le texte puis Ctrl+C (ou appui long sur téléphone).');
+}
+const copyBox = (label, pw, all) => `<div class="pwbox"><span>${label}</span><code>${esc(pw)}</code><button class="btn small primary" type="button" data-copy="${esc(all || pw)}">Copier</button></div>`;
+document.addEventListener('click', e => { const c = e.target.closest('[data-copy]'); if (c) copyText(c.dataset.copy, c); });
+$('#aGen').onclick = () => { const p = genPw(); $('#aPw').value = p; $('#aGenBox').innerHTML = copyBox('Mot de passe généré :', p); $('#aGenBox').hidden = false; };
+$('#aPw').addEventListener('input', () => { $('#aGenBox').hidden = true; });
+$('#accForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const id = $('#aId').value.trim().toLowerCase(), pw = $('#aPw').value.trim(), role = (document.querySelector('input[name=arole]:checked') || {}).value || 'membre';
+  const err = $('#aErr'); err.hidden = true; $('#aDone').hidden = true;
+  if (!/^[a-z0-9._-]{3,40}$/.test(id)) { err.hidden = false; err.textContent = 'Identifiant : 3 à 40 caractères, lettres minuscules, chiffres, point, tiret ou tiret bas (ex. jean.dupont).'; return; }
+  if (pw.length < 8) { err.hidden = false; err.textContent = 'Le mot de passe doit faire au moins 8 caractères.'; return; }
+  $('#aGo').disabled = true;
+  try {
+    const r = await api('createAccount', token, id, pw, role);
+    if (authFail(r)) return;
+    if (r && r.error) { err.hidden = false; err.textContent = r.error; return; }
+    $('#aDone').hidden = false;
+    $('#aDone').innerHTML = `<p style="margin:0 0 6px">Accès créé. À transmettre à la personne :</p><div class="pwbox"><span>Identifiant</span><code>${esc(id)}</code></div>${copyBox('Mot de passe', pw, 'Identifiant : ' + id + '\nMot de passe : ' + pw)}<p class="muted" style="margin:6px 0 0;font-size:13px">« Copier » copie l’identifiant et le mot de passe ensemble.</p>`;
+    $('#aId').value = ''; $('#aPw').value = ''; $('#aGenBox').hidden = true;
+    loadAcc();
+  } catch (x) { err.hidden = false; err.textContent = 'Impossible : ' + errOf(x); }
+  finally { $('#aGo').disabled = false; }
+});
+
+/* ---------- Demandes de parole ---------- */
+const queue = () => DQ.slice().sort((a, b) => (a.type === 'rappel' ? 0 : 1) - (b.type === 'rappel' ? 0 : 1) || a.at - b.at);
+let qDur = 60, asking = false;
+function partyChip(id){ const p = PBY[id]; return p ? `<span class="chip" style="--pc:${p.color}">${p.id}</span>` : ''; }
+function renderPart(){
+  $('#part').hidden = true; return;
+  if (!me || isEditor) return;
+  $('#partMe').innerHTML = `${partyChip(me.parti)} ${esc(me.civ)} ${esc(me.nom)} · ${esc(roleOf(me.role, me.civ))}`;
+  const open = SE.etat === 'ouverte';
+  // Rappel au règlement : réservé aux présidents de groupe (article 14).
+  $('#partBtns').innerHTML = ASK.filter(([k]) => k !== 'rappel' || me.role === 'pres').map(([k, l]) => `<button type="button" class="btn small${k === 'rappel' ? ' ko prio' : ''}" data-ask="${k}"${open ? '' : ' disabled'}>${l}${k === 'rappel' ? ' <small>· prioritaire</small>' : ''}</button>`).join('');
+  const Q = queue(), mine = Q.map((d, i) => [d, i]).filter(([d]) => d.pid === me.pid);
+  $('#partMine').innerHTML = !open ? '<span class="note">Les demandes de parole s’ouvrent avec la séance.</span>'
+    : mine.length ? mine.map(([d]) => `<span class="req"><span class="qbadge ${d.type}">${esc(ASK_L[d.type])}</span>En attente de la Présidence<button type="button" data-cancel="${esc(d.id)}">Annuler</button></span>`).join('')
+    : `<span class="note">${me.role === 'pres' ? 'Chaque demande est soumise à l’accord de la Présidence. Les rappels au règlement sont examinés en priorité (article 14).' : 'Chaque demande est soumise à l’accord de la Présidence.'}</span>`;
+}
+$('#part').addEventListener('click', async e => {
+  const c = e.target.closest('[data-cancel]');
+  if (c) { try { applyQueue(await api('cancel', me.pid, c.dataset.cancel)); toast('Demande retirée'); } catch (x) { toast('Impossible pour le moment : réessayez.'); } return; }
+  const b = e.target.closest('[data-ask]'); if (!b || !me || asking) return;
+  asking = true; b.disabled = true;
+  try {
+    const r = await api('ask', me, b.dataset.ask);
+    if (r && r.error) { toast(r.error); return; }
+    applyQueue(r);
+    toast((r && r.dup ? 'Demande déjà envoyée : ' : 'Demande envoyée : ') + ASK_L[b.dataset.ask] + ' · en attente de la Présidence');
+  } catch (x) { toast(hasServer() ? 'Envoi impossible : réessayez.' : 'Cette copie n’est pas reliée au serveur.'); }
+  finally { asking = false; renderPart(); }
+});
+function renderPrezQueue(){
+  const box = $('#pzQueue');
+  if (!isEditor) { box.innerHTML = ''; return; }
+  const Q = queue(), cnt = $('#qCnt'), qb = $('#qBtn');
+  if (cnt) cnt.textContent = Q.length;
+  if (qb) qb.classList.toggle('alert', Q.some(d => d.type === 'rappel'));
+  let h = `<span class="pop-t">Demandes de parole</span><label class="sr" for="qDur">Durée accordée</label><select id="qDur" title="Durée accordée">${PRESETS.map(([sec, l]) => `<option value="${sec}"${sec === qDur ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
+  h += Q.length ? Q.map((d, i) => `<span class="pzq ${d.type}"><b>${i + 1}</b><span class="qbadge ${d.type}">${esc(ASK_L[d.type])}</span>${partyChip(d.parti)}${whoOf(d)}<button class="btn small primary" type="button" data-grant="${esc(d.id)}">▶ Parole</button><button class="x" type="button" data-dismiss="${esc(d.id)}" aria-label="Écarter la demande">✕</button></span>`).join('') + (Q.length > 1 ? '<button class="btn small" type="button" data-dismiss="*">Tout effacer</button>' : '')
+    : '<span class="muted">Aucune demande pour l’instant.</span>';
+  box.innerHTML = h;
+}
+$('#pzQueue').addEventListener('change', e => { if (e.target.id === 'qDur') qDur = +e.target.value; });
+$('#pzQueue').addEventListener('click', async e => {
+  if (!isEditor) return;
+  const g = e.target.closest('[data-grant]'), d = e.target.closest('[data-dismiss]');
+  if (!g && !d) return;
+  const btn = g || d; btn.disabled = true;
+  const errText = x => String((x && (x.message || x)) || '').replace(/^Exception:\s*/, '').slice(0, 160);
+  let r = null;
+  try {
+    r = g ? await api('grant', token, g.dataset.grant, qDur) : await api('dismiss', token, d.dataset.dismiss);
+  } catch (x) {
+    // Serveur pas encore à jour ou erreur passagère : on donne la parole par l'enregistrement classique.
+    if (g) { if (await grantFallback(g.dataset.grant)) return; }
+    toast('Action impossible : ' + (errText(x) || 'réessayez.'));
+    btn.disabled = false; return;
+  }
+  if (r && r.auth === false) { logout(); toast('Session expirée : reconnectez-vous.'); openLogin('pres'); return; }
+  if (r && r.error) toast(r.error);
+  if (r && r.data) { DATA = normalize(r.data); V = r.v; if (r.now) offset = r.now - Date.now(); onData(); }
+  applyQueue(r);
+  if (g && r && r.ok) toast('Parole donnée');
+});
+async function grantFallback(id){
+  const dm = DQ.find(x => x.id === id); if (!dm) return false;
+  const n = clone(), now = Date.now() + offset;
+  n.timer = {orateur: dm.civ + ' ' + dm.nom + ', ' + roleOf(dm.role, dm.civ).toLowerCase(), groupe: dm.parti, objet: ASK_L[dm.type], dur: qDur, endsAt: now + qDur * 1000, left: qDur, running: true};
+  const ok = await commit(n, 'Parole donnée');
+  if (ok) { try { applyQueue(await api('dismiss', token, id)); } catch (x) { DQ = DQ.filter(q => q.id !== id); renderQueueAll(); } }
+  return ok;
+}
+function renderQueueBlock(){
+  $('#queue').hidden = true; return;
+  const Q = queue();
+  $('#queue').innerHTML = `<h3>Demandes de parole ${Q.length ? `<span class="state ouverte">${Q.length}</span>` : ''}</h3>` +
+    (Q.length ? `<ul class="qlist">${Q.map(d => `<li class="${d.type}"><span class="w"><span class="qbadge ${d.type}">${esc(ASK_L[d.type])}</span> ${partyChip(d.parti)}<br><b>${whoOf(d)}</b></span></li>`).join('')}</ul>` : `<p class="qhint">${SE.etat === 'ouverte' ? 'Aucune demande pour l’instant.' : 'Les demandes s’ouvrent avec la séance.'}</p>`) +
+    '<p class="qhint">Chaque demande est soumise à l’accord de la Présidence. Les rappels au règlement, réservés aux présidents de groupe, sont examinés en priorité (article 14).</p>';
+}
+function renderQueueAll(){ renderPart(); renderPrezQueue(); renderQueueBlock(); hh(); }
+
+/* ---------- Mobile ---------- */
+const mq = window.matchMedia('(max-width:760px)');
+function setM(m){
+  if (!mq.matches && m === 'der') m = 'mid';
+  mtab = m; document.body.dataset.m = m;
+  document.querySelectorAll('#mtabs [data-m]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.m === m)));
+  persist();
+}
+$('#mtabs').onclick = e => { const b = e.target.closest('[data-m]'); if (b) setM(b.dataset.m); };
+if (mq.addEventListener) mq.addEventListener('change', () => setM(mtab));
+
+/* ---------- Divers ---------- */
+function toast(msg){ document.querySelectorAll('.toast').forEach(t => t.remove()); const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg; document.body.append(t); setTimeout(() => t.remove(), 2800); }
+function hh(){ document.documentElement.style.setProperty('--top', $('#top').offsetHeight + 'px'); }
+try { new ResizeObserver(hh).observe($('#top')); } catch (e) { window.addEventListener('resize', hh); } hh();
+function renderAll(){ renderTop(); renderPrez(); renderDer(); renderMid(); renderSuivi(); renderQueueAll(); tickTimer(); }
+
+/* ---------- Démarrage ---------- */
+try { const d = JSON.parse(document.getElementById('data').textContent); if (d && Array.isArray(d.amendements)) DATA = normalize(d); } catch (e) {}
+setM(mtab);
+if (parti) { $('#pbar').hidden = false; $('#filterBtn').setAttribute('aria-pressed', 'true'); renderPbar(); }
+applyAuth();
+if (hasServer()) {
+  renderAll();
+  poll();
+  if (token) api('whoami', token).then(r => {
+    if (!r || r.auth === false) { logout(); toast('Session expirée : reconnectez-vous.'); return; }
+    if (r.ok) { who = {id: r.id, role: r.role, main: !!r.main}; ss.set('amMR-who', JSON.stringify(who)); }
+  }).catch(() => {});
+} else { onData(); setOnline(false); }
+})();
+</script>
+</body>
+</html>

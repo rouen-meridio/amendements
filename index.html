@@ -620,6 +620,9 @@ del + ins{margin-left:3px}
 details.sec.amp{border-left:4px solid var(--pc)}
 details.sec.amp summary > span{display:inline-flex;align-items:center;gap:8px}
 .pj-al .nd{color:var(--ko);font-weight:900}
+.disc select{height:34px;max-width:300px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit;font-size:13.5px;padding:0 8px}
+.lcard.cur{padding:0;border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-soft)}
+.lcard.cur.is-live{border-color:var(--red)}
 </style>
 </head>
 <body>
@@ -689,7 +692,7 @@ details.sec.amp summary > span{display:inline-flex;align-items:center;gap:8px}
     <div class="scroll" id="derList"></div>
   </aside>
   <section class="col mid" aria-label="Amendement">
-    <div class="seg"><button class="nav" type="button" id="prevBtn" aria-label="Amendement précédent">‹ <span>Précédent</span></button><span class="segg" role="group" aria-label="Affichage"><button type="button" id="vDet" aria-pressed="true">Détail</button><button type="button" id="vLec" aria-pressed="false">Lecture</button><button type="button" id="vTxt" aria-pressed="false">Projet de loi</button></span><button class="nav" type="button" id="nextBtn" aria-label="Amendement suivant"><span>Suivant</span> ›</button></div>
+    <div class="seg"><button class="nav" type="button" id="prevBtn" aria-label="Amendement précédent">‹ <span>Précédent</span></button><span class="segg" role="group" aria-label="Affichage"><button type="button" id="vDet" hidden aria-hidden="true"></button><button type="button" id="vLec" aria-pressed="true">Amendement</button><button type="button" id="vTxt" aria-pressed="false">Projet de loi</button></span><button class="nav" type="button" id="nextBtn" aria-label="Amendement suivant"><span>Suivant</span> ›</button></div>
     <div class="scroll" id="midBody"></div>
   </section>
   <aside class="col suivi" aria-label="Suivi">
@@ -908,7 +911,7 @@ function artShort(art){ art = String(art || '—'); if (/^\d/.test(art)) return 
 /* ---------- État de la vue ---------- */
 let texte = ss.get('amMR-texte') || '';
 let follow = ss.get('amMR-follow') !== '0';
-let view = ['lec','txt'].includes(ss.get('amMR-view')) ? ss.get('amMR-view') : 'det';
+let view = ss.get('amMR-view') === 'txt' ? 'txt' : 'lec';
 let txtMode = ss.get('amMR-txtmode') === 'init' ? 'init' : 'mod';
 let parti = PBY[ss.get('amMR-parti')] ? ss.get('amMR-parti') : '';
 let openArts = new Set(); try { openArts = new Set(JSON.parse(ss.get('amMR-open') || '[]')); } catch (e) {}
@@ -1059,7 +1062,7 @@ const sepTag = s => s && SEP_ST.includes(s.statut) ? `<span class="tagx ${s.stat
 function selectSep(id, opts){
   selSep = id; ss.set('amMR-selSep', id || '');
   if (!(opts && opts.keepFollow) && follow && SE.enCours && SE.enCours !== id && SE.etat !== 'fermee') { follow = false; toast('Suivi auto en pause'); }
-  if (view === 'txt') view = 'det';
+  if (view === 'txt') view = 'lec';
   persist(); renderAll();
 }
 function nextPending(fromId){
@@ -1124,6 +1127,14 @@ $('#tEditForm').addEventListener('submit', async e => {
 /* ---------- Barre Présidence ---------- */
 let openPop = '';
 function voteBtn(){ const v = DATA.vote ? DATA.vote.statut : ''; return `<button class="btn small${v ? ' vset ' + v : ''}" type="button" data-pop="popVote" aria-expanded="${openPop === 'popVote'}">⚖ ${v ? 'Projet ' + VOTE_L[v].toLowerCase() : 'Vote sur l’ensemble'}</button>`; }
+function discPicker(){
+  const Q = seqAll(); if (!Q.length) return '';
+  const o = Q.map(it => {
+    if (it.s) { const P = isPartie(it.s); return `<option value="${esc(it.id)}"${SE.enCours === it.id ? ' selected' : ''}>${P ? '■ ' : '   ▸ '}${esc(it.s.titre)}${SEP_ST.includes(it.s.statut) ? ' (' + ST_L[it.s.statut].toLowerCase() + ')' : ''}</option>`; }
+    const x = it.a; return `<option value="${esc(it.id)}"${SE.enCours === it.id ? ' selected' : ''}>      ${esc(x.label)} ${esc(x.p.id)} · ${esc((x.d.objet || '').slice(0, 60))}${pending(x) ? '' : ' (' + ST_L[x.statut].toLowerCase() + ')'}</option>`;
+  }).join('');
+  return `<label class="disc"><span class="sr">Mettre en discussion</span><select id="discSel" title="Choisir ce qui est en discussion"><option value=""${SE.enCours ? '' : ' selected'}>— Mettre en discussion… —</option>${o}</select></label>`;
+}
 function renderPrez(){
   $('#prez').hidden = !isEditor;
   const lsp = liveSep();
@@ -1139,6 +1150,7 @@ function renderPrez(){
     h += SE.etat === 'ouverte' ? `<button class="btn small" type="button" data-pop="popSusp" aria-expanded="${openPop === 'popSusp'}">Suspendre…</button>` : `<button class="btn small primary" type="button" data-se="ouverte">Reprendre</button>`;
     h += `<button class="btn small" type="button" data-se="fermee">Lever</button><span class="sep"></span>`;
     h += `<span class="grp-btns"><button class="btn small ic" type="button" data-mv="-1" title="Appeler l’amendement précédent">◀</button>${la ? `<span class="cur"><span class="chip" style="--pc:${la.p.color}">${esc(la.label)}</span><span class="o">${esc(la.d.objet || '')}</span></span>` : lsp ? `<span class="cur"><span class="chip" style="--pc:var(--navy)">${esc(sepKind(lsp))}</span><span class="o">${esc(lsp.titre)}</span></span>` : '<span class="muted">Rien en discussion</span>'}<button class="btn small ic" type="button" data-mv="1" title="Appeler l’amendement suivant">▶</button></span>`;
+    h += discPicker();
     if (la || lsp) h += `<span class="grp-btns"><button class="btn small ok" type="button" data-vote="adopte">Adopté</button><button class="btn small ko" type="button" data-vote="rejete">Rejeté</button><button class="btn small ko" type="button" data-vote="retire">Retiré</button></span>`;
     h += `<span class="grow"></span><button class="btn small" type="button" data-pop="popParole" aria-expanded="${openPop === 'popParole'}">⏱ Donner la parole</button>${voteBtn()}`;
   }
@@ -1173,7 +1185,6 @@ function prezClick(e){
   if (s) {
     const etat = s.dataset.se, n = clone();
     n.seance = Object.assign({}, n.seance, {etat, reprise: null});
-    if (etat === 'ouverte' && !n.seance.enCours) { const f = seqAll().find(itPending); n.seance.enCours = f ? f.id : null; }
     if (etat === 'fermee') { n.seance.enCours = null; n.timer = null; }
     follow = true; persist();
     commit(n, etat === 'ouverte' ? 'Séance ouverte' : etat === 'suspendue' ? 'Séance suspendue' : 'Séance levée');
@@ -1465,7 +1476,7 @@ function renderDetail(a){
   h += `<div class="nat">${natBlock(a)}</div>`;
   if (d.effet && d.effet.op) { const A0 = pjArts().find(x => x.id === d.effet.art), sp0 = d.sep && sepsAll().find(x => x.id === d.sep), As = sp0 && !isPartie(sp0) ? pjArtOfSep(sp0) : null;
     if (isEditor && A0 && As && As !== A0 && d.effet.op !== 'ajoutArt') h += `<div class="motif irrecevable"><b>⚠ Article à vérifier</b>Cet amendement est placé sous « ${esc(sp0.titre)} », mais son effet modifie l’${esc(artName(A0).toLowerCase())}. Corrigez l’article de l’effet avec « Modifier le texte ».</div>`;
-    if (isEditor) h += `<div class="motif depose"><b>Effet sur le projet de loi s’il est adopté</b>${esc(OPS[d.effet.op] || '')}${A0 ? (d.effet.op === 'ajoutArt' ? ' après l’' : ' · ') + esc(artName(A0).toLowerCase()) : ''}${d.effet.al && d.effet.al !== '^' ? ', alinéa ' + esc(d.effet.al) : ''}${d.effet.op === 'remplacer' ? ` : « ${esc(d.effet.de)} » → « ${esc(d.effet.par)} »` : ''} <button type="button" class="btn small" data-show-txt="1" style="margin-left:6px;height:28px">Voir dans le texte</button></div>`; }
+  }
   if (!pending(a)) h += `<div class="motif ${a.statut}"><b>${esc(ST_L[a.statut])}</b>${d.motif ? esc(d.motif) : ''}</div>`;
   if (d.amTexte) h += `<details class="sec amp" open style="--pc:${a.p.color}"><summary><span>Amendement du parti <span class="chip" style="--pc:${a.p.color}">${esc(a.p.id)}</span></span> ${CHEV_D}</summary><div class="txt amtxt">${amHtml(d.amTexte)}</div></details>`;
   h += `<details class="sec" open><summary>Dispositif ${CHEV_D}</summary><div class="txt">${esc(d.dispositif || '—')}</div></details>`;
@@ -1480,14 +1491,14 @@ function renderDetail(a){
 function renderLecture(a){
   const L = visible().filter(x => artKey(x) === artKey(a));
   let h = `<div class="lec"><h3>${esc(a.d.type === 'additionnel' && !a.d.article ? 'Articles additionnels' : artLabel(a.d.article))} · ${L.length} amendement${L.length > 1 ? 's' : ''}</h3>`;
-  for (const x of L) h += `<div class="lcard${isLive(x) ? ' is-live' : ''}"><button type="button" class="lh" data-am="${esc(x.id)}"><span class="chip" style="--pc:${x.p.color}">${esc(x.label)}</span><span class="o">${esc(x.d.objet || '')}</span>${statBadge(x)}</button>${x.d.amTexte ? `<div class="txt amtxt">${amHtml(x.d.amTexte)}</div>` : ''}<div class="txt">${esc(x.d.dispositif || '')}</div>${previewHtml(x).replace('<details class="sec pv" open>', '<details class="sec pv">')}</div>`;
+  for (const x of L) if (x === a) h += `<div class="lcard cur${isLive(x) ? ' is-live' : ''}">${renderDetail(x)}</div>`; else h += `<div class="lcard${isLive(x) ? ' is-live' : ''}"><button type="button" class="lh" data-am="${esc(x.id)}"><span class="chip" style="--pc:${x.p.color}">${esc(x.label)}</span><span class="o">${esc(x.d.objet || '')}</span>${statBadge(x)}</button>${x.d.amTexte ? `<div class="txt amtxt">${amHtml(x.d.amTexte)}</div>` : ''}<div class="txt">${esc(x.d.dispositif || '')}</div>${previewHtml(x).replace('<details class="sec pv" open>', '<details class="sec pv">')}</div>`;
   return h + '</div>';
 }
 let midSig = '';
 function renderMid(force){
-  $('#vDet').setAttribute('aria-pressed', String(view === 'det')); $('#vLec').setAttribute('aria-pressed', String(view === 'lec')); $('#vTxt').setAttribute('aria-pressed', String(view === 'txt'));
+$('#vLec').setAttribute('aria-pressed', String(view === 'lec')); $('#vTxt').setAttribute('aria-pressed', String(view === 'txt'));
   const NL = navList(), i = NL.findIndex(x => x.id === (selSep || (sel && sel.id)));
-  const sig = JSON.stringify([view !== 'txt' ? AMS.map(a => [a.statut, a.d.applique, a.d.adoptedAt]).join('|') : 0, view === 'txt' ? sepsAll().map(s => [s.titre, s.statut]) : 0, selSep ? [selSep, sepsAll(), AMS.map(a => [a.id, a.statut, a.d.sep]), SE.enCours, SE.etat, isEditor] : 0, view === 'txt' ? [txtMode, AMS.map(a => [a.id, a.statut, a.d.effet, a.d.adoptedAt, a.d.applique]), isEditor, liveAm() && liveAm().id, !!DATA.pjl, DATA.vote] : 0, view, sel && sel.d, sel && sel.statut, sel && isLive(sel), SE.etat, isEditor, suivis.includes(sel && sel.id), view === 'lec' && sel ? L.filter(x => artKey(x) === artKey(sel)).map(x => [x.id, x.statut, isLive(x)]) : 0, loaded]);
+  const sig = JSON.stringify([view !== 'txt' ? AMS.map(a => [a.statut, a.d.applique, a.d.adoptedAt]).join('|') : 0, view === 'txt' ? sepsAll().map(s => [s.titre, s.statut]) : 0, selSep ? [selSep, sepsAll(), AMS.map(a => [a.id, a.statut, a.d.sep]), SE.enCours, SE.etat, isEditor] : 0, view === 'txt' ? [txtMode, AMS.map(a => [a.id, a.statut, a.d.effet, a.d.adoptedAt, a.d.applique]), isEditor, liveAm() && liveAm().id, !!DATA.pjl, DATA.vote] : 0, view, sel && sel.d, sel && sel.statut, sel && isLive(sel), SE.etat, isEditor, suivis.includes(sel && sel.id), view === 'lec' && sel ? visible().filter(x => artKey(x) === artKey(sel)).map(x => [x.id, x.statut, isLive(x)]) : 0, loaded]);
   $('#prevBtn').disabled = i <= 0; $('#nextBtn').disabled = i < 0 || i >= NL.length - 1;
   if (!force && sig === midSig) return;
   const changedAm = !midSig || JSON.parse(midSig)[5] === null || !sel || (JSON.parse(midSig)[5] || {}).id !== sel.id;
@@ -1497,10 +1508,9 @@ function renderMid(force){
   if (selSep) { const s = sepsAll().find(x => x.id === selSep); if (s) { const st1 = body.scrollTop; body.innerHTML = renderSepView(s); body.scrollTop = st1; return; } selSep = null; }
   if (!sel) { body.innerHTML = `<div class="welcome"><h2>${!loaded ? 'Chargement…' : AMS.length ? 'Choisissez un amendement' : 'Aucun amendement pour l’instant'}</h2><p>${!loaded ? '' : AMS.length ? 'Sélectionnez un amendement dans le dérouleur.' : 'Les amendements des groupes apparaîtront ici dès leur enregistrement par la Présidence.'}</p></div>`; return; }
   const st = body.scrollTop;
-  body.innerHTML = view === 'lec' ? renderLecture(sel) : renderDetail(sel);
+  body.innerHTML = renderLecture(sel);
   body.scrollTop = changedAm ? 0 : st;
 }
-$('#vDet').onclick = () => { view = 'det'; persist(); renderMid(); };
 $('#vLec').onclick = () => { view = 'lec'; persist(); renderMid(); };
 $('#vTxt').onclick = () => { view = 'txt'; persist(); renderMid(true); scrollToArt(); };
 const navList = () => seqAll().filter(it => it.s || !parti || it.a.p.id === parti);
@@ -1509,7 +1519,7 @@ $('#prevBtn').onclick = () => goNav(-1);
 $('#nextBtn').onclick = () => goNav(1);
 function renderSepView(s){
   const P = isPartie(s), live = isLiveSep(s), Q = seqAll(), kids = Q.filter(x => x.parent && x.parent.id === s.id), A = P ? null : pjArtOfSep(s), voted = SEP_ST.includes(s.statut);
-  let h = `<div class="hband"><div class="art"><span class="lab">${esc(sepKind(s))}</span><b>${esc(P ? 'Vote de la partie' : 'Vote de l’article')}</b></div>
+  let h = `<div class="hband"><div class="art"><span class="lab">${esc(sepKind(s))}</span><b>${esc((s.titre || '').split(/\s*[:–—-]\s+/)[0] || sepKind(s))}</b></div>
     <div class="no"><span class="lab">Statut</span><b>${live ? `<span class="stat live">${SE.etat === 'ouverte' ? 'En discussion' : 'Appelé'}</span>` : voted ? '' : '<span class="stat depose">En attente</span>'}</b></div>
     <div class="act">${voted && !live ? stamp(s.statut) : ''}${isEditor && !live ? '<button class="btn small primary" type="button" data-scall="1">Appeler</button>' : ''}</div></div>`;
   h += `<div class="body"><h2 class="sv-t">${esc(s.titre || 'Séparateur')}</h2>`;
@@ -1529,20 +1539,26 @@ function select(a, opts){
   if ((a.d.texte || '') !== texte) texte = a.d.texte || '';
   openArts.add(artKey(a));
   persist(); renderAll();
-  const row = document.querySelector(`#derList [data-am="${CSS.escape(a.id)}"]`); if (row) row.scrollIntoView({block: 'nearest'});
+  const row = document.querySelector(`#derList [data-am="${CSS.escape(a.id)}"]`); if (row) scrollInBox(row, 'nearest');
 }
+document.addEventListener('change', e => {
+  if (e.target.id !== 'discSel' || !isEditor) return;
+  const id = e.target.value, n = clone(); n.seance = Object.assign({}, n.seance, {enCours: id || null});
+  const it = seqAll().find(x => x.id === id); follow = true; scrolledTo = null; persist();
+  commit(n, it ? itLabel(it) + ' en discussion' : 'Plus rien en discussion');
+});
 $('#midBody').addEventListener('click', e => {
   const ap = e.target.closest('[data-appl]');
   if (ap && isEditor) { const x = BYID.get(ap.dataset.appl); if (x) { const on = x.d.applique === false; commit(withAm(clone(), x.id, {applique: on}), x.label + (on ? ' appliqué au texte' : ' retiré du texte (reste adopté)')); } return; }
-  const sa = e.target.closest('[data-show-art]'); if (sa) { view = 'txt'; persist(); renderMid(true); setTimeout(() => { const el = document.getElementById('pj-' + sa.dataset.showArt); if (el) el.scrollIntoView({block: 'start'}); }, 30); return; }
+  const sa = e.target.closest('[data-show-art]'); if (sa) { view = 'txt'; persist(); renderMid(true); setTimeout(() => { const el = document.getElementById('pj-' + sa.dataset.showArt); scrollInBox(el); }, 30); return; }
   const sk = e.target.closest('[data-ssel]'); if (sk) { selectSep(sk.dataset.ssel); return; }
   if (selSep && isEditor) {
     const s = sepsAll().find(x => x.id === selSep);
     if (s && e.target.closest('[data-scall]')) { const n = clone(); n.seance = Object.assign({}, n.seance, {enCours: s.id}); if (n.seance.etat === 'fermee') n.seance.etat = 'ouverte'; follow = true; persist(); commit(n, s.titre + ' en discussion'); return; }
     const sd = e.target.closest('[data-sdec]'); if (s && sd) { const st = sd.dataset.sdec; commit(withSep(clone(), s.id, {statut: st || null}), s.titre + ' : ' + (st ? ST_L[st].toLowerCase() : 'en attente')); return; }
   }
-  if (e.target.closest('[data-show-txt]')) { view = 'txt'; persist(); renderMid(true); setTimeout(() => { const el = sel && sel.d.effet && document.getElementById('pj-' + sel.d.effet.art); if (el) el.scrollIntoView({block: 'start'}); }, 30); return; }
-  const l = e.target.closest('[data-am]'); if (l) { view = 'det'; select(BYID.get(l.dataset.am)); return; }
+  if (e.target.closest('[data-show-txt]')) { view = 'txt'; persist(); renderMid(true); setTimeout(() => { const el = sel && sel.d.effet && document.getElementById('pj-' + sel.d.effet.art); scrollInBox(el); }, 30); return; }
+  const l = e.target.closest('[data-am]'); if (l) { view = 'lec'; select(BYID.get(l.dataset.am)); return; }
   const w = e.target.closest('[data-watch]'); if (w) { toggleWatch(w.dataset.watch); return; }
   if (!isEditor || !sel) return;
   const motif = ($('#motif') && $('#motif').value.trim()) || '';
@@ -1775,10 +1791,20 @@ function renderTexte(){
   if (pj.fait) h += `<p class="pj-fait">${esc(pj.fait)}</p>`;
   return h + '</div>';
 }
+/* Fait défiler seulement la zone qui contient l'élément (jamais toute la page : les boutons du haut restent visibles). */
+function scrollInBox(el, where){
+  if (!el) return;
+  let c = el.parentElement;
+  while (c && c !== document.body) { const s = getComputedStyle(c); if (/(auto|scroll)/.test(s.overflowY) && c.scrollHeight > c.clientHeight) break; c = c.parentElement; }
+  if (!c || c === document.body) return;
+  const r = el.getBoundingClientRect(), q = c.getBoundingClientRect();
+  if (where === 'nearest') { if (r.top >= q.top && r.bottom <= q.bottom) return; }
+  c.scrollTop += r.top - q.top - (where === 'nearest' ? c.clientHeight / 3 : 8);
+}
 function scrollToArt(){
   const id = (liveAm() && liveAm().d.effet && liveAm().d.effet.art) || (sel && sel.d.effet && sel.d.effet.art);
   if (!id) return;
-  setTimeout(() => { const el = document.getElementById('pj-' + id); if (el) el.scrollIntoView({block: 'start'}); }, 30);
+  setTimeout(() => scrollInBox(document.getElementById('pj-' + id)), 30);
 }
 $('#midBody').addEventListener('click', e => { const b = e.target.closest('[data-tm]'); if (b) { txtMode = b.dataset.tm; persist(); renderMid(true); } });
 
@@ -1843,7 +1869,7 @@ $('#q').addEventListener('keydown', e => {
 });
 $('#qres').addEventListener('mousedown', e => { const b = e.target.closest('[data-am]'); if (b) { e.preventDefault(); pick(BYID.get(b.dataset.am)); } });
 $('#q').addEventListener('blur', () => setTimeout(() => { $('#qres').hidden = true; }, 150));
-function pick(a){ $('#q').value = ''; $('#qres').hidden = true; view = 'det'; select(a); if (mq.matches) setM('mid'); }
+function pick(a){ $('#q').value = ''; $('#qres').hidden = true; view = 'lec'; select(a); if (mq.matches) setM('mid'); }
 
 /* ---------- Saisie ---------- */
 $('#fParti').innerHTML = PARTIS.map(p => `<label title="${esc(p.name)}" style="--pc:${p.color}"><input type="radio" name="parti" value="${p.id}">${p.id}</label>`).join('');

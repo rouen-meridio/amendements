@@ -1779,7 +1779,7 @@ function renderTexte(){
     const tags = (A.del ? `<span class="tagx ko">Supprimé par ${esc(A.del)}</span>` : '') + (A.add ? `<span class="tagx ok">Inséré par ${esc(A.add)}</span>` : '') + (A.mod.length ? `<span class="tagx mod">Réécrit par ${esc(A.mod.join(', '))}</span>` : '');
     const ams = A.add ? [] : amsOfArt(A.id);
     h += `<section class="pj-art${A.del ? ' del' : ''}${A.add ? ' add' : ''}${A.id === laArt ? ' is-live' : ''}${A.id === selArt ? ' is-sel' : ''}" id="pj-${esc(A.id)}"><h3>${esc(artName(A))}${tags}${A.add ? '' : sepTag(sepOfPjArt(pjArts().find(x => x.id === A.id)))}<small>${esc(A.titre)}</small></h3>${isEditor && !A.add ? apChoix(A.id) : ''}`;
-    if (ams.length) h += `<div class="pj-ams">${ams.map(x => `<button type="button" data-am="${esc(x.id)}" title="${esc(x.d.objet || '')}"><span class="chip" style="--pc:${x.p.color}">${esc(x.label)}</span><span class="st">${isLive(x) ? 'en discussion' : esc(ST_L[x.statut].toLowerCase())}</span></button>`).join('')}</div>`;
+    if (ams.length) h += `<div class="pj-ams">${ams.map(x => `<button type="button" data-am="${esc(x.id)}" title="${esc(x.d.objet || '')}"><span class="chip" style="--pc:${x.p.color}">${esc(x.label)}</span><span class="st" title="${esc(x.p.name)}">${esc(x.p.id)}${isLive(x) ? ' · en discussion' : pending(x) ? '' : ' · ' + esc(ST_L[x.statut].toLowerCase())}</span></button>`).join('')}</div>`;
     const RW = mergeRedi(A), LB = alLabels(RW, A);
     for (const [ri, X] of RW.entries()) {
       const tag = X.del ? `<span class="tagx ko">Supprimé par ${esc(X.del)}</span>` : X.add && !A.add ? `<span class="tagx ok">Ajouté par ${esc(X.add)}</span>` : X.by.length ? `<span class="tagx mod">Modifié par ${esc(X.by.join(', '))}</span>` : '';
